@@ -1,0 +1,17 @@
+
+  CREATE OR REPLACE TRIGGER "TR_CATITEM_VPD_AIU" 
+AFTER INSERT OR UPDATE ON cataloged_item
+FOR EACH ROW
+DECLARE lid collecting_event.locality_id%TYPE;
+BEGIN
+    SELECT locality_id INTO lid
+    FROM collecting_event
+    WHERE collecting_event_id = :NEW.collecting_event_id;
+
+    INSERT INTO vpd_collection_locality (collection_id, locality_id)
+    VALUES(:NEW.collection_id, lid);
+EXCEPTION WHEN dup_val_on_index THEN
+    NULL;
+END;
+
+ALTER TRIGGER "TR_CATITEM_VPD_AIU" ENABLE

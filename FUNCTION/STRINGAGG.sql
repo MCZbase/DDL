@@ -1,0 +1,6 @@
+
+  CREATE OR REPLACE FUNCTION "STRINGAGG" (input varchar2 )
+    RETURN varchar2
+    PARALLEL_ENABLE AGGREGATE USING StringAggType;
+ 
+ 

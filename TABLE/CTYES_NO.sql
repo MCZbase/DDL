@@ -1,0 +1,4 @@
+
+  CREATE TABLE "CTYES_NO" 
+   (	"YES_OR_NO" VARCHAR2(3 CHAR)
+   ) 

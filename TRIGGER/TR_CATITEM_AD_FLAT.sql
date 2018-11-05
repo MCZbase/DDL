@@ -1,0 +1,10 @@
+
+  CREATE OR REPLACE TRIGGER "TR_CATITEM_AD_FLAT" 
+AFTER DELETE ON cataloged_item
+FOR EACH ROW
+BEGIN
+DELETE FROM flat
+WHERE collection_object_id = :OLD.collection_object_id;
+END;
+
+ALTER TRIGGER "TR_CATITEM_AD_FLAT" ENABLE

@@ -1,0 +1,3 @@
+
+  CREATE UNIQUE INDEX "PKEY_CTNS" ON "CTNS" ("N_OR_S") 
+  

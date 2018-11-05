@@ -1,0 +1,13 @@
+
+  CREATE OR REPLACE TRIGGER "TRG_CF_SPEC_RES_COLS_ID" 
+BEFORE INSERT ON cf_spec_res_cols
+FOR EACH ROW
+BEGIN
+	SELECT somerandomsequence.nextval
+		INTO :new.cf_spec_res_cols_id
+		FROM dual;
+END;
+
+
+
+ALTER TRIGGER "TRG_CF_SPEC_RES_COLS_ID" ENABLE

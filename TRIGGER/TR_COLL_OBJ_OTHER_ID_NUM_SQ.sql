@@ -1,0 +1,13 @@
+
+  CREATE OR REPLACE TRIGGER "TR_COLL_OBJ_OTHER_ID_NUM_SQ" 
+BEFORE INSERT ON coll_obj_other_id_num
+FOR EACH ROW
+BEGIN
+    IF :NEW.COLL_OBJ_OTHER_ID_NUM_ID IS NULL THEN
+        select SQ_coll_obj_other_id_num_id.nextval
+        into :NEW.COLL_OBJ_OTHER_ID_NUM_ID
+        FROM dual;
+    END IF;
+END;
+
+ALTER TRIGGER "TR_COLL_OBJ_OTHER_ID_NUM_SQ" ENABLE

@@ -1,0 +1,3 @@
+
+  CREATE INDEX "IX_GUID" ON "TAXONOMY" ("GUID") 
+  

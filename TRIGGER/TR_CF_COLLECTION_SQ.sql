@@ -1,0 +1,12 @@
+
+  CREATE OR REPLACE TRIGGER "TR_CF_COLLECTION_SQ" 
+BEFORE INSERT ON cf_collection
+FOR EACH ROW
+BEGIN
+    IF :NEW.cf_collection_id IS NULL THEN
+        SELECT SQ_COLLECTION_ID.nextval 
+		into :NEW.cf_collection_id from dual;
+    END IF;
+END;
+
+ALTER TRIGGER "TR_CF_COLLECTION_SQ" ENABLE

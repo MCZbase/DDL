@@ -1,0 +1,3 @@
+
+  CREATE UNIQUE INDEX "PKEY_CTEW" ON "CTEW" ("E_OR_W") 
+  

@@ -1,0 +1,3 @@
+
+  CREATE INDEX "IX_FLAT_SEA_UP" ON "FLAT" (UPPER("SEA")) 
+  

@@ -1,0 +1,3 @@
+
+  CREATE INDEX "IX_GENUS" ON "TAXONOMY" ("GENUS") 
+  

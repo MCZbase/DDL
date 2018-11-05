@@ -1,0 +1,11 @@
+
+  CREATE OR REPLACE TRIGGER "CF_TEMP_ID_KEY" 
+BEFORE INSERT ON cf_temp_id
+FOR EACH ROW
+BEGIN
+        IF :NEW.key IS NULL THEN
+                SELECT somerandomsequence.nextval INTO :new.key FROM DUAL;
+        END IF;
+END;
+
+ALTER TRIGGER "CF_TEMP_ID_KEY" ENABLE

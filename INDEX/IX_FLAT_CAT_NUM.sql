@@ -1,0 +1,3 @@
+
+  CREATE INDEX "IX_FLAT_CAT_NUM" ON "FLAT" ("CAT_NUM") 
+  

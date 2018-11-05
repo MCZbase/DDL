@@ -1,0 +1,4 @@
+
+  CREATE TABLE "PROC_BL_STATUS" 
+   (	"STATUS" NUMBER(1,0)
+   ) 
