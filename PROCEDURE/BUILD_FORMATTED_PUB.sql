@@ -309,4 +309,3 @@ values(numPUBID, 'long', varLONGCIT);
 commit;
 end loop;
 end;
- 

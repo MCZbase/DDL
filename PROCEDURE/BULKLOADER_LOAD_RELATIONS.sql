@@ -12,6 +12,7 @@ relatedCollObjId cataloged_item.collection_object_id%TYPE;
 collObjId cataloged_item.collection_object_id%TYPE;
 relType CF_TEMP_RELATIONS.RELATIONSHIP%type;
 relNum CF_TEMP_RELATIONS.RELATED_TO_NUMBER%TYPE;
+relRemarks CF_TEMP_RELATIONS.BIOL_INDIV_RELATION_REMARKS%TYPE;
 numType CF_TEMP_RELATIONS.related_to_num_type%TYPE;
 instACR COLLECTION.INSTITUTION_ACRONYM%TYPE;
 catnum CATALOGED_ITEM.CAT_NUM%TYPE;
@@ -27,6 +28,7 @@ for c1_rec in c1 loop
   collObjId := c1_rec.collection_object_id;
   relType := c1_rec.RELATIONSHIP;
   relNum :=c1_rec.RELATED_TO_NUMBER;
+  relRemarks := c1_rec.BIOL_INDIV_RELATION_REMARKS;
   numType :=c1_rec.related_to_num_type;
   collCDE := null;
   catnum := null;
@@ -48,8 +50,8 @@ for c1_rec in c1 loop
     select collection_object_id into relatedCollObjId from cataloged_item where collection_cde = collCDE and  cat_num = catNum;
     update CF_TEMP_RELATIONS set RELATED_COLLECTION_OBJECT_ID = relatedCollObjId where CF_TEMP_RELATIONS_ID = tempID;
     
-    insert into biol_indiv_relations(COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID, BIOL_INDIV_RELATIONSHIP)
-    values(collObjId, relatedCollObjId, relType);
+    insert into biol_indiv_relations(COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID, BIOL_INDIV_RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS)
+    values(collObjId, relatedCollObjId, relType, relRemarks);
     
     update CF_TEMP_RELATIONS set fail_reason = 'delete' where CF_TEMP_RELATIONS_ID = tempID;
   else
@@ -65,8 +67,8 @@ for c1_rec in c1 loop
     select collection_object_id into relatedCollObjId from coll_obj_other_id_num  where other_id_type = numType and display_value = relNum; 
     update CF_TEMP_RELATIONS set RELATED_COLLECTION_OBJECT_ID = relatedCollObjId where CF_TEMP_RELATIONS_ID = tempID;
     
-    insert into biol_indiv_relations(COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID, BIOL_INDIV_RELATIONSHIP)
-    values(collObjId, relatedCollObjId, relType);
+    insert into biol_indiv_relations(COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID, BIOL_INDIV_RELATIONSHIP,BIOL_INDIV_RELATION_REMARKS)
+    values(collObjId, relatedCollObjId, relType,relRemarks);
   end if;
   
   update cf_temp_relations set fail_reason = 'delete' where CF_TEMP_RELATIONS_ID = tempID;

@@ -32,14 +32,28 @@ loop
   begin
     err_msg := null;
     
-    select count(*) into num from publication where upper(publication_title) = upper(trim(c1_rec.publication_title));
+    /*select count(*) into num from publication where upper(publication_title) = upper(trim(c1_rec.publication_title));*/
+    
+    select count(*) into num
+        from publication p 
+        where upper(p.publication_title) = upper(trim(c1_rec.publication_title))
+        and nvl(get_publication_attribute(p.publication_id, 'begin page'), 'ZZZZ') = nvl(c1_rec.begin_page, 'ZZZZ')
+        and nvl(get_publication_attribute(p.publication_id, 'volume'), 'ZZZZ') = nvl(c1_rec.volume, 'ZZZZ')
+        and nvl(get_publication_attribute(p.publication_id, 'end page'), -9999) = nvl(c1_rec.end_page, -9999)
+        and nvl(get_publication_attribute(p.publication_id, 'issue'), 'ZZZZ') = nvl(c1_rec.issue, 'ZZZZ')
+        and nvl(p.published_year, -9999) = nvl(c1_rec.published_year, -9999);
   
     If num > 1 then 
       err_msg := err_msg || 'more than one publication with this title already exists;';
       raise failed_validation;
     elsif num = 1 then
       debug_step := 'fetching existing publication id';
-      select publication_id into numpublication_id from publication where upper(publication_title) = upper(trim(c1_rec.publication_title));
+      select publication_id into numpublication_id from publication p where upper(p.publication_title) = upper(trim(c1_rec.publication_title))
+      and nvl(get_publication_attribute(p.publication_id, 'begin page'), 'ZZZZ') = nvl(c1_rec.begin_page, 'ZZZZ')
+        and nvl(get_publication_attribute(p.publication_id, 'volume'), 'ZZZZ') = nvl(c1_rec.volume, 'ZZZZ')
+        and nvl(get_publication_attribute(p.publication_id, 'end page'), -9999) = nvl(c1_rec.end_page, -9999)
+        and nvl(get_publication_attribute(p.publication_id, 'issue'), 'ZZZZ') = nvl(c1_rec.issue, 'ZZZZ')
+        and nvl(p.published_year, -9999) = nvl(c1_rec.published_year, -9999);
     else
       debug_step := 'creating publication';
       select sq_publication_id.nextval into numpublication_id from dual;
@@ -49,14 +63,14 @@ loop
     
       if c1_rec.author1 is not null then
         debug_step := 'fetching author1 ID';
-        select agent_name_id into numauthor1_id from agent_name where agent_name = c1_rec.author1;
+        select agent_name_id into numauthor1_id from agent_name where agent_name = c1_rec.author1 and agent_name_type <> 'aka' and agent_name_type = 'author';
         insert into publication_author_name(publication_id, agent_name_id, author_position, author_role)
         values(numpublication_id, numauthor1_id, 1, 'author');
       end if;
     
       if c1_rec.author2 is not null then
         debug_step := 'fetching author2 ID';
-        select agent_name_id into numauthor2_id from agent_name where agent_name = c1_rec.author2;
+        select agent_name_id into numauthor2_id from agent_name where agent_name = c1_rec.author2  and agent_name_type = 'second author';
         
         insert into publication_author_name(publication_id, agent_name_id, author_position, author_role)
         values(numpublication_id, numauthor2_id, 2, 'author'); 
@@ -64,7 +78,7 @@ loop
     
       if c1_rec.author3 is not null then
       debug_step := 'fetching author3 ID';
-        select agent_name_id into numauthor3_id from agent_name where agent_name = c1_rec.author3;
+        select agent_name_id into numauthor3_id from agent_name where agent_name = c1_rec.author3 and agent_name_type = 'second author';
         
         insert into publication_author_name(publication_id, agent_name_id, author_position, author_role)
         values(numpublication_id, numauthor3_id, 3, 'author'); 
@@ -72,7 +86,7 @@ loop
       
       if c1_rec.author4 is not null then
       debug_step := 'fetching author4 ID';
-        select agent_name_id into numauthor4_id from agent_name where agent_name = c1_rec.author4;
+        select agent_name_id into numauthor4_id from agent_name where agent_name = c1_rec.author4 and agent_name_type = 'second author';
         
         insert into publication_author_name(publication_id, agent_name_id, author_position, author_role)
         values(numpublication_id, numauthor4_id, 4, 'author'); 
@@ -80,13 +94,13 @@ loop
       
        if c1_rec.author5 is not null then
         debug_step := 'fetching author5 ID';
-        select agent_name_id into numauthor5_id from agent_name where agent_name = c1_rec.author5;
+        select agent_name_id into numauthor5_id from agent_name where agent_name = c1_rec.author5 and agent_name_type = 'second author';
         
         insert into publication_author_name(publication_id, agent_name_id, author_position, author_role)
         values(numpublication_id, numauthor5_id, 5, 'author'); 
       END IF;
     
-      /*if c1_rec.author6 is not null then
+      if c1_rec.author6 is not null then
       debug_step := 'fetching author6 ID';
         select agent_name_id into numauthor6_id from agent_name where agent_name = c1_rec.author6;
         
@@ -102,7 +116,7 @@ loop
         values(numpublication_id, numauthor7_id, 7, 'author'); 
       END IF;
       
-      if c1_rec.author8 is not null then
+      /*if c1_rec.author8 is not null then
       debug_step := 'fetching author8 ID';
         select agent_name_id into numauthor8_id from agent_name where agent_name = c1_rec.author8;
         
@@ -148,7 +162,7 @@ loop
         if c1_rec.journal_name is not null then 
         debug_step := 'inserting book name';
           insert into publication_attributes(publication_id, publication_attribute, pub_att_value)
-          values(numpublication_id, 'book', trim(c1_rec.journal_name));
+          values(numpublication_id, 'book title', trim(c1_rec.journal_name));
         end if;
       end if;
     
@@ -200,11 +214,20 @@ loop
                 returning media_id into numMEDIAID;
             end if;
             
-            insert into media_relations(media_id, media_relationship, created_by_agent_id, related_primary_key)
-            values(numMEDIAID, 'shows publication', 0, numpublication_id);
+            select count(*) into num from media_relations where media_id = numMEDIAID and media_relationship = 'shows publication' and related_primary_key = numpublication_id;
             
-            insert into media_labels(media_id, media_label, label_value, assigned_by_agent_id)
-            values(numMEDIAID, 'description', c1_rec.publication_title, 0);
+            if num = 0 then 
+                insert into media_relations(media_id, media_relationship, created_by_agent_id, related_primary_key)
+                values(numMEDIAID, 'shows publication', 0, numpublication_id);
+            end if;
+            
+            select count(*) into num from media_labels where media_id = numMEDIAID and media_label = 'description' and label_value = c1_rec.publication_title;
+            
+            if num = 0 then
+                insert into media_labels(media_id, media_label, label_value, assigned_by_agent_id)
+                values(numMEDIAID, 'description', c1_rec.publication_title, 0);
+            end if;
+            
           end if;
     end if;
     
@@ -241,5 +264,5 @@ loop
   end;
   null;  
   end loop;
-build_formatted_pub; 
+build_formatted_pub;
 end;

@@ -1,6 +1,13 @@
 
   CREATE OR REPLACE FUNCTION "IS_ISO8601" (v  in varchar)
 return varchar
+--  Identify a string as conforming to the structure of an single or
+--  indeterminate ISO date or date time, and parse it into component parts.
+--  Does not handle date ranges in the form of date/date, or all forms of 
+--  valid ISO single dates.
+--  @param v a varchar which may or may not contain a date.
+--  @return y, mo, d, h, mi, s, t, r, t2 where r contains the string 'valid'
+--     or an error message.
 as
 y char(4);
 mo char(2);
@@ -119,5 +126,3 @@ END IF;
 return r;
 --exceptionwhen others then return 0;
 end;
- 
- 

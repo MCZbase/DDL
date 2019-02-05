@@ -2,9 +2,13 @@
   CREATE OR REPLACE FUNCTION "GET_ALCOHOLFROZEN_PART_COUNT" 
 ( collection_object_id IN VARCHAR2
 ) RETURN NUMBER 
--- Given a collection_object.collection_object_id, returns the number --
--- of specimen_parts in Alcohol or Frozen for that collection_object.           --
--- if no parts, returns 1                                             --
+-- Given a collection_object.collection_object_id, returns the number 
+-- of specimen_parts in Alcohol or Frozen for that collection_object.           
+-- if no parts, returns 1.  Embeds a set of strings such as '%alchohol' 
+-- that are presumed to be capable of identifying all frozen or alcoholic material.
+-- 
+-- @param collection_object_id the collection_object_id for the collection object to lookup
+-- @return the sum of the lot count of the parts in alchohol or frozen, or 1 if none are found.
 as
        type rc is ref cursor;
        l_result number;

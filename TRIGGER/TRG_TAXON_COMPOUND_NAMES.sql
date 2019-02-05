@@ -176,7 +176,7 @@ BEGIN
                    'subspecies (' || :new.subspecies || ') must be lowercase letters, but may start with a multiplication sign and contain a dash.');
             end if;
         ELSIF :NEW.nomenclatural_code='ICZN' THEN
-            if NOT regexp_like(:new.subspecies,'^[a-z][a-z]*[a-z]+$') then
+            if NOT (regexp_like(:new.subspecies,'^[a-z][a-z]*[a-z]+$') OR regexp_like(:new.subspecies,'^[a-z]-[a-z][a-z]*[a-z]+$')) then
                 raise_application_error(-20001,
                     'subspecies (' || :new.subspecies || ') must be lowercase letters.');
             END IF;

@@ -6,6 +6,7 @@
 ) 
 --  Given an agentid, return the agent name of the specified type, falling back to login then preferred name if 
 --  the specified type is not present.
+--  
 --  @param agentid the agent id for which to obtain the name.
 --  @param nametype the type of name to return, default value is preferred.
 --  @return the name of the agent, in order of priority, the provided type, the login name, the preferred name, [Error] 

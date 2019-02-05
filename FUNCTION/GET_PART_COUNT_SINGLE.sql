@@ -3,7 +3,10 @@
 ( collection_object_id IN VARCHAR2
 ) RETURN NUMBER 
 -- Given a collection_object_id, returns the value of
--- coll_object.lot_count for that collection_object_id.
+-- coll_object.lot_count for that SINGLE collection_object.
+--
+-- @param collection_object_id id of the part for which to obtain a lot count.
+-- @return the coll_object.lot count for the selected coll_object, 1 if not found.
 as
        type rc is ref cursor;
        l_result number;
@@ -24,4 +27,3 @@ where coll_object.collection_object_id  = :x '
 
        return l_result;
 END;
- 

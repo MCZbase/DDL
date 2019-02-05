@@ -475,12 +475,14 @@ BEGIN
 				collection_object_id,
 				relationship,
 				related_to_number,
-				related_to_num_type)
+				related_to_num_type,
+                BIOL_INDIV_RELATION_REMARKS)
 			VALUES (
 				l_collection_object_id,
 				rec.relationship,
 				rec.RELATED_TO_NUMBER,
-				rec.RELATED_TO_NUM_TYPE)
+				rec.RELATED_TO_NUM_TYPE,
+                rec.BIOL_INDIV_RELATION_REMARKS)
 			;
 		END IF;
 		select sq_identification_id.nextval into someRandomNumber from dual;
@@ -721,6 +723,7 @@ is
 aRec bulkloader%ROWTYPE;
 determiner_id number;
 gGeog_auth_rec_id geog_auth_rec.geog_auth_rec_id%TYPE;
+lookup_sovereign_nation locality.sovereign_nation%TYPE;
 gLocalityId locality.locality_id%TYPE;
 gLatLongId lat_long.lat_long_id%TYPE;
 ATTRIBUTE attributes.attribute_type%TYPE;
@@ -739,6 +742,17 @@ BEGIN
 		select geog_auth_rec_id into gGeog_auth_rec_id from geog_auth_rec where higher_geog = aRec.higher_geog;
 		select sq_locality_id.nextval into gLocalityId from dual;
 		select sq_lat_long_id.nextval into gLatLongId from dual;
+        -- lookup sovereign_nation from country, populating with high seas if no country and from
+        -- an ocean, otherwise fill with unknown.
+        select 
+            case when country is not null and sovereign_nation is not null then country 
+                 when continent_ocean like '%Ocean%' and country is null then 'High Seas'
+            else '[unknown]'
+            end
+            as sovereign_nation into lookup_sovereign_nation
+        from geog_auth_rec left join ctsovereign_nation on geog_auth_rec.country = ctsovereign_nation.sovereign_nation
+        where higher_geog = aRec.higher_geog;     
+    
 		INSERT INTO locality (
 			 LOCALITY_ID,
 			 GEOG_AUTH_REC_ID,
@@ -749,7 +763,8 @@ BEGIN
 			 LOCALITY_REMARKS,
 			 DEPTH_UNITS,
 			 MIN_DEPTH,
-			 MAX_DEPTH
+			 MAX_DEPTH,
+             SOVEREIGN_NATION
 		) values (
 			gLocalityId,
 			gGeog_auth_rec_id,
@@ -760,7 +775,8 @@ BEGIN
 			 aRec.LOCALITY_REMARKS,
 			 aRec.DEPTH_UNITS,
 			 aRec.MIN_DEPTH,
-			 aRec.MAX_DEPTH);
+			 aRec.MAX_DEPTH,
+             lookup_sovereign_nation);
 			 --dbms_output.put_line('made a locality');
 		for i IN 1 .. 6 LOOP -- number of geology attributes
 		execute immediate 'select count(*) from bulkloader where geology_attribute_' || i || ' is not null and 

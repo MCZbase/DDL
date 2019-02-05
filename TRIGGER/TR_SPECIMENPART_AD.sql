@@ -8,5 +8,7 @@ BEGIN
     WHERE collection_object_id = :OLD.collection_object_id;
     DELETE FROM coll_object
     WHERE collection_object_id = :OLD.collection_object_id;
+    DELETE FROM COLL_OBJ_CONT_HIST
+    WHERE collection_object_id = :OLD.collection_object_id;
 END;
 ALTER TRIGGER "TR_SPECIMENPART_AD" ENABLE

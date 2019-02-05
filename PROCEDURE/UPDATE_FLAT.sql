@@ -130,7 +130,8 @@ BEGIN
                         verbatimlocality,
                         associatedsequences,
                         toptypestatuskind,
-                        countrycode
+                        countrycode,
+                        recataloged_fg
                         ) = (
                 SELECT
                         cataloged_item.cat_num,
@@ -374,7 +375,8 @@ BEGIN
                         collecting_event.verbatim_locality,
                         MCZBASE.GET_GENBANK_LINKS(cataloged_item.collection_object_id),
                         MCZBASE.get_top_typestatus_kind(cataloged_item.collection_object_id),
-                        MCZBASE.get_countrycode(geog_auth_rec.country)
+                        MCZBASE.get_countrycode(geog_auth_rec.country),
+                        MCZBASE.is_recataloged(cataloged_item.collection_object_id)
                 FROM
                         cataloged_item,
                         coll_object,

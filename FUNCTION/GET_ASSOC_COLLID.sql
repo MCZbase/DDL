@@ -3,6 +3,7 @@
     return varchar2
 --  Given a collection_object_id, find the collection id for any attributes of the type
 --  Associated MCZ Collection.  
+--
 -- @param collobjid the collection_object_id to look up.
 -- @returns a collection_id, or 'undefinable' when TOO_MANY_ROWS, or null if none.
     as

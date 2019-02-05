@@ -1,7 +1,11 @@
 
   CREATE OR REPLACE FUNCTION "GET_ADDRESS" (p_key_val IN NUMBER )
 --  Given an agent id, return an addresss, preferring correspondence, then shipping, then home.
---  Use?  
+--  Used in getLoanFormInfo.cfm to obtain inside and outside addresses for loans.
+--
+--  @param p_key_val the agent_id for which to look up the address
+--  @return a formatted addres of type corresponcence, shipping, home, or null if no 
+--     address is found for the provided agent_id.
     RETURN VARCHAR2
     AS
        fa addr.formatted_addr%TYPE;

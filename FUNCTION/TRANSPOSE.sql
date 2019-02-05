@@ -4,7 +4,7 @@
                        p_other_col_name in varchar2,
                         p_tname     in varchar2 )
 --  It is unclear what this function is for.
---  Not clear if this function is used anywhere.
+--  This function does not appear to be is used anywhere.
 --
 --  Given a table, a field name and value, and another field name, it returns
 --  a dash delimited list of values of the other field name where the first field

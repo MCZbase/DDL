@@ -797,6 +797,7 @@ is
 aRec bulkloader_lepidoptera%ROWTYPE;
 determiner_id number;
 gGeog_auth_rec_id geog_auth_rec.geog_auth_rec_id%TYPE;
+lookup_sovereign_nation locality.sovereign_nation%TYPE;
 gLocalityId locality.locality_id%TYPE;
 gLatLongId lat_long.lat_long_id%TYPE;
 
@@ -816,6 +817,17 @@ BEGIN
 		select geog_auth_rec_id into gGeog_auth_rec_id from geog_auth_rec where higher_geog = aRec.higher_geog;
 		select sq_locality_id.nextval into gLocalityId from dual;
 		select sq_lat_long_id.nextval into gLatLongId from dual;
+        -- lookup sovereign_nation from country, populating with high seas if no country and from
+        -- an ocean, otherwise fill with unknown.
+        select 
+            case when country is not null and sovereign_nation is not null then country 
+                 when continent_ocean like '%Ocean%' and country is null then 'High Seas'
+            else '[unknown]'
+            end
+            as sovereign_nation into lookup_sovereign_nation
+        from geog_auth_rec left join ctsovereign_nation on geog_auth_rec.country = ctsovereign_nation.sovereign_nation
+        where higher_geog = aRec.higher_geog; 
+        
 		INSERT INTO locality (
 			 LOCALITY_ID,
 			 GEOG_AUTH_REC_ID,
@@ -826,7 +838,8 @@ BEGIN
 			 LOCALITY_REMARKS,
 			 DEPTH_UNITS,
 			 MIN_DEPTH,
-			 MAX_DEPTH
+			 MAX_DEPTH,
+             SOVEREIGN_NATION
 		) values (
 			gLocalityId,
 			gGeog_auth_rec_id,
@@ -837,7 +850,8 @@ BEGIN
 			 aRec.LOCALITY_REMARKS,
 			 aRec.DEPTH_UNITS,
 			 aRec.MIN_DEPTH,
-			 aRec.MAX_DEPTH);
+			 aRec.MAX_DEPTH,
+             lookup_sovereign_nation);
 			 --dbms_output.put_line('made a locality');
 		
 		
@@ -1487,9 +1501,9 @@ l_taxon_name_id_2 := NULL;
 	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' sp.' then
 		l_taxa_formula := 'A sp.';
 		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
-    l_taxa_formula := 'A ssp.';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
+       l_taxa_formula := 'A ssp.';
+       taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
   elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' var.' then
     l_taxa_formula := 'A var.';
     taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
@@ -1503,8 +1517,11 @@ l_taxon_name_id_2 := NULL;
     l_taxa_formula := 'A (Group)';
     taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 8);
   elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' near' then
-    l_taxa_formula := 'A near';
+    l_taxa_formula := 'A nr.';
     taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
+  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' nr.' then
+    l_taxa_formula := 'A nr.';
+    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
 	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' cf.' then
 		l_taxa_formula := 'A cf.';
 		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);

@@ -32,7 +32,7 @@ BEGIN
         IF :new.attribute_units IS NOT NULL THEN
              raise_application_error(
                 -20001,
-                'This attribute cannot have units');
+                'This attribute (' || :NEW.attribute_type || ') cannot have units');
         ELSE
             RAISE no_problem_go_away;
         END IF;

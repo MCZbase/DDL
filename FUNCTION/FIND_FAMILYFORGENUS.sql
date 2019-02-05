@@ -6,6 +6,8 @@
     --
     -- Intended for use with lepidoptera bulkload, to find the family in order to find the 
     -- container (room) into which to place the bulkloaded material.
+    -- @param genus the genus for which to lookup the family.
+    -- @return a family name or an empty string if no family is found for the genus in the taxonomy table.
     as
         type rc is ref cursor;
         l_str    varchar2(4000);

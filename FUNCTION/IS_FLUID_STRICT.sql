@@ -3,6 +3,13 @@
 (
   PRESERVE_METHOD IN VARCHAR2  
 ) RETURN NUMBER AS 
+--  Identify whether or not a string represents a preservation method in fluid.
+--  Looks to see if the presented preserve method ends with 'ethanol' or another 
+--  name of a fluid storage medium (various alcohols plus formalin).
+--
+--  @param preserve_method to check if a fluid preserve method
+--  @return 1 if preserve_method is a fluid method, 0 otherwise.
+--  @see MCZBASE.IS_FLUID() for a broader definition of fluid.
 BEGIN
   if preserve_method like '%ethanol' then return 1; end if;
   if preserve_method like '%alcohol' then return 1; end if;

@@ -2,7 +2,7 @@
   CREATE OR REPLACE PROCEDURE "CHECK_LEDGER_SCANS" AS
 
 CURSOR c1 IS 
-    SELECT ID,IDSObjectId, collection_cde FROM LEDGERSCANS_MASTER where collection_cde = 'Ent' and COLLECTION = 'Ants';
+    SELECT ID,IDSObjectId, collection_cde FROM LEDGERSCANS_MASTER;
 
 err_num NUMBER(5); 
 err_msg VARCHAR2(513);

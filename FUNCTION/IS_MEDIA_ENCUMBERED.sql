@@ -51,7 +51,7 @@ BEGIN
       if encumbered=1 then 
           -- Question 2: Is this media object in the VP encumbered directory?
           checkval := 0;
-          open l_cur for 'select count(*) from media
+          open l_cur for 'select count(distinct media.media_id) from media
                       where media_uri like ''%specimen_images/vertpaleo/internal%''
                       and  media_id = :x '
                  using media_id;
@@ -98,12 +98,17 @@ BEGIN
                   -- current user has VPD access.
                   checkval := 0;
                   open l_cur for '
-                      select count(*) from media
+                      select count(distinct media.media_id) from media
                            left join media_relations on media.media_id = media_relations.media_id
                            left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
                            left join vpd_collection_cde on cataloged_item.collection_cde = vpd_collection_cde.collection_cde
-                      where media_relations.media_relationship = ''shows cataloged_item'' and 
-                            (vpd_collection_cde.collection_cde is not null or media_relations.media_relationship is null) and
+                      where ((
+                               media_relations.media_relationship = ''shows cataloged_item'' and 
+                               (vpd_collection_cde.collection_cde is not null or media_relations.media_relationship is null) 
+                             ) or (
+                               media_relations.media_relationship <> ''shows cataloged_item''
+                            ))
+                            and
                             media.media_id = :x '
                       using media_id;
                   loop
