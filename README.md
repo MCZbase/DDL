@@ -1,2 +1,2 @@
 # DDL
-Build Scripts for all Database Objects
+Build Scripts for all Database Objects in MCZbase
