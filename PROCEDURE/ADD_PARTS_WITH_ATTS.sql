@@ -44,7 +44,7 @@ for c1_rec in tempparts loop
   debug := '5.' || j; 
     execute immediate 'select count(*) from CF_TEMP_PARTS_WITH_ATT where PART_1_ATT_NAME_' || j || ' is not null and 
         PART_1_ATT_VAL_' || j || ' is not null and collection_object_id = ' || numCOLLOBJID into num;
-        dbms_output.put_line ('num: ' || num);
+        ---dbms_output.put_line ('num: ' || num);
         if num = 1 then
           select sq_attribute_id.nextval into ATTRIBUTE_ID from dual;
           debug:= debug || ': det';

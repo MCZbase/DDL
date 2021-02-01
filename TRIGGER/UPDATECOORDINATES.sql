@@ -2,7 +2,7 @@
   CREATE OR REPLACE TRIGGER "UPDATECOORDINATES" 
 -- Trigger to calculate decimal degrees from other formats when data are changed.
 -- DLM 6Dec04
-BEFORE UPDATE OR INSERT ON LAT_LONG
+BEFORE UPDATE OR INSERT ON "LAT_LONG"
 FOR EACH ROW
 BEGIN
     IF :new.orig_lat_long_units = 'deg. min. sec.' THEN

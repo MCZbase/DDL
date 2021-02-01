@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_ADDR_BU" BEFORE UPDATE ON addr
+  CREATE OR REPLACE TRIGGER "TR_ADDR_BU" BEFORE UPDATE ON "MCZBASE"."ADDR"
 FOR EACH ROW
 DECLARE
     ship INTEGER;
@@ -50,6 +50,8 @@ BEGIN
 			--   2) replace :NEW values with :OLD ones
 			-- so that we don't update anything for the existing used record.
 			-- formatted_addr gets updated by trigger BUILD_FORMATTED_ADDR
+            -- but, this gets done with NEW values, so need to replace 
+            -- formatted_addr with the OLD value to prevent this update.
 			:NEW.valid_addr_fg := 0;
 			:NEW.street_addr1 := :OLD.street_addr1;
 			:NEW.street_addr2 := :OLD.street_addr2;
@@ -64,8 +66,8 @@ BEGIN
 			:NEW.addr_remarks := :OLD.addr_remarks;
 			:NEW.institution := :OLD.institution;
 			:NEW.department := :OLD.department;
+            :NEW.formatted_addr := :OLD.formatted_addr;
 		END IF;
 	END IF;
 END;
-
 ALTER TRIGGER "TR_ADDR_BU" ENABLE

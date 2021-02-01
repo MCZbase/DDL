@@ -2,7 +2,7 @@
   CREATE OR REPLACE PROCEDURE "CHECK_AND_LOAD_LEDGER_SCANS" AS
 
 CURSOR c1 IS 
-    SELECT ID,IDSObjectId, collection_cde FROM LEDGERSCANS_MASTER where collection_cde = 'Ent' and cat_num_prefix is null;
+    SELECT ID,IDSObjectId, collection_cde FROM ledgerscans_morris;
   
 
 err_num NUMBER(5); 
@@ -28,7 +28,7 @@ varNumberType VARCHAR2(50);
 
 numMediaId NUMBER;
 varCollectionCode VARCHAR2(10);
-varCatPref VARCHAR2(10);
+varCatPref VARCHAR2(50);
 numCollObjId NUMBER;
 x NUMBER;
 numSpecFound NUMBER;
@@ -54,7 +54,7 @@ execute immediate 'truncate table ledger_notfound_master';
             varIDSURN, varPDSURN, numPDSObjectId, dateDepositDate, dateScanDate, 
             varFileName, varCatNums, numEndNum, numStartNum, numVolumePage, 
             varVolumeType, varVolumeName, varCollection, varDepartment, varMoved, varCollectionCode, varCatPref, varNumberType
-        FROM ledgerscans_master
+        FROM ledgerscans_morris
         WHERE IDSObjectId = numIDSObjectId
         and collection_cde = varCollectionCode
         and ID=numID;
@@ -64,7 +64,7 @@ execute immediate 'truncate table ledger_notfound_master';
           
             select count(*) into numMedia from media where media_uri =  'http://nrs.harvard.edu/' || varIDSURN || '?buttons=y';
             If numMedia =1 then 
-              UPDATE LEDGERSCANS_MASTER set moved = 'Y', error = null where IDSObjectId = numIDSObjectId;
+              UPDATE ledgerscans_morris set moved = 'Y', error = null where IDSObjectId = numIDSObjectId;
             Else 
           
               INSERT INTO media(media_uri, media_type, mime_type, preview_uri)
@@ -72,12 +72,12 @@ execute immediate 'truncate table ledger_notfound_master';
                   RETURNING media_id INTO numMediaId;
   
               INSERT INTO media_labels(media_id, media_label, label_value, assigned_by_agent_id)
-                  VALUES(numMediaId, 'description', 'MCZ ' || varDepartment || ' ' || varCollection || ' ' || GET_TOKEN(varVolumeName, 2, '_') || '-' || GET_TOKEN(varVolumeName, 3, '_') || ', pg.' || numVolumePage, 0);
+                  VALUES(numMediaId, 'description', 'MCZ ' || varDepartment || ' ' || varCollection || ' ' || varVolumeName || ', pg.' || numVolumePage, 0);
   
               INSERT INTO media_labels(media_id, media_label, label_value, assigned_by_agent_id)
                   VALUES(numMediaId, 'made date', dateScanDate, 0);
                   
-              UPDATE LEDGERSCANS_MASTER set moved = 'Y', error = null where IDSObjectId = numIDSObjectId and ID = numID;
+              UPDATE ledgerscans_morris set moved = 'Y', error = null where IDSObjectId = numIDSObjectId and ID = numID;
               COMMIT;
             End if;
                 
@@ -87,7 +87,7 @@ execute immediate 'truncate table ledger_notfound_master';
                 l := 1;
                 ---numLinksMissing := 0;
                 WHILE GET_TOKEN(varCatnums,l, ',') IS NOT NULL LOOP
-                    varCatSuffix := NULL;
+                    /*varCatSuffix := NULL;
                     IF REGEXP_LIKE(GET_TOKEN(varCatNums,l, ','), '[A-Za-z]') and not REGEXP_LIKE(GET_TOKEN(varCatNums,l, ','), '[\-]') THEN 
                         x := SUBSTR(TRIM(GET_TOKEN(varCatNums,l, ',')), 0, LENGTH(TRIM(GET_TOKEN(varCatNums,l, ',')))-1);
                         varCatSuffix := SUBSTR(TRIM(GET_TOKEN(varCatNums,l, ',')),LENGTH(TRIM(GET_TOKEN(varCatNums,l, ','))));
@@ -97,7 +97,9 @@ execute immediate 'truncate table ledger_notfound_master';
                     ELSE
                         varCatSuffix := NULL;
                         x := TRIM(GET_TOKEN(varCatNums,l, ','));
-                    END IF;
+                    END IF;*/
+                    varCatPref := TRIM(GET_TOKEN(varCatNums,l, ','));
+                    x:=null;
 
 ---CATALOG NUMBERS
                     IF varNumberType = 'catalog number' or varNumberType is null then 
@@ -142,7 +144,7 @@ execute immediate 'truncate table ledger_notfound_master';
                               WHERE mczbase.COLL_OBJ_OTHER_ID_NUM.collection_object_id = mczbase.cataloged_item.collection_object_id
                               and display_value = varCatPref || x
                               and mczbase.cataloged_item.collection_cde = varCollectionCode
-                              and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = varNumberType;
+                              and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = 'station number';
                               
                         IF numSpecFound > 0 THEN 
                               select media_id into numMediaId
@@ -155,7 +157,7 @@ execute immediate 'truncate table ledger_notfound_master';
                                 WHERE mczbase.COLL_OBJ_OTHER_ID_NUM.collection_object_id = mczbase.cataloged_item.collection_object_id
                                 and display_value = varCatPref || x
                                 and mczbase.cataloged_item.collection_cde = varCollectionCode
-                                and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = varNumberType
+                                and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = 'station number'
                                 and mczbase.cataloged_item.collection_object_id not in
                                 (select RELATED_PRIMARY_KEY from media_relations where media_id = numMediaId and media_relationship = 'ledger entry for cataloged_item');
                         ELSE
@@ -245,7 +247,7 @@ execute immediate 'truncate table ledger_notfound_master';
             WHEN OTHERS THEN ROLLBACK;
             err_num := SQLCODE;
             err_msg := SUBSTR(SQLERRM, 1, 512);
-            UPDATE ledgerscans_master SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID = numID;
+            UPDATE ledgerscans_morris SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID = numID;
             COMMIT;
         
         END;
@@ -258,7 +260,7 @@ EXCEPTION
     WHEN OTHERS THEN ROLLBACK;
     err_num := SQLCODE;
     err_msg := SUBSTR(SQLERRM, 1, 512);
-    UPDATE ledgerscans_master SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID = numID;
+    UPDATE ledgerscans_morris SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID = numID;
     COMMIT;
     
 END;

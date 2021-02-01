@@ -10,12 +10,10 @@ as
        l_result varchar(255);
        l_cur    rc;
        pn varchar(100);
-       pm varchar(100);
        pr varchar(50);
 begin
 open l_cur for '
 select part_name, 
-       concat(decode(part_modifier,'''','''','' ''),part_modifier) as pm, 
        decode(preserve_method,'''','''','' ('') || preserve_method || decode(preserve_method,'''','''','')'')
 from specimen_part  
 where collection_object_id = :x '
@@ -23,12 +21,11 @@ where collection_object_id = :x '
 
        l_result := '';
        loop
-           fetch l_cur into pn, pm, pr;
-           l_result := pn || pm || pr ;
+           fetch l_cur into pn, pr;
+           l_result := pn || pr ;
            exit when l_cur%notfound;
        end loop;
        close l_cur;
 
        return l_result;
 END GET_PART_PREP;
- 

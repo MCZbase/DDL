@@ -61,6 +61,20 @@ BEGIN
 			hg := hg || ': ' || :NEW.quad || ' Quad';
 		END IF;
 	END IF;
+	IF :NEW.island_group IS NOT null THEN
+		IF hg IS null THEN
+			hg := :NEW.island_group;
+		else
+			hg := hg || ': ' || :NEW.island_group;
+		END IF;
+	END IF;
+	IF :NEW.island IS NOT null THEN
+		IF hg IS null THEN
+			hg := :NEW.island;
+		else
+			hg := hg || ': ' || :NEW.island;
+		END IF;
+	END IF;
 	IF :NEW.feature IS NOT null THEN
 		IF hg IS null THEN
 			hg := :NEW.feature;
@@ -75,20 +89,6 @@ BEGIN
 			hg := hg || ': ' || :NEW.water_feature;
 		END IF;
 	END IF;
-	IF :NEW.island_group IS NOT null THEN
-		IF hg IS null THEN
-			hg := :NEW.island_group;
-		else
-			hg := hg || ': ' || :NEW.island_group;
-		END IF;
-	END IF;
-	IF :NEW.island IS NOT null THEN
-		IF hg IS null THEN
-			hg := :NEW.island;
-		else
-			hg := hg || ': ' || :NEW.island;
-		END IF;
-	END IF;    
 	:NEW.higher_geog := trim(hg);
 END;
 ALTER TRIGGER "TRG_MK_HIGHER_GEOG" ENABLE

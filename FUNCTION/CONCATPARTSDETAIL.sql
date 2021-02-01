@@ -6,7 +6,7 @@
         ta     varchar2(4000);
         sep    varchar2(10);
         ts    VARCHAR2(2);
-        ret_tmp VARCHAR2(10000); -- ADDED THIS LINE.
+        ret_tmp VARCHAR2(20000); -- ADDED THIS LINE.
         ret    varchar2(4000);
         tmp_pn varchar2(4000);
     begin

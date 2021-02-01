@@ -14,36 +14,36 @@
         SELECT COUNT(*) INTO c 
         FROM addr 
         WHERE valid_addr_fg = 1 
-        AND addr_type = 'Correspondence' 
+        AND addr_type = 'correspondence' 
         AND agent_id = p_key_val;
         IF c = 1 THEN
             SELECT formatted_addr INTO fa 
             FROM addr 
             WHERE valid_addr_fg = 1 
-            AND addr_type = 'Correspondence' 
+            AND addr_type = 'correspondence' 
             AND agent_id = p_key_val;
         ELSE
             SELECT COUNT(*) INTO c FROM addr 
             WHERE valid_addr_fg = 1 
-            AND addr_type = 'Shipping' 
+            AND addr_type = 'shipping' 
             AND agent_id = p_key_val;
             IF c = 1 THEN
                 SELECT formatted_addr INTO fa 
 	            FROM addr 
 	            WHERE valid_addr_fg = 1 
-	            AND addr_type='Shipping' 
+	            AND addr_type='shipping' 
 	            AND agent_id = p_key_val;
 	        ELSE
                 SELECT COUNT(*) INTO c 
                 FROM addr 
                 WHERE valid_addr_fg = 1 
-                AND addr_type = 'Home' 
+                AND addr_type = 'home' 
                 AND agent_id = p_key_val;
                 IF c = 1 THEN
                     SELECT formatted_addr INTO fa 
                     FROM addr 
                     WHERE valid_addr_fg = 1 
-                    AND addr_type='Home' 
+                    AND addr_type='home' 
                     AND agent_id = p_key_val;
                 END IF;
             END IF;

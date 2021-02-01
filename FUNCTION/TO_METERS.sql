@@ -4,7 +4,7 @@
 -- Given a number and a unit with dimension length, return the number converted to a length in meters.    
 -- Accepts values for unit in the form of an abbreviation, the singular unit name, or the plural unit name,
 -- for example, Ft, Feet, and Foot are all used for feet to meters conversion.
--- A value of unit of MWO is understood as meaning meters.   Currently, meters, feet, kilometers, centimeters,
+-- A value of unit of MWO is understood as meaning meters.   Currently, meters, feet, inches kilometers, centimeters,
 --  miles, yards, and fathoms are supported.
 -- @param meas the number to convert to a length in meters.
 -- @param unit the length unit (case insensitive) for the number to convert from.
@@ -22,7 +22,7 @@
 			in_m := meas * .3048;
 		elsif upper(unit) = 'KM' OR upper(unit) = 'KILOMETER' OR upper(unit) = 'KILOMETERS' then
 			in_m := meas * 1000;
-    elsif upper(unit) = 'CM' OR upper(unit) = 'CENTIMETER' OR upper(unit) = 'CENTIMETERS' then
+        elsif upper(unit) = 'CM' OR upper(unit) = 'CENTIMETER' OR upper(unit) = 'CENTIMETERS' then
 			in_m := meas / 100;      
 		elsif upper(unit) = 'MI' OR upper(unit) = 'MILE' OR upper(unit) = 'MILES' then
 			in_m := meas * 1609.344;
@@ -30,7 +30,7 @@
 			in_m := meas * .9144;
 		elsif upper(unit) = 'FM' OR upper(unit) = 'FATHOM' OR upper(unit) = 'FATHOMS' OR upper(UNIT) = 'FMS' then
 			in_m := meas * 1.8288;
-    elsif upper(unit) = 'IN' then
+        elsif upper(unit) = 'IN' or upper(unit) = 'INCH' or upper(unit) = 'INCHES' then
 			in_m := meas * 0.0254;
 		else
 			in_m := null;
@@ -39,5 +39,5 @@
 
 	return in_m;
   end;
-  --create public synonym to_meters for to_meters;
+ -- create public synonym to_meters for to_meters;
   --grant execute on to_meters to public;

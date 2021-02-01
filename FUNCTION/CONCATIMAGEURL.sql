@@ -1,7 +1,11 @@
 
   CREATE OR REPLACE FUNCTION "CONCATIMAGEURL" (p_key_val  in number)
     --  Given a collection object id, returns a string containing a pipe delimited list
-    --  of URIs for media objects suitable for use in the dwc:associatedMedia term.
+    --  of URIs for media objects in a form suitable for use in the dwc:associatedMedia term,
+    --  but with content not filtered for external consumption.
+    --  @param p_key_val the collection_object_id of the record for which to return a list of media.
+    --  @return a pipe separated list, truncated if over 3925 chars, of media uri values 
+    --  for all % cataloged_item related media for that collection object. 
     return varchar2
     as
  type rc is ref cursor;

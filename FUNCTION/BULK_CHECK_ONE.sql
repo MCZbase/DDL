@@ -224,6 +224,11 @@ a_instn varchar2(255);
                                                         thisError :=  thisError || '; geo_att_determiner_' || i || ' is invalid';
                                                 end if;
                                         END IF;
+                                        SELECT count(*) into numrecs from geology_attribute_hierarchy where attribute = attributeType and attribute_value = attributeValue;
+                                        IF (numRecs = 0) then  
+                                            thisError :=  thisError || ';' || attributeType || ' ' || attributeValue || ' is invalid';
+                                        END IF;
+                                        
                                 END IF;
                         end loop; -- end geol attributes loop                           
                 ELSE -- no event picked; locality IS picked
@@ -260,7 +265,7 @@ a_instn varchar2(255);
                                 thisError :=  thisError || '; collecting_event_id is invalid';
                         END IF;
             END IF; -- end collecting_event_id/locality_id check
-                IF length(rec.made_date) > 0 AND isdate(rec.made_date)=0 THEN
+                IF length(rec.made_date) > 0 AND is_iso8601(rec.made_date)<>'valid' THEN
                         thisError :=  thisError || '; made_date is invalid';
                 END IF;
                 SELECT count(*) INTO numRecs from ctnature_of_id WHERE nature_of_id = rec.nature_of_id;
@@ -285,6 +290,8 @@ a_instn varchar2(255);
                         elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' sp.' then
                                 taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
                         elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
+                                taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
+                        elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' spp.' then
                                 taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
                         elsif  substr(rec.taxon_name,length(rec.taxon_name) - 8) = ' sp. nov.' then
                                 taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 9);
@@ -481,7 +488,7 @@ a_instn varchar2(255);
                                         if numRecs = 0 then
                                                 thisError :=  thisError || '; PART_DISPOSITION_' || i || ' is invalid';
                                         END IF;
-                                for j IN 1 .. 4 LOOP -- number of attributes
+                                for j IN 1 .. 8 LOOP -- number of attributes
                                             attributeValueTable := NULL;
                                             attributeUnitsTable := NULL;
                                             execute immediate 'select 

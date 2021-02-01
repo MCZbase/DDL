@@ -33,6 +33,8 @@ exit when l_cur%notfound;
      retval := sn;
   else if sn =  'High Seas' then
      retval := sn;    
+  else if sn = '[antarctic treaty area]' then
+    retval := 'AQ';
   else if sncode is not null then
      retval := sncode;      
   else if cocode is not null then
@@ -41,6 +43,7 @@ exit when l_cur%notfound;
      retval := co; 
   else 
      retval := '';
+  end if;
   end if;
   end if;
   end if;

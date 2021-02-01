@@ -2,7 +2,7 @@
   CREATE OR REPLACE PROCEDURE "CHECK_LEDGER_SCANS" AS
 
 CURSOR c1 IS 
-    SELECT ID,IDSObjectId, collection_cde FROM LEDGERSCANS_MASTER;
+    SELECT ID,IDSObjectId, collection_cde FROM LEDGERSCANS_BSNH;
 
 err_num NUMBER(5); 
 err_msg VARCHAR2(513);
@@ -27,7 +27,7 @@ varNumberType VARCHAR2(50);
 
 numMediaId NUMBER;
 varCollectionCode VARCHAR2(10);
-varCatPref VARCHAR2(10);
+varCatPref VARCHAR2(100);
 numCollObjId NUMBER;
 x NUMBER;
 numSpecFound NUMBER;
@@ -53,7 +53,7 @@ BEGIN
             varIDSURN, varPDSURN, numPDSObjectId, dateDepositDate, dateScanDate, 
             varFileName, varCatNums, numEndNum, numStartNum, numVolumePage, 
             varVolumeType, varVolumeName, varCollection, varDepartment, varMoved, varCollectionCode, varCatPref, varNumberType
-        FROM ledgerscans_master
+        FROM LEDGERSCANS_MORRIS
         WHERE IDSObjectId = numIDSObjectId
         and collection_cde = varCollectionCode
         and ID=numID;
@@ -64,9 +64,9 @@ BEGIN
             select count(*) into numMedia from media where media_uri =  'http://nrs.harvard.edu/' || varIDSURN || '?buttons=y';
             
             If numMedia = 0 then
-              update LEDGERSCANS_MASTER set moved = 'X' where IDSObjectId = numIDSObjectId and ID = numID;
+              update LEDGERSCANS_MORRIS set moved = 'X' where IDSObjectId = numIDSObjectId and ID = numID;
             elsif numMedia = 1 then
-              update LEDGERSCANS_MASTER set moved = 'Y' where IDSObjectId = numIDSObjectId and ID = numID;
+              update LEDGERSCANS_MORRIS set moved = 'Y' where IDSObjectId = numIDSObjectId and ID = numID;
               /*INSERT INTO media(media_uri, media_type, mime_type, preview_uri)
                   VALUES('http://nrs.harvard.edu/' || varIDSURN || '?buttons=y', 'image', 'image/jpeg', 'http://nrs.harvard.edu/' || varIDSURN || '?width=100')
                   RETURNING media_id INTO numMediaId;
@@ -77,7 +77,7 @@ BEGIN
               INSERT INTO media_labels(media_id, media_label, label_value, assigned_by_agent_id)
                   VALUES(numMediaId, 'made date', dateScanDate, 0);
                   
-              UPDATE LEDGERSCANS_MASTER set moved = 'Y', error = null where IDSObjectId = numIDSObjectId and ID = numID;
+              UPDATE LEDGERSCANS_MORRIS set moved = 'Y', error = null where IDSObjectId = numIDSObjectId and ID = numID;
               COMMIT;*/
             End if;
                 
@@ -87,7 +87,7 @@ BEGIN
                 l := 1;
                 numLinksMissing := 0;
                 WHILE GET_TOKEN(varCatnums,l, ',') IS NOT NULL LOOP
-                    varCatSuffix := NULL;
+                    /*varCatSuffix := NULL;
                     IF REGEXP_LIKE(GET_TOKEN(varCatNums,l, ','), '[A-Za-z]') and not REGEXP_LIKE(GET_TOKEN(varCatNums,l, ','), '[\-]') THEN 
                         x := SUBSTR(TRIM(GET_TOKEN(varCatNums,l, ',')), 0, LENGTH(TRIM(GET_TOKEN(varCatNums,l, ',')))-1);
                         varCatSuffix := SUBSTR(TRIM(GET_TOKEN(varCatNums,l, ',')),LENGTH(TRIM(GET_TOKEN(varCatNums,l, ','))));
@@ -97,7 +97,9 @@ BEGIN
                     ELSE
                         varCatSuffix := NULL;
                         x := TRIM(GET_TOKEN(varCatNums,l, ','));
-                    END IF;
+                    END IF;*/
+                    varCatPref := TRIM(GET_TOKEN(varCatNums,l, ','));
+                    x:=null;
 ---CATALOG NUMBERS
                     IF varNumberType = 'catalog number' then 
                           SELECT COUNT(*) INTO numSpecFound 
@@ -134,7 +136,7 @@ BEGIN
                               WHERE mczbase.COLL_OBJ_OTHER_ID_NUM.collection_object_id = mczbase.cataloged_item.collection_object_id
                               and display_value = varCatPref || x
                               and mczbase.cataloged_item.collection_cde = varCollectionCode
-                              and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = varNumberType;
+                              /*and mczbase.COLL_OBJ_OTHER_ID_NUM.other_id_type = varNumberType*/;
                               
                         IF numSpecFound > 0 THEN 
                             SELECT COUNT(*) into z
@@ -153,7 +155,7 @@ BEGIN
  
                 l := l+1;
                 END LOOP;
-                update LEDGERSCANS_MASTER set missing_links = numLinksMissing where IDSObjectId = numIDSObjectId and ID = numID;
+                update LEDGERSCANS_MORRIS set missing_links = numLinksMissing where IDSObjectId = numIDSObjectId and ID = numID;
             ELSE
                    IF varNumberType = 'catalog number' then  
                         SELECT COUNT(*) INTO numLinksMissing 
@@ -182,7 +184,7 @@ BEGIN
                                 and M.MEDIA_URI = 'http://nrs.harvard.edu/' || varIDSURN || '?buttons=y');
                   End If;
                   
-                        update LEDGERSCANS_MASTER set missing_links = numLinksMissing where IDSObjectId = numIDSObjectId and ID=numID;
+                        update LEDGERSCANS_MORRIS set missing_links = numLinksMissing where IDSObjectId = numIDSObjectId and ID=numID;
             END IF;
     
         EXCEPTION
@@ -190,7 +192,7 @@ BEGIN
             WHEN OTHERS THEN ROLLBACK;
             err_num := SQLCODE;
             err_msg := SUBSTR(SQLERRM, 1, 512);
-            UPDATE ledgerscans_master SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID=numID;
+            UPDATE LEDGERSCANS_MORRIS SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID=numID;
             COMMIT;
         
         END;
@@ -203,7 +205,7 @@ EXCEPTION
     WHEN OTHERS THEN ROLLBACK;
     err_num := SQLCODE;
     err_msg := SUBSTR(SQLERRM, 1, 512);
-    UPDATE ledgerscans_master SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID=numID;
+    UPDATE LEDGERSCANS_MORRIS SET moved='X', ERROR = err_num || ':'|| err_msg WHERE  IDSObjectId = numIDSObjectId and ID=numID;
     COMMIT;
     
 END;

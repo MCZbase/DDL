@@ -13,7 +13,7 @@ begin
         from agent_name
         where agent_name_type='login'
         and upper(agent_name.agent_name) = SYS_CONTEXT('USERENV','SESSION_USER');
+        select 0 into :NEW.assigned_by_agent_id from dual;
     end if;
 end;
-
 ALTER TRIGGER "TR_MEDIA_LABELS_SQ" ENABLE

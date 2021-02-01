@@ -1,5 +1,10 @@
 
   CREATE OR REPLACE FUNCTION "CONCATNAME" (p_key_val  in varchar2 )
+-- unused?  No references in DDL or coldfusion
+-- given a publication id, obtain a list of last names of authors, in order and year of publication.
+-- @param p_key_val a publication id for which to lookup author names and year.
+-- @return a string containing a list of author last names, truncated to the first two with et al. 
+-- followed by the year of publication.
     return varchar2
     as
         type rc is ref cursor;
@@ -73,5 +78,3 @@ when loopcount = 1 then
     close name_cur;
        return l_str;
   end;
- 
- 

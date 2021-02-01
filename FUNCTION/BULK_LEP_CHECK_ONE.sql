@@ -252,7 +252,7 @@ a_instn varchar2(255);
                 IF (rec.condition is null) THEN
                         thisError :=  thisError || '; condition is required';
                 END IF;
-                IF length(rec.made_date) > 0 AND isdate(rec.made_date)=0 THEN
+                IF length(rec.made_date) > 0 AND is_iso8601(rec.made_date)<>'valid' THEN
                         thisError :=  thisError || '; made_date is invalid';
                 END IF;
                 SELECT count(*) INTO numRecs from ctnature_of_id WHERE nature_of_id = rec.nature_of_id;
@@ -512,4 +512,3 @@ a_instn varchar2(255);
         END LOOP;
         RETURN thisError;
 END;
- 

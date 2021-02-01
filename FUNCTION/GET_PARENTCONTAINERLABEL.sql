@@ -29,6 +29,7 @@ RETURN VARCHAR2 AS
             left join container pp on p.parent_container_id=pp.container_id
             left join container ppp on pp.parent_container_id=ppp.container_id
         where specimen_part.collection_object_id = :x 
+            and current_container_fg = 1
 
        '
            using part_collection_object_id;

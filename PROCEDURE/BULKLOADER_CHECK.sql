@@ -179,7 +179,7 @@ is
 			thisError :=  thisError || '; verbatim_locality is required';
 		END IF;
 
-		IF rec.made_date is NOT null AND isdate(rec.made_date)=0 THEN
+        IF rec.made_date is NOT null AND is_iso8601(rec.made_date)<>'valid' THEN
 			thisError :=  thisError || '; made_date is invalid.';
 		END IF;
 

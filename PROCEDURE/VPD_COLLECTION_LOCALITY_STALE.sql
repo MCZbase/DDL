@@ -4,7 +4,7 @@ IS n NUMBER;
 BEGIN
     FOR r IN (
         SELECT locality_id, collection_id
-        FROM vpd_collection_locality WHERE stale_fg = 1
+        FROM vpd_collection_locality WHERE stale_fg = 1 or stale_fg is null
     ) LOOP
         SELECT COUNT(*) INTO n
         FROM cataloged_item, collecting_event
@@ -23,5 +23,3 @@ BEGIN
         END IF;
     END LOOP;
 END;
- 
- 

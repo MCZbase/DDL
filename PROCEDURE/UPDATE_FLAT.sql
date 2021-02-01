@@ -18,6 +18,7 @@ BEGIN
                         individualCount,
                         coll_obj_disposition,
                         collectors,
+                        RECORDEDBYID,
                         preparators,
                         field_num,
                         otherCatalogNumbers,
@@ -45,6 +46,7 @@ BEGIN
                         island_group,
                         quad,
                         sea,
+                        higherGeographyId,
                         locality_id,
                         spec_locality,
                         minimum_elevation,
@@ -65,7 +67,10 @@ BEGIN
                         lat_long_determiner,
                         identification_id,
                         scientific_name,
+                        taxonId,
+                        scientificNameId,
                         identifiedby,
+                        identifiedbyid,
                         made_date,
                         remarks,
                         habitat,
@@ -99,6 +104,7 @@ BEGIN
                         verificationStatus,
                         specimenDetailUrl,
                         imageUrl,
+                        imageUrlFiltered,
                         fieldNotesUrl,
                         collectorNumber,
                         verbatimElevation,
@@ -131,7 +137,9 @@ BEGIN
                         associatedsequences,
                         toptypestatuskind,
                         countrycode,
-                        recataloged_fg
+                        recataloged_fg,
+                        locality_remarks,
+                        stored_as
                         ) = (
                 SELECT
                         cataloged_item.cat_num,
@@ -151,6 +159,7 @@ BEGIN
                         coll_object.lot_count,
                         coll_object.coll_obj_disposition,
                         concatColl(cataloged_item.collection_object_id),
+                        mczbase.GET_SOLE_COLLECTOR_GUID(cataloged_item.collection_object_id),
                         concatPrep(cataloged_item.collection_object_id),
                         concatSingleOtherId(cataloged_item.collection_object_id, 'field number'),
                         concatOtherId(cataloged_item.collection_object_id),
@@ -189,6 +198,7 @@ BEGIN
                         geog_auth_rec.island_group,
                         geog_auth_rec.quad,
                         geog_auth_rec.sea,
+                        geog_auth_rec.higherGeographyID,
                         locality.locality_id,
                         locality.spec_locality,
                         locality.minimum_elevation,
@@ -247,7 +257,10 @@ BEGIN
                         lldetr.agent_name,
                         identification.identification_id,
                         identification.scientific_name,
+                        taxonomy.taxonId,
+                        taxonomy.scientificNameId,
                         concatidentifiers(cataloged_item.collection_object_id),
+                        MCZBASE.GET_SOLE_DETERMINER_GUID(cataloged_item.collection_object_id),
                         identification.made_date,
                         coll_object_remark.coll_object_remarks,
                         coll_object_remark.habitat,
@@ -329,6 +342,7 @@ BEGIN
                                 collection.guid_prefix || ':' ||
                                 cataloged_item.cat_num || '</a>',
                         concatimageurl(cataloged_item.collection_object_id),
+                        mczbase.concatimageurlfiltered(cataloged_item.collection_object_id),
                         'http://mczbase.mcz.harvard.edu/guid/' ||
                                 collection.guid_prefix || ':' ||
                                 cataloged_item.cat_num,
@@ -350,7 +364,7 @@ BEGIN
                         cataloged_item.cat_num_suffix,
                         sumparts(cataloged_item.collection_object_id),
                         concatcitedas(cataloged_item.collection_object_id),
-                      
+
                         mczbase.get_geol_attr_range(locality.locality_id, 'Erathem/Era',1), 
                         mczbase.get_geol_attr_range(locality.locality_id, 'Erathem/Era',0), 
 
@@ -376,7 +390,9 @@ BEGIN
                         MCZBASE.GET_GENBANK_LINKS(cataloged_item.collection_object_id),
                         MCZBASE.get_top_typestatus_kind(cataloged_item.collection_object_id),
                         MCZBASE.get_countrycode(geog_auth_rec.country),
-                        MCZBASE.is_recataloged(cataloged_item.collection_object_id)
+                        MCZBASE.is_recataloged(cataloged_item.collection_object_id),
+                        locality.locality_remarks,
+                        MCZBASE.get_stored_as_id(cataloged_item.collection_object_id)
                 FROM
                         cataloged_item,
                         coll_object,

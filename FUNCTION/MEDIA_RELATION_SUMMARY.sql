@@ -29,11 +29,13 @@ begin
                 select project_name into summary from project
                 where
                 project_id=fkey;
+            when 'publication' then
+                select UTL_I18N.UNESCAPE_REFERENCE(REGEXP_REPLACE(formatted_publication,'<[/a-zA-Z]+>','')) into summary
+                from formatted_publication 
+                where format_style = 'long' and publication_id = fkey;                
             else
                 summary:='Unknown table';
         end case;
 
     return summary;
 end;
- 
- 

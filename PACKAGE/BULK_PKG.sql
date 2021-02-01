@@ -117,7 +117,7 @@ BEGIN
 	for i IN 1 .. 14 LOOP -- number of attributes
 		execute immediate 'select count(*) from bulkloader where ATTRIBUTE_' || i || ' is not null and 
 			ATTRIBUTE_VALUE_' || i || ' is not null and collection_object_id = ' || collobjid into num;
-			dbms_output.put_line ('num: ' || num);
+		--dbms_output.put_line ('num: ' || num);
 		if num = 1 then -- there's an attribute - insert it
 			select sq_attribute_id.nextval into ATTRIBUTE_ID from dual;
 			--dbms_output.put_line ('ATTRIBUTE_ID: ' || ATTRIBUTE_ID);
@@ -172,7 +172,7 @@ BEGIN
 				ATTRIBUTE_DATE,
 				ATTRIBUTE_DET_METH
 			);
-				 --dbms_output.put_line('inserted attribute);
+				 --dbms_output.put_line('inserted attribute');
 		end if;
 	end loop;
 EXCEPTION
@@ -218,7 +218,7 @@ BEGIN
 		execute immediate 'select count(*) from bulkloader where PART_NAME_' || i || ' is not null 
 			and collection_object_id = ' || collobjid into num;
 		if num = 1 then -- there's a part - insert it
-				----dbms_output.put_line ('inserting a part...');
+				--dbms_output.put_line ('inserting a part...');
 			execute immediate 'select 
 				PART_NAME_' || i || ', 
                 PRESERV_METHOD_' || i || ',
@@ -305,10 +305,10 @@ BEGIN
 		end if;
 		--dbms_output.put_line ('parts loop de looooppppeeeee.....');
     --bulk part attributes
-          for j IN 1 .. 4 LOOP -- number of attributes
+          for j IN 1 .. 8 LOOP -- number of attributes
           execute immediate 'select count(*) from bulkloader where part_' || i || '_att_name_' || j || ' is not null and 
             part_' || i || '_att_val_' || j || ' is not null and collection_object_id = ' || collobjid into num;
-            dbms_output.put_line ('num: ' || num);
+           --dbms_output.put_line ('num: ' || num);
           if num = 1 then -- there's an attribute - insert it
             select sq_attribute_id.nextval into ATTRIBUTE_ID from dual;
             --dbms_output.put_line ('ATTRIBUTE_ID: ' || ATTRIBUTE_ID);
@@ -356,7 +356,7 @@ BEGIN
               ATTRIBUTE_UNITS,
               ATTRIBUTE_REMARKS,
               ATTRIBUTE_DATE);
-               --dbms_output.put_line('inserted attribute);
+               --dbms_output.put_line('inserted attribute');
           end if;
         end loop;
 	end loop;
@@ -726,6 +726,7 @@ gGeog_auth_rec_id geog_auth_rec.geog_auth_rec_id%TYPE;
 lookup_sovereign_nation locality.sovereign_nation%TYPE;
 gLocalityId locality.locality_id%TYPE;
 gLatLongId lat_long.lat_long_id%TYPE;
+verifiedbyid lat_long.VERIFIED_BY_AGENT_ID%TYPE;
 ATTRIBUTE attributes.attribute_type%TYPE;
 ATTRIBUTE_VALUE attributes.ATTRIBUTE_VALUE%TYPE;
 ATTRIBUTE_UNITS attributes.ATTRIBUTE_UNITS%TYPE;
@@ -738,7 +739,7 @@ ATTRIBUTE_ID attributes.ATTRIBUTE_ID%TYPE;
 BEGIN
 	select * into aRec from bulkloader where collection_object_id=collobjid;
 	IF aRec.locality_id is null AND aRec.collecting_event_id IS NULL then -- it should always be
-		--dbms_output.put_line('aRec.locality_id is null AND aRec.collecting_event_id IS NULL');
+	--dbms_output.put_line('aRec.locality_id is null AND aRec.collecting_event_id IS NULL');
 		select geog_auth_rec_id into gGeog_auth_rec_id from geog_auth_rec where higher_geog = aRec.higher_geog;
 		select sq_locality_id.nextval into gLocalityId from dual;
 		select sq_lat_long_id.nextval into gLatLongId from dual;
@@ -747,6 +748,11 @@ BEGIN
         select 
             case when country is not null and sovereign_nation is not null then country 
                  when continent_ocean like '%Ocean%' and country is null then 'High Seas'
+                 when country = 'United States' then 'United States of America'
+                 when country = 'United Kingdom' then 'United Kingdom of Great Britain and Northern Ireland'
+                 when country = 'Venezuela' then 'Venezuela, Bolivarian Republic of'
+                 when country = 'Tanzania' then 'Tanzania, United Republic of'
+                 when country = 'Comonwealth of the Bahamas' then 'Bahamas'
             else '[unknown]'
             end
             as sovereign_nation into lookup_sovereign_nation
@@ -777,11 +783,11 @@ BEGIN
 			 aRec.MIN_DEPTH,
 			 aRec.MAX_DEPTH,
              lookup_sovereign_nation);
-			 --dbms_output.put_line('made a locality');
+			--dbms_output.put_line('made a locality');
 		for i IN 1 .. 6 LOOP -- number of geology attributes
 		execute immediate 'select count(*) from bulkloader where geology_attribute_' || i || ' is not null and 
 			geo_att_value_' || i || ' is not null and collection_object_id = ' || collobjid into num;
-			--dbms_output.put_line ('num: ' || num);
+		--dbms_output.put_line ('num: ' || num);
 		if num = 1 then -- there's an attribute - insert it
 			ATTRIBUTE := NULL;
 			ATTRIBUTE_VALUE := NULL;
@@ -814,9 +820,9 @@ BEGIN
     	    ELSE
     			ATTRIBUTE_DETERMINER_ID:=NULL;
 			end if;
-			--dbms_output.put_line ('num: ' || num);
-			--dbms_output.put_line ('ATTRIBUTE: ' || ATTRIBUTE);
-			--dbms_output.put_line ('ATTRIBUTE_VALUE: ' || ATTRIBUTE_VALUE);
+		--dbms_output.put_line ('num: ' || num);
+		--dbms_output.put_line ('ATTRIBUTE: ' || ATTRIBUTE);
+		--dbms_output.put_line ('ATTRIBUTE_VALUE: ' || ATTRIBUTE_VALUE);
              insert into geology_attributes (
 				locality_id,
 				geology_attribute,
@@ -834,15 +840,20 @@ BEGIN
 				ATTRIBUTE_DET_METH,
 				ATTRIBUTE_REMARKS
 			);
-				 --dbms_output.put_line ('inserted attribute);
+				--dbms_output.put_line ('inserted attribute');
 		end if;
 	end loop;
 
 		IF aRec.ORIG_LAT_LONG_UNITS is not null THEN
-				 --dbms_output.put_line('making a lat/long');
+				--dbms_output.put_line('making a lat/long');
 				select distinct(agent_id) into determiner_id from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
-                    --dbms_output.put_line('got determiner');
-                    --dbms_output.put_line(' aRec.ORIG_LAT_LONG_UNITS: ' ||  aRec.ORIG_LAT_LONG_UNITS);
+                   --dbms_output.put_line('got determiner');
+                   --dbms_output.put_line(' aRec.ORIG_LAT_LONG_UNITS: ' ||  aRec.ORIG_LAT_LONG_UNITS);
+                if aRec.VERIFICATIONSTATUS = 'verified by MCZ collection' then 
+                    verifiedbyid := l_entered_person_id;
+                else 
+                    verifiedbyid := null;
+                END IF;    
 			IF aRec.ORIG_LAT_LONG_UNITS = 'deg. min. sec.' THEN
 					INSERT INTO lat_long (
 						 LAT_LONG_ID,
@@ -867,7 +878,8 @@ BEGIN
 						 lat_dir,
 						 long_dir,
 						 extent,
-						 gpsaccuracy)
+						 gpsaccuracy,
+                         VERIFIED_BY_AGENT_ID)
 					values (
 						gLatLongId,
 						gLocalityId,
@@ -891,7 +903,8 @@ BEGIN
 						 aRec.latdir,
 						 aRec.longdir,
 						 aRec.extent,
-						 aRec.gpsaccuracy);
+						 aRec.gpsaccuracy,
+                         verifiedbyid);
 				ELSIF aRec.ORIG_LAT_LONG_UNITS = 'decimal degrees' THEN
 				    --dbms_output.put_line('inserting decimal degrees....');
 				    --dbms_output.put_line('gLatLongId: ' || gLatLongId);
@@ -928,7 +941,8 @@ BEGIN
 						 dec_lat,
 						 dec_long,
 						 extent,
-						 gpsaccuracy)
+						 gpsaccuracy,
+                         VERIFIED_BY_AGENT_ID)
 					values (
 						gLatLongId,
 						gLocalityId,
@@ -946,8 +960,9 @@ BEGIN
 						 aRec.dec_lat,
 						 aRec.dec_long,
 						 aRec.extent,
-						 aRec.gpsaccuracy);
-						 --dbms_output.put_line('inserted DD');
+						 aRec.gpsaccuracy,
+                         verifiedbyid);
+						--dbms_output.put_line('inserted DD');
 				ELSIF aRec.ORIG_LAT_LONG_UNITS = 'UTM' THEN
 					INSERT INTO lat_long (
 						 LAT_LONG_ID,
@@ -967,7 +982,8 @@ BEGIN
 						 utm_ns,
 						 utm_zone,
 						 extent,
-						 gpsaccuracy)
+						 gpsaccuracy,
+                         VERIFIED_BY_AGENT_ID)
 					values (
 						gLatLongId,
 						gLocalityId,
@@ -986,8 +1002,31 @@ BEGIN
 						 aRec.utm_ns,
 						 aRec.utm_zone,
 						 aRec.extent,
-						 aRec.gpsaccuracy);
+						 aRec.gpsaccuracy,
+                         verifiedbyid);
 				ELSIF aRec.ORIG_LAT_LONG_UNITS = 'degrees dec. minutes' THEN
+                   --dbms_output.put_line('inserting degrees dec. minutes....');
+				   --dbms_output.put_line('gLatLongId: ' || gLatLongId);
+				   --dbms_output.put_line('gLocalityId: ' || gLocalityId);
+				   --dbms_output.put_line('aRec.ORIG_LAT_LONG_UNITS: ' || aRec.ORIG_LAT_LONG_UNITS);
+				   --dbms_output.put_line('determiner_id: ' || determiner_id);
+				   --dbms_output.put_line('aRec.DETERMINED_DATE,: ' || aRec.DETERMINED_DATE);
+				   --dbms_output.put_line('aRec.LAT_LONG_REF_SOURCE: ' || aRec.LAT_LONG_REF_SOURCE);
+				   --dbms_output.put_line('aRec.LAT_LONG_REMARKS: ' || aRec.LAT_LONG_REMARKS);
+				   --dbms_output.put_line('aRec.MAX_ERROR_DISTANCE: ' || aRec.MAX_ERROR_DISTANCE);
+				   --dbms_output.put_line('aRec.MAX_ERROR_UNITS: ' || aRec.MAX_ERROR_UNITS);
+				   --dbms_output.put_line('aRec.GEOREFMETHOD: ' || aRec.GEOREFMETHOD);
+				   --dbms_output.put_line('aRec.VERIFICATIONSTATUS: ' || aRec.VERIFICATIONSTATUS);
+				   --dbms_output.put_line('aRec.datum: ' || aRec.datum);
+				   --dbms_output.put_line('aRec.LAT_DEG: ' || aRec.LATDEG);
+                   --dbms_output.put_line('aRec.DEC_LAT_MIN: ' || aRec.DEC_LAT_MIN);
+                   --dbms_output.put_line('aRec.LAT_dir: ' || aRec.LATdir);
+				   --dbms_output.put_line('aRec.dec_long: ' || aRec.LONGDEG);
+                   --dbms_output.put_line('aRec.DEC_long_MIN: ' || aRec.DEC_long_MIN);
+                   --dbms_output.put_line('aRec.Long_dir: ' || aRec.Longdir);
+				   --dbms_output.put_line('aRec.extent: ' || aRec.EXTENT);
+				   --dbms_output.put_line('aRec.gpsaccuracy: ' || aRec.gpsaccuracy);
+				    --dbms_output.put_line('thats all folks ');
 					INSERT INTO lat_long (
 						 LAT_LONG_ID,
 						 LOCALITY_ID,
@@ -1009,7 +1048,8 @@ BEGIN
 						 lat_dir,
 						 LONG_DIR,
 						 extent,
-						 gpsaccuracy)
+						 gpsaccuracy,
+                         VERIFIED_BY_AGENT_ID)
 					values (
 						gLatLongId,
 						gLocalityId,
@@ -1031,12 +1071,13 @@ BEGIN
 						 aRec.latdir,
 						 aRec.longdir,
 						 aRec.extent,
-						 aRec.gpsaccuracy);
+						 aRec.gpsaccuracy,
+                         VERIFIEDBYID);
 				ELSE
 					error_msg := 'bad unit values';
 					raise failed_validation;
 				END IF;
-        --dbms_output.put_line('inserted lat/long');
+       --dbms_output.put_line('inserted lat/long');
       ELSE
         If (aRec.latdeg is not null or aRec.longdeg is not null or aRec.latmin is not null or aRec.latsec is not null 
           or aRec.longmin is not null or aRec.longsec is not null or aRec.latdir is not null or aRec.longdir is not null
@@ -1422,21 +1463,24 @@ l_taxon_name_id_2 := NULL;
 	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' sp.' then
 		l_taxa_formula := 'A sp.';
 		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
-    l_taxa_formula := 'A ssp.';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 8) = ' sp. nov.' then
-		l_taxa_formula := 'A sp. nov.';
-		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 9);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 9) = ' gen. nov.' then
-    l_taxa_formula := 'A gen. nov.';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 10);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 7) = ' (group)' then
-    l_taxa_formula := 'A (group)';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 8);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' nr.' then
-    l_taxa_formula := 'A nr.';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
+        l_taxa_formula := 'A ssp.';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' spp.' then
+        l_taxa_formula := 'A spp.';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 8) = ' sp. nov.' then
+        l_taxa_formula := 'A sp. nov.';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 9);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 9) = ' gen. nov.' then
+        l_taxa_formula := 'A gen. nov.';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 10);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 7) = ' (group)' then
+        l_taxa_formula := 'A (group)';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 8);
+    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' nr.' then
+        l_taxa_formula := 'A nr.';
+        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
 	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' cf.' then
 		l_taxa_formula := 'A cf.';
 		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
@@ -1546,10 +1590,15 @@ begin
 			b_bulkload_attribute(collobjid);
 		end if;		
 		if error_msg is null then
-      if rec.mask_record = '1' or rec.mask_record = 'X' then 
-        insert into COLL_OBJECT_ENCUMBRANCE(collection_object_id, encumbrance_id)
-        values(l_collection_object_id, 95);
-      end if;
+        If rec.mask_record is not null and rec.mask_record > 0 then 
+            if upper(rec.mask_record) = '1' or rec.mask_record = 'X' then 
+                insert into COLL_OBJECT_ENCUMBRANCE(collection_object_id, encumbrance_id)
+                values(l_collection_object_id, 95);
+            else
+                insert into COLL_OBJECT_ENCUMBRANCE(collection_object_id, encumbrance_id)
+                values(l_collection_object_id, rec.mask_record);
+            end if;
+        end if;
 			delete from bulkloader where collection_object_id = collobjid;
 			--update bulkloader set loaded = 'spiffification complete' where collection_object_id = collobjid;
 		else

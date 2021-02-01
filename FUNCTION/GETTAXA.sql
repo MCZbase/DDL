@@ -1,6 +1,11 @@
 
   CREATE OR REPLACE FUNCTION "GETTAXA" (p_key_val  in number,rank in varchar2 )
     return varchar2
+    -- Given a collection_object_id and a taxonomic rank, return the higher taxon at that rank for
+    -- the taxon used in the current identification of the collection object.
+    -- @param p_key_val the collection_object_id for which to look up the identification
+    -- @param rank the taxonomic rank to return from the identification.
+    -- @return a higher taxon name.  
     as
         type rc is ref cursor;
         l_str    varchar2(4000);
@@ -25,5 +30,3 @@
 
        return l_str;
   end;
- 
- 
