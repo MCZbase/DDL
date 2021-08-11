@@ -3,6 +3,8 @@
 return varchar2
 --  Obtain the category of the single most important type status term from the citations of a
 --  collection object, if any, otherwise return an empty string.
+--  @param collection_object_id the collection object id for the cataloged item for which to
+--    return the most important type status kind.
 as
 type rc is ref cursor;
 l_str varchar2(4000);

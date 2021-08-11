@@ -1,6 +1,9 @@
 
   CREATE OR REPLACE FUNCTION "GET_SCIENTIFIC_NAME_AUTHS" (collobjid IN number )
     return varchar2
+-- given an collection object id, return the scientific name used in the current identification of that specimen including the authorship.
+-- @param collobjid the collection object id of a cataloged item.
+-- @return the current identification as an html formatted string with italics and small caps.    
     as
         final_str    varchar2(4000);
 begin
@@ -8,16 +11,18 @@ FOR rec IN (
 select 
 decode (genus, null, 
     taxonomy.scientific_name,
-'<i>' || replace(
-taxonomy.scientific_name,
-taxonomy.infraspecific_rank,
-'</i>' || taxonomy.infraspecific_rank || '<i>') || '</i>'
+    decode(taxon_status, null,
+        '<i>' || replace(
+        taxonomy.scientific_name,
+        taxonomy.infraspecific_rank,
+        '</i>' || taxonomy.infraspecific_rank || '<i>') || '</i>',
+        taxonomy.scientific_name)
 ) ||
 decode(taxonomy.species,
    null,'',
    decode(author_text,
        NULL,'',
-       ' ' || trim(replace(author_text,'&','&amp;'))
+       ' <span style="font-variant: small-caps">' || trim(replace(author_text,'&','&amp;')) || '</span>'
     )
 ) scientific_name ,
 taxa_formula,
@@ -47,4 +52,3 @@ return  final_str;
   end;
   --create public synonym get_scientific_name_auths for get_scientific_name_auths;
  -- grant execute on get_scientific_name_auths to public;
- 

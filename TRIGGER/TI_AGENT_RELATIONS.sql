@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_AGENT_RELATIONS" after INSERT on Agent_Relations for each row
+  CREATE OR REPLACE TRIGGER "TI_AGENT_RELATIONS" after INSERT on "MCZBASE"."AGENT_RELATIONS" for each row
 -- ERwin Builtin Mon May 17 12:58:26 2004
 -- INSERT trigger on Agent_Relations
 declare numrows INTEGER;
@@ -45,7 +45,4 @@ begin
 
 -- ERwin Builtin Mon May 17 12:58:26 2004
 end;
-
-
-
 ALTER TRIGGER "TI_AGENT_RELATIONS" ENABLE

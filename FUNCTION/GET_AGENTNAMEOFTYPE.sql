@@ -5,18 +5,21 @@
 , NAMETYPE IN VARCHAR2 DEFAULT 'preferred' 
 ) 
 --  Given an agentid, return the agent name of the specified type, falling back to login then preferred name if 
---  the specified type is not present.
+--  the specified type is not present, use wrap in nvl2 to return null when used in a query where agentid may be null 
+--  and you desire null to be returned for no agentid value, for example:
+--     NVL2(VERIFIED_BY_AGENT_ID, mczbase.get_agentnameoftype(verified_by_agent_id), '') verified_by
 --  
 --  @param agentid the agent id for which to obtain the name.
 --  @param nametype the type of name to return, default value is preferred.
 --  @return the name of the agent, in order of priority, the provided type, the login name, the preferred name, [Error] 
---     if no match was found.
+--     if no match was found, or [No Agent] if a null agentid was provided.
+--  @see getpreferredagentname to obtain preferred agent names.
 RETURN VARCHAR2 AS 
       type rc is ref cursor;
       retval    varchar2(4000);
       l_cur rc;
 BEGIN
-  retval := '[Error]';
+  retval := '[No Agent]';
   open l_cur for 
      'select agent_name from (
           select agent_name, 1 as ordering from agent_name where agent_name_type = :x and agent_id = :y

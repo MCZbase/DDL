@@ -623,17 +623,28 @@ a_instn varchar2(255);
                 a_coln := rec.collection_cde;
                 a_instn := rec.institution_acronym;
                 tempStr2 := rec.accn;
-                END IF; 
-            select count(distinct(accn.transaction_id)) into numRecs from 
-            accn,trans,collection where 
-                accn.transaction_id = trans.transaction_id and
-                trans.collection_id=collection.collection_id AND
-                collection.institution_acronym = a_instn and
-                (collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
-                accn_number = tempStr2;
-                if numRecs = 0 then
-                        thisError :=  thisError || '; ACCN is invalid';
-                END IF;
+              END IF; 
+                
+              select count(distinct(accn.transaction_id)) into numRecs 
+              from 
+                  accn,trans,collection 
+              where 
+                  accn.transaction_id = trans.transaction_id and
+                  trans.collection_id=collection.collection_id AND
+                  collection.institution_acronym = a_instn and
+                  (collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
+                  accn_number = tempStr2;
+              if numRecs = 0 then
+                  thisError :=  thisError || '; ACCN is invalid or accession/collection code missmatch';
+              END IF;
+                    
+              if rec.mask_record is not null and rec.mask_record <> 'X' AND rec.mask_record > 1 then 
+                 select count(*) into numRecs from encumbrance where encumbrance_id = rec.mask_record;
+                 if numRecs = 0 then
+                     thisError :=  thisError || '; encumbrance_id in mask_record is invalid: must be 1 or X or a valid encumbrance id';
+                 END IF;
+              end if;
+                
                 EXCEPTION
                     WHEN OTHERS THEN
                         thisError := SQLERRM;

@@ -1,6 +1,10 @@
 
   CREATE OR REPLACE FUNCTION "CONCATROLES" (p_key_val  in varchar2 )
 return varchar2
+-- Obtain a pipe delimited list of the roles granted in the MCZ space to a grantee, that is,
+-- the list of departmental collections to which the user has been granted access.
+-- @param p_key_val the grantee username (case sensitive) for which to look up granted roles.
+-- @return a varchar containing a pipe delimited list of granted roles, e.g. 'MCZ_BIRD | MCZ_CRYO'
 as
 type rc is ref cursor;
 l_str    varchar2(4000);
@@ -23,5 +27,5 @@ l_sep := ' | ';
 end loop;
 close l_cur;
 
-       return l_str;
-  end;
+return l_str;
+end;

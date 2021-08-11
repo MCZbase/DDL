@@ -15,6 +15,7 @@
 --     is specified.
 --  @return a concatenated list of emails and work phone numbers for all agents with
 --     a particular contact type for a particular transaction.
+--  @see GET_EMAILADDRESSES for addresses for a specific agent.
 RETURN VARCHAR2 AS 
       type rc is ref cursor;
       addr    varchar2(4000);

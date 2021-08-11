@@ -305,7 +305,8 @@ BEGIN
             when 'whole animal (pinned)' then new_container_type := 'pin';
             when 'whole animalenvelope' then new_container_type := 'envelope';
             when 'partial animalenvelope' then new_container_type := 'envelope';
-            when 'partial animalpointed' then new_container_type := 'pin';           
+            when 'partial animalpointed' then new_container_type := 'pin';   
+            when 'partial animalcapsule' then new_container_type := 'pin';  
             when 'whole animalpointed' then new_container_type := 'pin'; 
             when 'partial animalcarded' then new_container_type := 'pin';           
             when 'whole animalcarded' then new_container_type := 'pin';    
@@ -313,6 +314,16 @@ BEGIN
             when 'pupal exuviacarded' then new_container_type := 'pin';           
             when 'pupal exuviapinned' then new_container_type := 'pin';    
             when 'whole animalcapsule' then new_container_type := 'pin';
+            when 'exuviaepinned' then new_container_type := 'pin';            
+            when 'exuviaecarded' then new_container_type := 'pin';
+            when 'othercarded' then new_container_type := 'pin';
+            when 'otherpinned' then new_container_type := 'pin';
+            when 'othercapsule' then new_container_type := 'pin';
+            when 'pupariumcarded' then new_container_type := 'pin';
+            when 'pupariumpinned' then new_container_type := 'pin';            
+            when 'cocoonpinned' then new_container_type := 'pin';
+            when 'partial animal: genitaliapinned' then new_container_type := 'pin';
+            when 'partial animal: genitaliacapsule' then new_container_type := 'pin';
             when 'partial animal: abdomenenvelope' then new_container_type := 'envelope';
             when 'partial animal: abdomenpointed' then new_container_type := 'pin';
             when 'partial animal: abdomenpinned' then new_container_type := 'pin';

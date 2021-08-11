@@ -2,9 +2,10 @@
   CREATE OR REPLACE FUNCTION "CONCATLOCATION" (
 	container_id IN NUMBER)
 RETURN VARCHAR2
--- Given a container ID, return a concatenated list of parent storage locations for that container.
+-- Given a container ID, return a colon delimited concatenated list of parent storage locations for that container.
 -- @param container_id to lookup
 -- @return a colon separated string of container labels from the provided container to the root of the tree.
+-- @see GET_STORAGE_PARENTAGE which includes the storage location types (building, room, cabinet, etc in the result).
 AS
 	TYPE RC IS REF CURSOR;
 	l_str	VARCHAR2(4000);

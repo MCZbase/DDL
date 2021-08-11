@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_COMMON_NAME" after INSERT on Common_Name for each row
+  CREATE OR REPLACE TRIGGER "TI_COMMON_NAME" after INSERT on "MCZBASE"."COMMON_NAME" for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Common_Name
 declare numrows INTEGER;
@@ -24,9 +24,8 @@ begin
     end if;
 
 
+   
+
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
-
-
-
 ALTER TRIGGER "TI_COMMON_NAME" ENABLE

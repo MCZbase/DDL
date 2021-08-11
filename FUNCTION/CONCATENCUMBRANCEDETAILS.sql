@@ -1,14 +1,18 @@
 
   CREATE OR REPLACE FUNCTION "CONCATENCUMBRANCEDETAILS" (p_key_val  in varchar2 )
-    return varchar2
-    as
-        type rc is ref cursor;
-        l_str    varchar2(4000);
-       l_sep    varchar2(30);
-       l_val    varchar2(4000);
-
-       l_cur    rc;
-   begin
+return varchar2
+-- given a collection object id return a semicolon delimited list of encumbrance
+-- details for that collection object.
+-- @param p_key_val the collection_object_id for which to find encumbrances
+-- @return null or a semicolon delimited list of details (action, agent, date, expiration) for
+--  the specified collection_object_id
+as
+    type rc is ref cursor;
+    l_str    varchar2(4000);
+    l_sep    varchar2(30);
+    l_val    varchar2(4000);
+    l_cur    rc;
+begin
 
       open l_cur for 'select encumbrance_action
       					|| '' by '' ||agent_name || '' on ''
@@ -35,7 +39,3 @@
 
        return l_str;
   end;
-
-
- 
- 

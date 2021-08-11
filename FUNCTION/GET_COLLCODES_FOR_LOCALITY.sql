@@ -1,8 +1,13 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COLLCODES_FOR_LOCALITY" ( locality_id in NUMBER )
+  CREATE OR REPLACE FUNCTION "GET_COLLCODES_FOR_LOCALITY" ( 
+locality_id in NUMBER,
+show_count in number default 1
+)
 return VARCHAR
 -- Function to obtain list of collection codes and cataloged item counts for a locality.
 -- @param locality_id the locality_id of the locality to lookup
+-- @param show_count if 1 (default) include the count of collection objects, otherwise
+--   only list the collection codes and don't include [None] for unused localities.
 -- @return a string list of collection codes and cataloged item counts of material
 --    from the specified locality.
 as 
@@ -25,8 +30,15 @@ begin
    loop
       fetch cur into cnt, ccode;
       exit when cur%notfound;
-      retval := retval || sep || ccode || '(' || cnt || ')';
-      sep := ', ';
+      if show_count = 1 then
+         retval := retval || sep || ccode || '(' || cnt || ')';
+         sep := ', ';
+      else
+         if ccode <> '[None]' then
+            retval := retval || sep || ccode;
+            sep := ', ';
+         end if;
+      end if;
    end loop;   
    close cur;   
    return retval;

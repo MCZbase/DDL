@@ -1,6 +1,21 @@
 
   CREATE OR REPLACE FUNCTION "GETYEARCOLLECTED" (b IN varchar,e IN varchar)
 RETURN varchar
+-- Given a pair of strings that are expected to be begin and end dates, 
+-- extract the year from the strings, that is, expectation is to 
+-- return yyyy from yyyy-mm-dd,yyyy-mm-dd if the year (yyyy) of the start 
+-- and end dates are the same, and both contain a month,
+-- otherwise on a failure return '00', does not check to see if strings
+-- actually contain dates, assumes that they do.
+-- 
+-- @param b the string representing the begin date.
+-- @param e the string representing the end date.
+-- @return the 1st through 4th characters of b (yyyy in yyyy-mm-dd), if b and e each
+--    contain at least 4 characters and the first 4 characters of b and e 
+--    are identical, otherwise, return '00'.  
+-- @see getdaycollected
+-- @see getmonthcollected
+-- @see MCZBASE.GET_PRETTY_DATE() uses this function.
 AS
    rby varchar(4);
     rey  varchar(4);
@@ -15,5 +30,3 @@ return '00';
 end if;
 return rby;
 end;
- 
- 

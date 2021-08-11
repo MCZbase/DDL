@@ -1,6 +1,8 @@
 
   CREATE OR REPLACE FUNCTION "ATC" 
 (cSearchExpression nvarchar2, cExpressionSearched  nvarchar2, nOccurrence smallint  default 1)
+-- @depricated does not appear to be used anywhere.
+--
 -- When performance is an issue:
 -- use  nvl(instr(lower(cExpressionSearched), lower(cSearchExpression), 1, nOccurrence),0)   rather than this function.
 -- Author:  Igor Nikiforov,  Montreal,  EMail: udfs@sympatico.ca
@@ -27,5 +29,3 @@ as
 begin
      return nvl(instr(lower(cExpressionSearched), lower(cSearchExpression), 1, nOccurrence),0);
 end ATC;
- 
- 

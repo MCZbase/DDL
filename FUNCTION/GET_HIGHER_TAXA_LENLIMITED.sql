@@ -3,7 +3,21 @@
 (
    COLLECTIONOBJECTID IN NUMBER  
 ,  MAXLENGTH IN NUMBER  
-) RETURN VARCHAR2 AS 
+) RETURN VARCHAR2 
+-- Given a collection object id and a maximum string length obtain a concatenated
+-- string of selected higher taxon ranks (most from phylum to family) for the 
+-- taxonomy record used in the current identification of the specified cataloged
+-- item, truncated to the given length, in the middle, retaining the family, if 
+-- the string is longer than the specified maximum length (e.g. "Mollusca Ga... Muricidae") 
+-- used to obtain a higher taxonomy string for labels where all higher ranks
+-- will be used if they will fit, but the list will be truncated above family if they
+-- do not.
+-- @param collectionobjectid the collection_object_id of the cataloged item for
+-- which to return the higher taxon ranks from the current identification.
+-- @param maxlength the maximum number of characters to return, if smaller than 
+-- length of the family + 4, then "... {family}" will still be returned.
+-- @see GET_TAXONOMY used to obtain ranks from the heirarchy from current identifications
+AS 
     type rc is ref cursor;
          taxa varchar2(900);
          family varchar2(255);
@@ -31,4 +45,3 @@ from cataloged_item'
      end if;
   RETURN result;
 END GET_HIGHER_TAXA_LENLIMITED;
- 

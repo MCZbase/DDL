@@ -1,7 +1,10 @@
 
   CREATE OR REPLACE FUNCTION "GET_EPITHET_GENUS_AUTHORS" (collobjid IN number )
-   RETURN VARCHAR2 AS 
-        final_str    varchar2(4000);
+RETURN VARCHAR2 AS 
+--  Obtain the trivial epithet, a comma, the generic placement, and the authorship 
+--  with html markup from **** for a specimen
+--  @param collobjid, the collection object id for which to return the name.      
+  final_str    varchar2(4000);
 begin
 FOR rec IN (
 select

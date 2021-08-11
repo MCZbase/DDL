@@ -1,5 +1,10 @@
 
   CREATE OR REPLACE FUNCTION "GETSIMPLEDDL" (objecttype in varchar2, objectname in varchar2)
+-- obtain a simple view of the create object DDL for an object (simple, that is, without storage
+-- or segment attributes for a table).
+-- @param objecttype the type of object represented by objectname (e.g. TABLE, VIEW, FUNCTION)
+-- @param objectname the object for which to return the DDL.
+-- @return a clob containing the ddl for the specified object.
     return clob is
    -- Define local variables.
    h   number; --handle returned by OPEN

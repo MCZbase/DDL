@@ -503,7 +503,7 @@ a_instn varchar2(255);
                 collection.collection_cde = a_coln AND
                 accn_number = tempStr2;
                 if numRecs = 0 then
-                        thisError :=  thisError || '; ACCN is invalid';
+                        thisError :=  thisError || '; ACCN is invalid or accession/collection code missmatch';
                 END IF;
                 EXCEPTION
                     WHEN OTHERS THEN

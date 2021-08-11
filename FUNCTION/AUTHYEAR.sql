@@ -1,6 +1,7 @@
 
   CREATE OR REPLACE FUNCTION "AUTHYEAR" (p_key_val  in varchar2 )
     return varchar2
+    -- @deprecated  does not appear to be used anywhere, name and query differ, returns part/preserve method, not author/year.
     as
         type rc is ref cursor;
         l_str    varchar2(4000);
@@ -34,5 +35,3 @@
        return l_str;
   end;
   -- call with
- 
- 

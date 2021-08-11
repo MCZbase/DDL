@@ -12,6 +12,9 @@
 --  decode (MCZBASE.IS_TYPENAMECURRENT(cataloged_item.collection_object_id),1,'', 0,   
 --    replace(MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id), '&', '&amp;')
 --  ) as tsname,
+--  @param collection_object_id the cataloged item to check for type names.
+--  @return 1 if the specified cataloged item has one type name, and that type
+--    name is also the current identification, otherwise 0.
 AS 
   type rc is ref cursor;
   retval number;

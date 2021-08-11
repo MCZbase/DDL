@@ -3,6 +3,7 @@
 -- Given a transaction_id, if that transaction is a loan,   --
 -- returns a comma delimited, concatenated list of the preferred --
 -- names of the agents by whom the loan was recieved.    --
+-- @param p_key_val the transaction_id for which to return recipients.  --
 ( p_key_val IN VARCHAR2
 ) RETURN VARCHAR2 AS
 type rc is ref cursor;

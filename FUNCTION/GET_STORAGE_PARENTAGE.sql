@@ -7,6 +7,7 @@ RETURN VARCHAR2
 -- @return a colon separated string of container labels from the provided container to room (or campus, if not MCZ-campus)
 --    omits labels for container type collection object, builing, and floor.
 --    represents material not placed in a campus as having Unplaced as the root parent.
+-- @see CONCATLOCATION which only return the labels, not the container types.
 AS
 	TYPE RC IS REF CURSOR;
 	l_str	VARCHAR2(4000);

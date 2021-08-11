@@ -1,6 +1,14 @@
 
   CREATE OR REPLACE FUNCTION "AY" (pub_id  in varchar2 )
     return varchar2
+    -- @deprecated does not appear to be used 
+    --
+    -- function ay returns a list of author last names for a publication
+    -- if single author, the last name of the first author,
+    -- if two authors, the last name of the first "and" the last name of the second.
+    -- if three or more authors, the last name of the first "and" the last name of the second, then "et al."
+    -- @param pub_id the publication_id of the publication for which to look up authorship strings.
+    -- @return an authorship string consisting of last names, and, et al., for the publication.
     as
         type rc is ref cursor;
         l_str    varchar2(4000);
@@ -116,5 +124,3 @@ loopcount	number;
     close name_cur;
        return l_str;
   end;
- 
- 

@@ -1,5 +1,13 @@
 
   CREATE OR REPLACE FUNCTION "GETLABELNAME" (collobjid IN number)
+-- given a collection_object_id, return the label name of the first collector, or
+-- if the first collector has no agent_name of type labels, then the preferred name for that
+-- collector.
+-- @param collobjid the collection object id for which to lookup the label name of 
+--   the first collector.
+-- @return the agent_name of type 'labels' or if none for the first collector, the
+--   preferred name for that collector, or null if the collection object has no collectors.
+-- @see get_agentnameoftype(agent_id, 'labels') 
 RETURN varchar2
 AS
     n number;
@@ -27,5 +35,3 @@ BEGIN
     END IF;
     RETURN retval;
 END;
- 
- 

@@ -7,6 +7,8 @@
 --  Given a media id, return 0 if the media  --
 --  is not an MCZ media, 1 if it is.         --
 --  (encapsulates test for ctmedia_license.display = MCZ Permissions & Copyright)  --
+-- @param media_id the surrogate numeric primary key of the media record to check
+-- @return 1 if the media record is for an MCZ media object, otherwise 0.
 AS 
   type rc is ref cursor;
   l_val    NUMBER;

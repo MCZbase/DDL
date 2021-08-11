@@ -1,5 +1,6 @@
 
   CREATE OR REPLACE FUNCTION "PREPENDTAXONOMY" (str in varchar2, newval in varchar2, italicize in number default 0, onlyIfNull in number default 0)
+--  Used by TRG_TAXON_COMPOUND_NAMES to assemble display name
     return varchar2
     deterministic
     as
@@ -24,5 +25,3 @@
     rval:=replace(rval,' </i>','</i> ');
     return rval;
     end;
- 
- 

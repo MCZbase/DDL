@@ -15,11 +15,12 @@ BEGIN
       retval := '';
       l_val := ''; 
       separator := '';
+      --  note, fixed error 2021 May 8, was returning metadata record creator for created by agent, not created by agent.
       open l_cur for 'select distinct a.creator from (select case when MCZBASE.is_mcz_media(media.media_id) = 1 then ''Museum of Comparative Zoology, Harvard University'' 
        else get_medialabel(media_id, ''owner'') end as creator 
        from media where media_id = :x 
        union 
-       select distinct MCZBASE.GET_AGENTNAMEOFTYPE(created_by_agent_id,''preferred'') as creator
+       select distinct MCZBASE.GET_AGENTNAMEOFTYPE(related_primary_key,''preferred'') as creator
        from media_relations 
        where media_id = :x and media_relationship = ''created by agent''  ) a
        '

@@ -95,9 +95,21 @@ begin
 			when 'shows agent' then
 				select agent_name into theValue from preferred_agent_name where agent_id=r.related_primary_key;
 				the_relation:=the_relation || theValue;
+			when 'shows handwriting of agent' then
+				select agent_name into theValue from preferred_agent_name where agent_id=r.related_primary_key;
+				the_relation:=the_relation || 'shows handwriting of ' || theValue;   
+			when 'documents agent' then
+				select agent_name into theValue from preferred_agent_name where agent_id=r.related_primary_key;
+				the_relation:=the_relation || 'shows document concerning ' || theValue;                 
+            when 'physical object created by agent' then
+				select agent_name into theValue from preferred_agent_name where agent_id=r.related_primary_key;
+				the_relation:=the_relation || 'physical object shown by the image was created by ' || theValue;                
 			when 'media' then
 				select media_uri into theValue from media where media_id=r.related_primary_key;
 				the_relation:=the_relation || theValue;
+            when 'transcript of audio media' then
+				select media_uri into theValue from media where media_id=r.related_primary_key;
+				the_relation:=the_relation || 'transcript for audio file ' || theValue;                
 			when 'ledger entry for cataloged_item' then
                 if (ledgercounter > 0)  then
 			  	   select  cat_num into theValue 

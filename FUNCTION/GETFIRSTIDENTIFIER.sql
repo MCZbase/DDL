@@ -2,6 +2,12 @@
   CREATE OR REPLACE FUNCTION "GETFIRSTIDENTIFIER" (p_key_val  in number )
 return varchar2
 as
+-- return the name of the agent who is the first in a list of determiners in
+-- the current identification of a cataloged item.
+-- @param p_key_val the collection_object_id of the cataloged item to look up
+-- the first identifier for the current identification of.
+-- @return the prefered agent name for the agent who is first in the list
+-- of determiners for the current identification of the specified collection object.
 type rc is ref cursor;
 l_str    varchar2(4000);
 l_sep    varchar2(3);

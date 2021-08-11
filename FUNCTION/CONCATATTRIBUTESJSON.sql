@@ -34,6 +34,7 @@
             left outer join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
         where collection_object_id = :y
         and collection_name is not null
+        and mask_fg = 0
         '
         using p_key_val, p_key_val;
 

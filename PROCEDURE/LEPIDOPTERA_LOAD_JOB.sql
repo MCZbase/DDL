@@ -368,8 +368,9 @@ GEOREFMETHOD,
 DETERMINED_BY_AGENT,
 DETERMINED_DATE,
 LAT_LONG_REMARKS,
-VERIFICATIONSTATUS
-
+VERIFICATIONSTATUS,
+locality_id,
+collecting_event_id
 
 )
 select
@@ -738,9 +739,11 @@ GEOREFMETHOD,
 DETERMINED_BY_AGENT,
 DETERMINED_DATE,
 LAT_LONG_REMARKS,
-VERIFICATIONSTATUS
+VERIFICATIONSTATUS,
+locality_id,
+collecting_event_id
 
-from specimens_for_load@lepidoptera where (flaginbulkloader=0 or flaginbulkloader is null);
+from specimens_for_load@lepidoptera where (flaginbulkloader=0 or flaginbulkloader is null) and rownum < 101;
 
 update specimen@lepidoptera set flaginbulkloader=1, workflowstatus = 'Moved to MCZbase' where specimenid in
 (select collection_object_id from bulkloader_lepidoptera);

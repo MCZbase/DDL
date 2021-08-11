@@ -8,7 +8,11 @@
 --  object has a recataloged as relationship with another
 --  collection object.
 --  Given a collection object id, return 0 if the collection object  
---  is not recataloged, 1 if it is.              
+--  is not recataloged, 1 if it is.   
+--  @param collection_object_id the cataloged item to check 
+--    recataloging status.
+--  @return 1 if the specified collection object has a recataloged as
+--    relationship to another collection object, otherwise 0
 AS 
   type rc is ref cursor;
   l_val    NUMBER;

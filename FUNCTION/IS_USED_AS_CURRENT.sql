@@ -6,6 +6,9 @@
 
 cnt number;
 --  Check to see if a scientific name is in use as a current id for any specimens
+--  @param taxonnameid the taxon_name_id to check for current use.
+--  @return 1 if the specified taxon_name_id is used in an identification as
+--    the current identification.
 BEGIN
 
 select count(*) into cnt from identification_taxonomy it, identification i

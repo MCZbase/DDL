@@ -1,6 +1,6 @@
 
   CREATE OR REPLACE TRIGGER "TRG_TAXON_COMPOUND_NAMES" 
-BEFORE INSERT OR UPDATE ON taxonomy
+BEFORE INSERT OR UPDATE ON "MCZBASE"."TAXONOMY"
 FOR EACH ROW
 DECLARE
 nScientificName varchar2(4000);
@@ -9,11 +9,17 @@ nDisplayName varchar2(4000);
 c NUMBER;
 stoopidX VARCHAR2(10):=CHR (215 USING NCHAR_CS);
 err_msg VARCHAR2(100);
+italicize number;
 BEGIN
 
     -- uncomment following if 0=1 test and subsequent lines numbered 1 to 4 to disable checks
     -- (1) 
     -- if 0=1 THEN
+
+    italicize := 1;
+    if :NEW.taxon_status IS NOT NULL THEN
+        italicize :=0 ;
+    END IF;
 
     if :NEW.nomenclatural_code != 'noncompliant' THEN
        IF :new.SUBORDER IS NOT NULL THEN
@@ -190,6 +196,10 @@ BEGIN
     if :new.taxon_name_id is null then
     select sq_taxon_name_id.nextval into :new.taxon_name_id from dual;
     end if;
+    
+    if :NEW.taxon_status IS NOT NULL THEN
+        nDisplayName:=prependTaxonomy(nDisplayName, '[='||:NEW.taxon_status||']');
+    END IF;
 
     if :NEW.nomenclatural_code='ICBN' AND :NEW.subspecies IS NOT NULL then
     nDisplayName:=prependTaxonomy(nDisplayName, :NEW.INFRASPECIFIC_AUTHOR);
@@ -199,7 +209,7 @@ BEGIN
     end if;*/
     nScientificName:=prependTaxonomy(nScientificName, :NEW.subspecies);
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, :NEW.subspecies);
-    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.subspecies,1);
+    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.subspecies,italicize);
 
     if :NEW.nomenclatural_code='ICBN' or :NEW.infraspecific_rank='var.' then
     nScientificName:=prependTaxonomy(nScientificName, :NEW.infraspecific_rank);
@@ -213,17 +223,17 @@ BEGIN
 
     nScientificName:=prependTaxonomy(nScientificName, :NEW.species);
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, :NEW.species);
-    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.species,1);
+    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.species,italicize);
 
     if :new.subgenus is not null then
     nScientificName:=prependTaxonomy(nScientificName, '(' || :NEW.subgenus || ')');
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, '(' || :NEW.subgenus || ')');
-    nDisplayName:=prependTaxonomy(nDisplayName, '(' || :NEW.subgenus || ')',1);
+    nDisplayName:=prependTaxonomy(nDisplayName, '(' || :NEW.subgenus || ')',italicize);
     end if;
 
     nScientificName:=prependTaxonomy(nScientificName, :NEW.genus);
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, :NEW.genus);
-    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.genus,1);
+    nDisplayName:=prependTaxonomy(nDisplayName, :NEW.genus,italicize);
 
     nScientificName:=prependTaxonomy(nScientificName, :NEW.tribe,0,1);
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, :NEW.tribe);

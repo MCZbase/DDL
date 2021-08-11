@@ -2,7 +2,7 @@
   CREATE OR REPLACE FUNCTION "GET_MEDIA_RELATIONS_STRING" (mediaID IN number)
 	return varchar2
 	AS
-	the_relation varchar2(4000);
+	the_relation varchar2(9000);
 	sep varchar(6);
 	tabl varchar2(38);
 	theValue varchar2(4000);
@@ -10,11 +10,24 @@ begin
 	for r in (select * from media_relations,preferred_agent_name where
 	media_relations.created_by_agent_id=preferred_agent_name.agent_id and
 	media_id=mediaID) loop
+        exit when length(the_relation) > 4000;
 		the_relation:=the_relation || sep || r.media_relationship || ': ';
 		-- find table name
 		tabl := SUBSTR(r.media_relationship,instr(r.media_relationship,' ',-1)+1);
 		--the_relation:=the_relation || '; table: ' || tabl;
 		case tabl
+        	when 'accn' then
+				select specific_number into theValue from transaction_view where transaction_id=r.related_primary_key;
+				the_relation:=the_relation || theValue;
+        	when 'loan' then
+				select specific_number into theValue from transaction_view where transaction_id=r.related_primary_key;
+				the_relation:=the_relation || theValue;
+            when 'borrow' then    
+				select specific_number into theValue from transaction_view where transaction_id=r.related_primary_key;
+				the_relation:=the_relation || theValue;        
+            when 'deaccession' then    
+				select specific_number into theValue from transaction_view where transaction_id=r.related_primary_key;
+				the_relation:=the_relation || theValue;                     
 			when 'locality' then
 				select spec_locality into theValue from locality where locality_id=r.related_primary_key;
 				the_relation:=the_relation || theValue;
@@ -43,5 +56,8 @@ begin
 				--dbms_output.put_line(r.media_relationship);
 		sep := ';';
 	end loop;
+    if length(the_relation) > 4000 then
+        the_relation := substr(the_relation,3997) || '...';
+    end if;
 	return the_relation;
 end;

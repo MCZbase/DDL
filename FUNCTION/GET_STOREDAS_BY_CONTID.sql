@@ -1,9 +1,14 @@
 
   CREATE OR REPLACE FUNCTION "GET_STOREDAS_BY_CONTID" (containerId  in number )
-    return varchar2
-   as
+return varchar2
+-- given a container_id return the scientific name for the stored as identification, if any
+-- for the part which is that container
+-- @param containerId the container_id for a container which is directly linked to a 
+-- specimen part (not a container in the heirarhcy) through an entry in coll_obj_cont_hist.
+-- @return the scientific_name of the stored as identification for that part, if any.
+as
    	storedAs    varchar2(255);
-   begin
+begin
    
    select 
     scientific_name 
@@ -22,4 +27,4 @@
     and CH.CURRENT_CONTAINER_FG = 1;
 
    return storedAs;
-  end;
+end;

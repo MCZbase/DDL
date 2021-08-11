@@ -66,13 +66,15 @@ tempStr2 VARCHAR2(255);
       IF (rec.verbatim_date is null) THEN
         thisError :=  thisError || '; verbatim_date is invalid';
       END IF;
-      SELECT count(*) INTO numRecs FROM geog_auth_rec WHERE higher_geog = rec.higher_geog;
-        IF (numRecs != 1) THEN
-          thisError :=  thisError || '; geog_auth_rec matched ' || numRecs || ' records';
-        END IF;
-      IF (rec.spec_locality is null) THEN
-        thisError :=  thisError || '; spec_locality is required';
-      END IF;
+      if rec.locality_id is null then 
+          SELECT count(*) INTO numRecs FROM geog_auth_rec WHERE higher_geog = rec.higher_geog;
+            IF (numRecs != 1) THEN
+              thisError :=  thisError || '; geog_auth_rec matched ' || numRecs || ' records';
+            END IF;
+          IF (rec.spec_locality is null) THEN
+            thisError :=  thisError || '; spec_locality is required';
+          END IF;
+      end if;
       IF (rec.verbatim_locality is null) THEN
         thisError :=  thisError || '; verbatim_locality is required';
       END IF;

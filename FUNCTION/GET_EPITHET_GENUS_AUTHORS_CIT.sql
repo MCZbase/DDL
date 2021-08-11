@@ -1,6 +1,7 @@
 
   CREATE OR REPLACE FUNCTION "GET_EPITHET_GENUS_AUTHORS_CIT" (collobjid IN number )
---  Obtain a scientific name with html markup from the highest priority citation for a specimen
+--  Obtain a scientific name in the form trival epithet, comma, generic placement, authorship
+--  with html markup from the highest priority citation for a specimen.
 --  @param collobjid, the collection object id for which to return the cited name.
    RETURN VARCHAR2 AS 
         final_str    varchar2(4000);

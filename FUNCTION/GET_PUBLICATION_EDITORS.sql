@@ -3,8 +3,10 @@
 (
   PUBLICATION_ID IN NUMBER  
 ) RETURN VARCHAR2 
---  Supporting the Publications part of the MCZ website  --
+--  Supporting the Publications part of the MCZ website  (publications.mcz.harvard.edu) --
 --  Given a publication id, return the editors in the authorship string --
+--  @param publication_id the publication to look up the editors for
+--  @return the editors for a publication, assembled in order in a string.
 AS 
       type rc is ref cursor;
       l_str    varchar2(4000);

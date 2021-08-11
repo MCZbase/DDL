@@ -84,7 +84,7 @@ BEGIN
 	END IF;
 	IF :NEW.water_feature IS NOT null THEN
 		IF hg IS null THEN
-			hg := :NEW.feature;
+			hg := :NEW.water_feature;
 		else
 			hg := hg || ': ' || :NEW.water_feature;
 		END IF;

@@ -1,6 +1,11 @@
 
   CREATE OR REPLACE FUNCTION "GETAUTHORYEAR" (pub_id in varchar2 )
 return varchar2
+-- return an authorship string for a publication with author last names and year of publication.
+-- uses last names of first and second authors, separated by and if there are two or more authors
+-- followed by et al. if there are more than two authors, followed by the year of publication.
+-- @param pub_id the publication_id of the publication for which to lookup the authorship
+-- @return a string represeintation of the authorship and year of publication.
 as
 	type rc is ref cursor;
 	l_str	varchar2(4000);
@@ -98,5 +103,3 @@ begin
 	CLOSE name_cur;
 	return l_str;
 end;
- 
- 

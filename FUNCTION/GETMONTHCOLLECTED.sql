@@ -13,7 +13,9 @@ RETURN varchar
 -- @return the 6th and 7th characters of b (mm in yyyy-mm-dd), if b and e each
 --    contain at least 7 characters and the 6th and 7th characters of b and e 
 --    are identical, otherwise, return '00'.  
--- @see MCZBASE.GETPRETTYDATE() uses this function.
+-- @see getdaycollected
+-- @see getyearcollected
+-- @see MCZBASE.GET_PRETTY_DATE() uses this function.
 AS
     rby varchar(4);
     rey  varchar(4);

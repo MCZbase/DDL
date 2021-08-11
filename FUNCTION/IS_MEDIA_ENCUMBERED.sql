@@ -18,6 +18,12 @@
 --    where is_media_encumbered(media_id) = 0
 --  to show only media that are not encumbered 
 --  (as in an audubon core image feed).
+--  @param the media_id to check for visibility
+--  @return 0 if media are freely visible, 
+--    -1 if media have restrictions, but not for 
+--    the current user
+--    1 if the media are restricted for the 
+--    current user and should be hidden from them.
 AS 
   type rc is ref cursor;
   hiddenlist    NUMBER;

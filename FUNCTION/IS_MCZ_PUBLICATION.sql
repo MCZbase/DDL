@@ -3,9 +3,11 @@
 (
    PUBLICATION_ID IN NUMBER
 )  RETURN NUMBER 
---  Supporting the Publications part of the MCZ website  --
---  Given a publication id, return 0 if the publication  --
---  is not an MCZ publication, 1 if it is.               --
+--  Supporting the Publications part of the MCZ website 
+--  Given a publication id, return 0 if the publication 
+--  is not an MCZ publication, 1 if it is.              
+--  @param publication_id the publication to check 
+--  @return 1 if MCZ publication, otherwise 0.
 AS 
   type rc is ref cursor;
   l_val    NUMBER;
@@ -27,4 +29,3 @@ BEGIN
 
       return l_val;
 END IS_MCZ_PUBLICATION;
- 
