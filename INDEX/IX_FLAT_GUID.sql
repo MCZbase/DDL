@@ -1,0 +1,3 @@
+
+  CREATE INDEX "IX_FLAT_GUID" ON "FLAT" ("GUID") 
+  

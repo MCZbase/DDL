@@ -38,7 +38,7 @@ BEGIN
       --   all media should be encumbered (vertpaleo/internal).
       open l_cur for 'select count(*) from media
                       where ((mask_media_fg is not null and mask_media_fg = 1)
-                             or media_uri like ''%specimen_images/vertpaleo/internal%'')
+                             or auto_path like ''%specimen_images/vertpaleo/internal%'')
                       and  media_id = :x '
                  using media_id;
       loop
@@ -58,7 +58,7 @@ BEGIN
           -- Question 2: Is this media object in the VP encumbered directory?
           checkval := 0;
           open l_cur for 'select count(distinct media.media_id) from media
-                      where media_uri like ''%specimen_images/vertpaleo/internal%''
+                      where auto_path like ''%specimen_images/vertpaleo/internal%''
                       and  media_id = :x '
                  using media_id;
           loop

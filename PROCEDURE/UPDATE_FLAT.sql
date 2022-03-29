@@ -37,6 +37,7 @@ BEGIN
                         continent_ocean,
                         continent,
                         country,
+                        sovereign_nation,
                         state_prov,
                         county,
                         feature,
@@ -140,7 +141,10 @@ BEGIN
                         countrycode,
                         recataloged_fg,
                         locality_remarks,
-                        stored_as
+                        stored_as,
+                        rooms,
+                        cabinets,
+                        drawers
                         ) = (
                 SELECT
                         cataloged_item.cat_num,
@@ -179,6 +183,7 @@ BEGIN
                         geog_auth_rec.continent_ocean,
                         (CASE WHEN geog_auth_rec.continent_ocean like '% Ocean' THEN '' ELSE geog_auth_rec.continent_ocean END) as continent,
                         geog_auth_rec.country,
+                        locality.sovereign_nation,
                         geog_auth_rec.state_prov,
                         geog_auth_rec.county,
                         geog_auth_rec.feature,
@@ -394,7 +399,10 @@ BEGIN
                         MCZBASE.get_countrycode(geog_auth_rec.country),
                         MCZBASE.is_recataloged(cataloged_item.collection_object_id),
                         locality.locality_remarks,
-                        MCZBASE.get_stored_as_id(cataloged_item.collection_object_id)
+                        MCZBASE.get_stored_as_id(cataloged_item.collection_object_id),
+                        MCZBASE.GET_STORAGE_ROOMS(cataloged_item.collection_object_id), 
+                        MCZBASE.GET_STORAGE_CABINETS(cataloged_item.collection_object_id),
+                        MCZBASE.GET_STORAGE_DRAWERS(cataloged_item.collection_object_id)
                 FROM
                         cataloged_item,
                         coll_object,

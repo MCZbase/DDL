@@ -1,7 +1,8 @@
 
   CREATE OR REPLACE FUNCTION "GET_STORAGE_PARENTATRANK" (
 	container_id IN NUMBER,
-    storagerank in varchar
+    storagerank in varchar,
+    showrank in number default 1
     )
 RETURN VARCHAR2
 -- Given a container ID, return the storage location for that container at the desired rank in the herarchy.
@@ -31,7 +32,11 @@ BEGIN
            if l_val = 'Deaccessioned' or l_type is null then 
               l_str := l_str || l_sep || l_val;
            else 
-		      l_str := l_str || l_sep || l_val || ' (' || l_type || ')';
+              if showrank = 1 then
+		         l_str := l_str || l_sep || l_val || ' (' || l_type || ')';
+              else
+                 l_str := l_str || l_sep || l_val;
+              end if;
            end if;
 		l_sep := ': ';
 	END LOOP;

@@ -7,7 +7,7 @@
         sep    varchar2(10);
         ts    VARCHAR2(2);
         ret_tmp VARCHAR2(20000); -- ADDED THIS LINE.
-        ret    varchar2(4000);
+        ret    varchar2(4000);  
         tmp_pn varchar2(4000);
     begin
         FOR r IN (
@@ -37,9 +37,13 @@
                c.parent_container_id=p.container_id (+) AND
                derived_from_cat_item = collobjid
             ORDER BY
-               partname,
-               part_name,
-               preserve_method) loop                
+               list_order,
+               sampled_from_obj_id DESC,
+               partname desc,
+               part_name desc,
+               preserve_method
+        ) loop  
+        EXIT when LENGTHC(ret_tmp) > 4000;
                tmp := r.part_name || ' {' || r.lot_count || '; ' || r.coll_obj_disposition || '; ' || r.condition || '; ' || r.barcode;
                IF r.coll_object_remarks IS NOT NULL THEN
                   tmp := tmp || '; ' || r.coll_object_remarks;
@@ -68,8 +72,14 @@
        end loop;
        IF ret_tmp IS NULL THEN
             ret := ' ';
-       ELSIF LENGTH(ret_tmp) > 4000 THEN -- ADDED THIS LINE
-            ret := substr(ret_tmp, 1, 3925) || '}' || sep || ' *** THERE ARE ADDITIONAL PARTS THAT ARE NOT SHOWN HERE ***'; -- ADDED THIS LINE
+       ELSIF LENGTHC(ret_tmp) > 4000 THEN 
+            -- at a length() of ret_tmp of about 4000,      
+            -- if ret_tmp contains multi-byte characters, then LENGHT() > 4000 can misscount and cause
+            -- a failure by length(ret_tmp) > 4000 returning false while ret_temp has more bytes than ret can hold
+            -- workaround by setting truncation limit 10 smaller at 3990 instead of 4000, also reduced substring to 3920
+            -- using LENGTHC() instead of LENGTH may solve this, or not.
+            -- workaround: ELSIF LENGTH(ret_tmp) > 3990 THEN 
+            ret := substr(ret_tmp, 1, 3920) || '}' || sep || ' *** THERE ARE ADDITIONAL PARTS THAT ARE NOT SHOWN HERE ***'; -- ADDED THIS LINE
         ELSE ret := ret_tmp;
         END IF;
        return ret;

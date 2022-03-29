@@ -35,7 +35,7 @@ begin
             coll_obj_disposition not in ('discarded','used up','deaccessioned','missing','transfer of custody') and
             derived_from_cat_item = collobjid
         group by part_name, preserve_method, sampled_from_obj_id, list_order            
-        ORDER BY list_order,sampled_from_obj_id DESC
+        ORDER BY list_order,sampled_from_obj_id DESC, part_name desc, preserve_method
     ) loop
         t:=r.part_name;
         if r.preserve_method is not null then

@@ -56,7 +56,7 @@ begin
                 select ' Number: ' || nvl(borrow_number, 'no number') || '. ' into theValue from borrow where transaction_id = r.related_primary_key;
                 the_relation:=the_relation || theValue;     
             when 'documents accn'  then 
-                select 'Number: ' || accn_number || '. Recieved on ' || received_date || '. ' into theValue from accn where transaction_id = r.related_primary_key;
+                select 'Number: ' || accn_number || '. Received on ' || received_date || '. ' into theValue from accn where transaction_id = r.related_primary_key;
                 the_relation:=the_relation || theValue;     
             when 'documents loan'  then 
                 select nvl2(loan_number, ' Number: ' || loan_number || ' ', ' ') || nvl2(loan_status, 'Status: ' || loan_status || '. ', ' ') into theValue from loan where transaction_id = r.related_primary_key;

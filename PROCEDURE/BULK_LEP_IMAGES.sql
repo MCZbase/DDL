@@ -29,8 +29,8 @@
     
     begin
       For c1_rec in c1(c2_rec.specimenid) LOOP
-        insert into media(media_uri, mime_type, media_type, preview_uri)
-        values(c1_rec.media_uri, c1_rec.mime_type, c1_rec.media_type, regexp_replace(c1_rec.media_uri, '(^http://mczbase.mcz.harvard.edu/specimen_images/ent-[a-z]*/images/)(.*/)(.*)$', '\1\2thumbs/\3'))
+        insert into media(media_uri, mime_type, media_type, preview_uri, media_license_id)
+        values(c1_rec.media_uri, c1_rec.mime_type, c1_rec.media_type, regexp_replace(c1_rec.media_uri, '(^http://mczbase.mcz.harvard.edu/specimen_images/ent-[a-z]*/images/)(.*/)(.*)$', '\1\2thumbs/\3'),1)
         returning media_id into mediaid;
         
         insert into media_relations(media_id, media_relationship, created_by_agent_id, related_primary_key)

@@ -1,6 +1,6 @@
 
   CREATE OR REPLACE TRIGGER "TRG_TAXON_COMPOUND_NAMES" 
-BEFORE INSERT OR UPDATE ON "MCZBASE"."TAXONOMY"
+BEFORE INSERT OR UPDATE ON taxonomy
 FOR EACH ROW
 DECLARE
 nScientificName varchar2(4000);
@@ -228,7 +228,7 @@ BEGIN
     if :new.subgenus is not null then
     nScientificName:=prependTaxonomy(nScientificName, '(' || :NEW.subgenus || ')');
     nFullTaxonomy:=prependTaxonomy(nFullTaxonomy, '(' || :NEW.subgenus || ')');
-    nDisplayName:=prependTaxonomy(nDisplayName, '(' || :NEW.subgenus || ')',italicize);
+    nDisplayName:=prependTaxonomy(nDisplayName, '</i>(<i>' || :NEW.subgenus || '</i>)<i>',italicize);
     end if;
 
     nScientificName:=prependTaxonomy(nScientificName, :NEW.genus);

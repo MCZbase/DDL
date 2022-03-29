@@ -79,7 +79,7 @@ BEGIN
             left join collector on agent.agent_id = collector.AGENT_ID
             left join flat on collector.COLLECTION_OBJECT_ID = flat.collection_object_id
         where collector.COLLECTOR_ROLE = ''c''
-            and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)
+            /*and substr(flat.began_date,0,4) = substr(flat.ENDED_DATE,0,4)*/
             and agent.agent_id = :x
         group by flat.collection_cde   
      '

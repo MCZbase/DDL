@@ -37,9 +37,12 @@
                c.parent_container_id=p.container_id (+) AND
                derived_from_cat_item = collobjid
             ORDER BY
+               list_order,
+               sampled_from_obj_id DESC,
                partname,
                part_name,
-               preserve_method) loop                
+               preserve_method
+    ) loop                
                tmp := r.part_name || ' {' || r.lot_count || '; ' || r.coll_obj_disposition || '; ' || r.condition || '; ' || r.barcode;
                IF r.coll_object_remarks IS NOT NULL THEN
                   tmp := tmp || '; ' || r.coll_object_remarks;

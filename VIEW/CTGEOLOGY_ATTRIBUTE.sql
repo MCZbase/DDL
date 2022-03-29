@@ -1,7 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "CTGEOLOGY_ATTRIBUTE" ("GEOLOGY_ATTRIBUTE") AS 
-  SELECT attribute geology_attribute
- FROM geology_attribute_hierarchy
- WHERE usable_value_fg=1
- GROUP BY attribute
- 
+  CREATE OR REPLACE FORCE VIEW "CTGEOLOGY_ATTRIBUTE" ("GEOLOGY_ATTRIBUTE", "ORDINAL", "TYPE", "DESCRIPTION") AS 
+  SELECT geology_attribute, ordinal, type, description
+FROM MCZBASE.ctgeology_attributes
+ORDER BY ordinal asc
