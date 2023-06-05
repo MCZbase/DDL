@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULKLOADER_STAGE_CHECK" 
+  CREATE OR REPLACE PROCEDURE "BULKLOADER_STAGE_CHECK" (staging_user in varchar2)
 is
  thisError varchar2(4000);
  numRecs NUMBER;
@@ -31,7 +31,10 @@ tempStr2 VARCHAR2(255);
  num number;
 
   BEGIN
-	FOR rec IN (SELECT * FROM bulkloader_stage) LOOP
+    dbms_output.put_line (staging_user);
+    FOR rec IN (SELECT * FROM bulkloader_stage where staging_user = staging_user) LOOP
+        if rec.staging_user = staging_user then
+        dbms_output.put_line(rec.collection_object_id);
 		thisError := '';
 		select count(distinct(agent_id)) into numRecs from agent_name where agent_name_type='login' AND agent_name = rec.ENTEREDBY;
 		if (numRecs != 1) then
@@ -50,7 +53,7 @@ tempStr2 VARCHAR2(255);
 				collection.collection_cde=rec.collection_cde AND
 				cat_num=rec.cat_num;
 			IF (numRecs > 0) THEN
-				thisError :=  thisError || '; cat_num is invalid';
+				thisError :=  thisError || '; cat_num already in MCZbase';
 			END IF;
 		END IF;
 		IF (rec.cat_num = '0') THEN
@@ -263,7 +266,7 @@ tempStr2 VARCHAR2(255);
 		END IF;
 		SELECT count(distinct(agent_id)) INTO numRecs from agent_name where agent_name = rec.ID_MADE_BY_AGENT
 				and agent_name_type <> 'Kew abbr.';
-		IF (numRecs = 0) THEN
+		IF (numRecs <> 1) THEN
 			thisError :=  thisError || '; ID_MADE_BY_AGENT matches ' || numRecs || ' agents';
 		END IF;
 		IF (rec.min_depth is not null OR rec.max_depth is not null OR rec.depth_units is not null) AND
@@ -288,7 +291,8 @@ tempStr2 VARCHAR2(255);
 					ATTRIBUTE_UNITS_' || i || ',
 					 ATTRIBUTE_DATE_' || i || ',
 					 ATTRIBUTE_DETERMINER_' || i || '
-				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id into
+				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id || ' and staging_user = ''' || rec.staging_user || ''''
+                 into
 				 attributeType,
 				 attributeValue,
 				 attributeUnits,
@@ -377,7 +381,8 @@ tempStr2 VARCHAR2(255);
           PART_LOT_CNT_MOD_' || i || ',
 					PART_LOT_COUNT_' || i || ',
 					PART_DISPOSITION_' || i || '
-				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id into
+				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id || ' and staging_user = ''' || rec.staging_user || ''''
+                 into
 				 partName,
          preservMethod,
 				 partCondition,
@@ -407,7 +412,7 @@ tempStr2 VARCHAR2(255);
 				if partBarcode is not null then
 					SELECT count(*) INTO numRecs FROM container WHERE barcode = partBarcode;
 					if numRecs = 0 then
-						thisError :=  thisError || '; container_unique_id_' || i || ' is invalid';
+						thisError :=  thisError || '; part_container_unique_id_' || i || ' is invalid';
 					END IF;
 					/*if partContainerLabel is null then
 						thisError :=  thisError || '; PART_CONTAINER_NAME_' || i || ' is invalid';
@@ -436,7 +441,8 @@ tempStr2 VARCHAR2(255);
 			 execute immediate 'select
 					OTHER_ID_NUM_TYPE_' || i || ',
 					OTHER_ID_NUM_' || i || '
-				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id into
+				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id || ' and staging_user = ''' || rec.staging_user || ''''
+                 into
 				 otherIdType,
 				 otherIdNum;
 			if otherIdNum is not null then
@@ -454,7 +460,8 @@ tempStr2 VARCHAR2(255);
  			 execute immediate 'select
 					COLLECTOR_AGENT_' || i || ',
 					COLLECTOR_ROLE_' || i || '
-				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id into
+				 from bulkloader_stage where  collection_object_id = ' || rec.collection_object_id || ' and staging_user = ''' || rec.staging_user || ''''
+                 into
 				 collectorName,
 				 collectorRole;
 			if i = 1 and (collectorName is null or collectorRole != 'c') then
@@ -496,9 +503,11 @@ tempStr2 VARCHAR2(255);
 				thisError := substr(thisError,1,200) || ' {snip...}';
 			end if;
 			rollback;
-			update bulkloader_stage set loaded = thisError where collection_object_id = rec.collection_object_id;
+			update bulkloader_stage set loaded = thisError where collection_object_id = rec.collection_object_id  and staging_user = rec.staging_user;
 		end if;
 		commit;
-		--dbms_output.put_line (rec.collection_object_id ||': ' || thisError);
+		dbms_output.put_line (rec.collection_object_id || ' staging_user = ' || staging_user ||': ' || thisError);
+        end if;
 	END LOOP;
 END;
+

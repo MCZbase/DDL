@@ -20,10 +20,15 @@ begin
                 select agent_name into summary from preferred_agent_name where agent_id=fkey;
             when 'media' then
                 select media_uri into summary from media where media_id=fkey;
+            when 'permit' then
+                select PERMIT_NUM into summary from permit where permit_id=fkey;
+            when 'underscore_collection' then
+                select collection_name into summary from underscore_collection where underscore_collection_id=fkey;
+            when 'accn' then
+                select accn_type into summary from accn where transaction_id=fkey;
             when 'cataloged_item' then
-                select collection || ' ' || cat_num into summary from cataloged_item,
-                collection where
-                cataloged_item.collection_id=collection.collection_id and
+                select guid into summary from flat
+                where
                  collection_object_id=fkey;
              when 'project' then
                 select project_name into summary from project

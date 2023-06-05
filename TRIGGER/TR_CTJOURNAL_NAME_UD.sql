@@ -1,8 +1,9 @@
 
   CREATE OR REPLACE TRIGGER "TR_CTJOURNAL_NAME_UD" 
-BEFORE UPDATE OR DELETE ON ctjournal_name
+BEFORE UPDATE OR DELETE ON "MCZBASE"."CTJOURNAL_NAME"
 FOR EACH ROW
 BEGIN
+    if :old.journal_name <> :new.journal_name then
     FOR r IN (SELECT COUNT(*) c FROM publication_attributes
                  WHERE
                  PUBLICATION_ATTRIBUTE='journal name' AND
@@ -13,6 +14,6 @@ BEGIN
         :OLD.journal_name || ' is used.');
         END IF;
     END LOOP;
+    end if;
 END;
-
 ALTER TRIGGER "TR_CTJOURNAL_NAME_UD" ENABLE

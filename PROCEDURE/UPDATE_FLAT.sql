@@ -83,6 +83,8 @@ BEGIN
                         phylum,
                         phylOrder,
                         family,
+                        subfamily,
+                        tribe,
                         genus,
                         species,
                         subspecies,
@@ -212,8 +214,8 @@ BEGIN
                         locality.orig_elev_units,
                         to_meters(locality.minimum_elevation, locality.orig_elev_units),
                         to_meters(locality.maximum_elevation, locality.orig_elev_units),
-                        accepted_lat_long.dec_lat,
-                        accepted_lat_long.dec_long,
+                        nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(dec_lat,5)) as dec_lat,
+                        nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(dec_long,5)) as dec_long,
                         accepted_lat_long.datum,
                         accepted_lat_long.orig_lat_long_units,
                         /*decode(accepted_lat_long.orig_lat_long_units,
@@ -297,6 +299,14 @@ BEGIN
                                 ELSE family
                         END,
                         CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'Subfamily')
+                                ELSE subfamily
+                        END,
+                       CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'Tribe')
+                                ELSE tribe
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
                                 THEN get_taxonomy(cataloged_item.collection_object_id, 'Genus')
                                 ELSE genus
                         END,
@@ -339,7 +349,7 @@ BEGIN
                         --      collecting_event.ended_date, to_number(to_char(collecting_event.began_date, 'DDD')),
                         --      NULL),
                         0,
-                        concatAttributeValue(cataloged_item.collection_object_id, 'age_class'),
+                        concatAttributeValue(cataloged_item.collection_object_id, 'age class'),
                         concatattribute(cataloged_item.collection_object_id),
                         accepted_lat_long.verificationstatus,
                         '<a href="http://mczbase.mcz.harvard.edu/guid/' ||
@@ -385,7 +395,7 @@ BEGIN
 
                         mczbase.get_lithostratigraphy(locality.locality_id), 
 
-                        mczbase.get_lithostrat_attr(locality.locality_id,'Group'), 
+                        nvl(mczbase.get_lithostrat_attr(locality.locality_id,'Group'),mczbase.get_lithostrat_attr(locality.locality_id,'Supergroup')), 
                         mczbase.get_lithostrat_attr(locality.locality_id,'Formation'), 
                         mczbase.get_lithostrat_attr(locality.locality_id,'Member'), 
                         mczbase.get_lithostrat_attr(locality.locality_id,'Bed'),

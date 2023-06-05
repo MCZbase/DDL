@@ -11,7 +11,7 @@ AS
   l_cur    rc;
 BEGIN
       l_val := 0; 
-      open l_cur for 'select case when MCZBASE.is_mcz_media(media.media_id) = 1 then ''Museum of Comparative Zoology, Harvard University'' 
+      open l_cur for 'select case when MCZBASE.is_mcz_media(media.media_id) = 1 then ''© President and Fellows of Harvard College'' 
        else get_medialabel(media_id, ''owner'') end as rightsholder 
        from media where media_id = :x '
                  using media_id;

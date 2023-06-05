@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_PUBLICATION_AUTHOR_NAME" after UPDATE on Publication_Author_Name for each row
+  CREATE OR REPLACE TRIGGER "TU_PUBLICATION_AUTHOR_NAME" after UPDATE on "MCZBASE"."PUBLICATION_AUTHOR_NAME" for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Publication_Author_Name
 declare numrows INTEGER;
@@ -42,10 +42,6 @@ begin
     );
   end if;
 
-
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
-
-
-
 ALTER TRIGGER "TU_PUBLICATION_AUTHOR_NAME" ENABLE

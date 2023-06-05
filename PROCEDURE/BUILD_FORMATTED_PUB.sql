@@ -47,6 +47,7 @@ cursor c4(pubid IN NUMBER) is
 
 numPUBID number;
 numPUBYEAR number;
+varPUBYEAR varchar2(1000);
 numAUTHORS number;
 numEDITORS number;
 numNULLAUTHORS number;
@@ -95,6 +96,7 @@ x := null;
 for c1_rec in c1 loop
 numPUBID := null;
 numPUBYEAR := null;
+varPUBYEAR := null;
 numAUTHORS := null;
 numEDITORS := null;
 numNULLAUTHORS := null;
@@ -118,49 +120,15 @@ x := null;
   
   select publication_title, published_year, publication_type into varPUBTITLE, numPUBYEAR, varPUBTYPE from publication where publication_id = numPUBID;
   
-  select 
-      count(*) into numNULLAUTHORS
-      from 
-        publication_author_name,
-        agent_name,
-        person
-      where 
-        publication_author_name.agent_name_id=agent_name.agent_name_id and
-        agent_name.agent_id=person.person_id and
-        publication_author_name.publication_id=numpubid
-        and last_name is null;
-        
-  select 
-      count(*) into numAUTHORS
-      from 
-        publication_author_name,
-        agent_name,
-        person
-      where 
-        publication_author_name.agent_name_id=agent_name.agent_name_id and
-        agent_name.agent_id=person.person_id and
-        publication_author_name.publication_id=numpubid;
-        
-  if numNULLAUTHORS > 0 then
-    select publication_title into varSHORTCIT from publication where publication_id = numPUBID;
-  elsif numAUTHORS=1 then
-    open c2(numPUBID);
-    fetch c2 into varAUTHORNAME1;
-    varSHORTCIT := varAUTHORNAME1 || ' ' || numPUBYEAR;
-    close  c2;
-  elsif numAUTHORS=2 then
-    open c2(numPUBID);
-    fetch c2 into varAUTHORNAME1;
-    fetch c2 into varAUTHORNAME2;
-    close  c2;
-    varSHORTCIT := varAUTHORNAME1 || ' and ' || varAUTHORNAME2 || ' ' || numPUBYEAR;
-  else 
-    open c2(numPUBID);
-    fetch c2 into varAUTHORNAME1;
-    varSHORTCIT := varAUTHORNAME1 || ' et al. ' || numPUBYEAR;
-    close  c2;
+  select count(*) into x from publication_attributes where publication_id=numPUBID and publication_attribute='published year range';
+  if x > 0 then
+    select pub_att_value into varPUBYEAR from publication_attributes where publication_id=numPUBID and publication_attribute='published year range';
+  else
+    varPUBYEAR := TO_CHAR(numPUBYEAR);
   end if;
-
+  
+  --  short citation  
+  select ASSEMBLE_SHORTCITATION(publication_id) into varSHORTCIT from publication where publication_id = numPUBID;
 
   --long citation 
   select 
@@ -262,18 +230,18 @@ x := null;
   varPUBTITLE := replace(varPUBTITLE, ' In: ', ' <i>In:</i> ');
 
   if varPUBTYPE = 'journal article' then
-    varLONGCIT := varAUTHORSTRING || '. ' || numPUBYEAR || '. ' || varPUBTITLE || ' ' || varJOURNALNAME;
+    varLONGCIT := varAUTHORSTRING || '. ' || varPUBYEAR || '. ' || varPUBTITLE || ' ' || varJOURNALNAME;
     if varVOLUME is not null then
       varLONGCIT := varLONGCIT || ' ' || varVOLUME;
     end if;
     if varNumber is not null then
-      varLONGCIT := varLONGCIT || ' (' || varNumber || ')';
+      varLONGCIT := varLONGCIT || '(' || varNumber || ')';
     elsif varIssue is not null and varNumber is null then
-      varLONGCIT := varLONGCIT || ' (' || varIssue || ')';
+      varLONGCIT := varLONGCIT || '(' || varIssue || ')';
     end if;
-    varLONGCIT := varLONGCIT || ':' || varBEGINPG || '-' || varENDPG;
+    varLONGCIT := varLONGCIT || ':' || varBEGINPG || '&ndash;' || varENDPG;
   elsif varPUBTYPE = 'book' then
-    varLONGCIT := varAUTHORSTRING || '. ' || numPUBYEAR || '. ' || varPUBTITLE;
+    varLONGCIT := varAUTHORSTRING || '. ' || varPUBYEAR || '. ' || varPUBTITLE;
     if varVOLUME is not null then
       varLONGCIT := varLONGCIT || ' Volume ' || varVOLUME;
     end if;
@@ -281,7 +249,7 @@ x := null;
       varLONGCIT := varLONGCIT || ' ' || varPGTOTAL || 'pp.';
     end if;
   elsif varPUBTYPE = 'book section' then
-    varLONGCIT := varAUTHORSTRING || '. ' || numPUBYEAR || '. ' || varPUBTITLE;
+    varLONGCIT := varAUTHORSTRING || '. ' || varPUBYEAR || '. ' || varPUBTITLE;
     if varVOLUME is not null then
       varLONGCIT := varLONGCIT || ' Volume ' || varVOLUME || '.';
     end if;
@@ -293,8 +261,8 @@ x := null;
     end if;
   else
     varLONGCIT := varAUTHORSTRING;
-    if numPUBYEAR is not null then
-      varLONGCIT := varLONGCIT || '. ' || numPUBYEAR;
+    if varPUBYEAR is not null then
+      varLONGCIT := varLONGCIT || '. ' || varPUBYEAR;
     end if;
     varLONGCIT := varLONGCIT || '. ' || varPUBTITLE;
   end if;

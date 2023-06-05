@@ -47,4 +47,3 @@ begin
 	end loop;
 	return the_relation;
 end;
- 

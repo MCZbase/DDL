@@ -22,26 +22,30 @@ BEGIN
             OBJECT_CONDITION_ID,
             COLLECTION_OBJECT_ID,
             CONDITION,
+            CONDITION_REMARKS,
             DETERMINED_AGENT_ID,
             DETERMINED_DATE)
         VALUES(
             sq_object_condition_id.nextval,
             :NEW.COLLECTION_OBJECT_ID,
             :NEW.CONDITION,
+            :NEW.CONDITION_REMARKS,
             usrid,
             SYSDATE);
     ELSIF updating THEN
-        IF :new.condition != :old.condition THEN
+        IF :new.condition != :old.condition or :new.condition_remarks != :old.condition_remarks THEN
             INSERT INTO object_condition (
                 OBJECT_CONDITION_ID,
                 COLLECTION_OBJECT_ID,
                 CONDITION,
+                CONDITION_REMARKS,
                 DETERMINED_AGENT_ID,
                 DETERMINED_DATE)
             VALUES(
                 sq_object_condition_id.nextval,
                 :NEW.COLLECTION_OBJECT_ID,
                 :NEW.CONDITION,
+                :NEW.CONDITION_REMARKS,
                 usrid,
                 SYSDATE);
         END IF;
@@ -50,5 +54,4 @@ EXCEPTION
     WHEN DUP_VAL_ON_INDEX THEN
         NULL; -- just ignore
 END;
-
 ALTER TRIGGER "TR_OBJECT_CONDITION_AIU_SQ" ENABLE

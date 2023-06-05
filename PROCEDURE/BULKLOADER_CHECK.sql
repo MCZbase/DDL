@@ -207,7 +207,7 @@ is
 		END IF;
 		SELECT count(distinct(agent_id)) INTO numRecs from agent_name where agent_name = rec.ID_MADE_BY_AGENT
 				and agent_name_type <> 'Kew abbr.';
-		IF (numRecs = 0) THEN
+		IF (numRecs <> 1) THEN
 			thisError :=  thisError || '; ID_MADE_BY_AGENT matches ' || numRecs || ' agents';
 		END IF;
 

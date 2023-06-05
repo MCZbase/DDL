@@ -20,6 +20,8 @@ varMediaJoin varchar2(4000);
 varRelationshipsJoin varchar2(4000);
 varNamedGroupsJoin varchar2(4000);
 varKeywordsJoin varchar2(4000);
+varTaxonomyJoin varchar2(4000);
+varPublicSearch varchar2(4000);
 varJoinList varchar2(4000) := 'Cataloged Items';
 
 ---cf_spec_search_cols variables
@@ -34,10 +36,14 @@ y number := 0;
 c number;
 n number;
 searchTableExists number :=0;
+oneOfUs number :=0;
+isLocalitySearch number :=0;
 
 cursor c1 is select * from table (make_search_terms(searchJSON));
 
 begin
+
+Select count(*) into oneOfUs from dba_role_privs where GRANTED_ROLE = 'COLDFUSION_USER' and grantee = upper(varUserName);
 
 varSQL := 
   'select distinct :1, cataloged_item.collection_object_id
@@ -75,7 +81,7 @@ varLoansJoin :=
 varDeaccsJoin :=
   '
   ---deaccession
-  join specimen_part deacc_part on (cataloged_item.collection_object_id = loan_part.DERIVED_FROM_CAT_ITEM)
+  join specimen_part deacc_part on (cataloged_item.collection_object_id = deacc_part.DERIVED_FROM_CAT_ITEM)
   join deacc_item on (deacc_part.collection_object_id = deacc_item.collection_object_id)
   join deaccession on (deacc_item.transaction_id=deaccession.transaction_id)
   join trans deacc_trans on (deacc_item.transaction_id=deacc_trans.transaction_id)
@@ -132,13 +138,15 @@ varMediaJoin :=
   ---media
   left outer join media_relations on (media_relations.related_primary_key = cataloged_item.collection_object_id and media_relationship = ''shows cataloged_item'')
   left outer join media on (media_relations.media_id = media.media_id)
-  left outer join media_labels on (media.media_id = media_labels.media_id)';
+  left outer join media_labels on (media.media_id = media_labels.media_id)
+  left outer join media_relations next_media_relation on (media.media_id = next_media_relation.media_id)
+  left outer join media_relations creator_media_relation on (media.media_id = creator_media_relation.media_id and creator_media_relation.media_relationship = ''created by agent'')';
 
 varRelationshipsJoin :=
 
   '
   ---relationships
-  left outer join BIOL_INDIV_RELATIONS on (cataloged_item.collection_object_id = BIOL_INDIV_RELATIONS.collection_object_id)';
+  left outer join view_all_relations BIOL_INDIV_RELATIONS on (cataloged_item.collection_object_id = BIOL_INDIV_RELATIONS.collection_object_id)';
 
 varNamedGroupsJoin := 
   '---named groups
@@ -147,7 +155,17 @@ varNamedGroupsJoin :=
 
 varKeywordsJoin := 
   '---Keywords
-  join flat_text on (cataloged_item.collection_object_id = flat_text.collection_object_id)';
+  join flat on (cataloged_item.collection_object_id = flat.collection_object_id)'; 
+  
+varTaxonomyJoin :=
+  '---Taxonomy
+  join taxa_terms on (cataloged_item.collection_object_id = taxa_terms.collection_object_id)
+  join taxa_terms_all on (cataloged_item.collection_object_id = taxa_terms_all.collection_object_id)';
+
+---join to limit public searches to FILTERED_FLAT  
+varPublicSearch :=
+  '---FilteredFlat
+  join filtered_flat on (cataloged_item.collection_object_id = filtered_flat.collection_object_id)';
 
 ---build where clause (add loop after test)
 for c1_rec in c1 loop
@@ -185,6 +203,7 @@ case varSearchCategory
     if instr(varJoinList,varSearchCategory)=0 then
       varJOINS := varJOINS || varCollEventsJoin;
       varJoinList := varJoinList || varSearchCategory;
+      isLocalitySearch := 1;
     end if;
   when 'Collectors' then
     if instr(varJoinList,varSearchCategory)=0 then
@@ -226,9 +245,18 @@ case varSearchCategory
       varJOINS := varJOINS || varKeywordsJoin;
       varJoinList := varJoinList || varSearchCategory;
     end if;
+  when 'Taxonomy' then
+    if instr(varJoinList,varSearchCategory)=0 then
+      varJOINS := varJOINS || varTaxonomyJoin;
+      varJoinList := varJoinList || varSearchCategory;
+    end if;
   else
     NULL;
 end case;
+
+If oneOfUs = 0 then 
+  varJoinList := varJoinList || varPublicSearch;
+end if;
 
 ---build conditionals
 
@@ -244,7 +272,8 @@ else
     when 'DATE' THEN
         if REGEXP_LIKE(c1_rec.searchTerm, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$') THEN
             if c1_rec.comparator = '=' then 
-                varConditional := varConditional || ' ' || c1_rec.joinfield  || ' to_char(' || varColumnName || ',''yyyy-mm-dd'') = :bnd' || x || ' ' ; 
+                -- search for a day, where date may contain times
+                varConditional := varConditional || ' ' || c1_rec.joinfield  || ' to_char(' || varColumnName || ',''yyyy-mm-dd'') = :bnd' || x || ' ' ;
             elsif c1_rec.comparator = '>=' then 
                 varConditional := varConditional || ' ' || c1_rec.joinfield  || ' ' || varColumnName || ' >= to_date( :bnd' || x || ', ''yyyy-mm-dd'')' ;     
             elsif c1_rec.comparator = '<=' then 
@@ -273,7 +302,7 @@ else
         end if;
     when 'CHAR' THEN
         if upper(c1_rec.comparator) = 'LIKE' then
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''' || ':bnd' || x || '''%'')';
+            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
         elsif c1_rec.comparator = '=' then 
             varConditional := varConditional || ' ' || c1_rec.joinfield  || ' upper(' || varColumnName || ') = upper(' || ':bnd' || x || ')';       
         elsif upper(c1_rec.comparator) = 'IN' then 
@@ -314,6 +343,14 @@ else
         varConditional := varConditional || ' ' || c1_rec.joinfield || ' contains(' || varColumnName || ', :bnd' || x || ', 1) > 0';
     END CASE;
 END IF;
+
+If oneOfUs = 0 and isLocalitySearch = 1 then 
+    varConditional := varConditional || ' and coll_object.collection_object_id not in 
+        (select coll_object_encumbrance.collection_object_id
+        from coll_object_encumbrance, encumbrance
+        where coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+        and encumbrance.encumbrance_action = ''mask coordinates'')';
+end if;
 
 x := x + 1;
 end loop;
@@ -371,7 +408,7 @@ for c1_rec in c1 loop
               dbms_output.put_line(':bnd' || x || ' ' || regexp_substr(c1_rec.searchTerm,'[^/]+',1,1));
               dbms_output.put_line(':bnda' || x || ' ' || regexp_substr(c1_rec.searchTerm,'[^/]+',1,2));
               dbms_sql.BIND_VARIABLE(c, ':bnd' || x, regexp_substr(c1_rec.searchTerm,'[^/]+',1,1));
-              dbms_sql.BIND_VARIABLE(c, ':bnda' || x, regexp_substr(c1_rec.searchTerm,'[^/]+',1,2));                   
+              dbms_sql.BIND_VARIABLE(c, ':bnda' || x, regexp_substr(c1_rec.searchTerm,'[^/]+',1,2));          
            else
               dbms_output.put_line(':bnd' || x || ' ' || c1_rec.searchTerm);
               dbms_sql.BIND_VARIABLE(c, ':bnd' || x, c1_rec.searchTerm);

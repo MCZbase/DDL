@@ -8,6 +8,8 @@ RETURN VARCHAR2
 -- Given a container ID, return the storage location for that container at the desired rank in the herarchy.
 -- @param container_id to lookup
 -- @param storagerank the rank in the storage heirarchy to return
+-- @param showrank if 1 include the rank as well as the container label.
+--   otherwise just the container label for the storage location at that rank
 -- @return a container label from the provided container for the desired rank
 --    represents material not placed in a container at the specified rank as 'Unplaced'.
 AS

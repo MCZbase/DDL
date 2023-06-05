@@ -35,4 +35,7 @@ BEGIN
                 SET stale_flag = 0 
                 WHERE collection_object_id = r.collection_object_id;
         END LOOP;
+---sync keyword index
+CTX_DDL.SYNC_INDEX('FLAT_TEXT_INDEX');
+CTX_DDL.SYNC_INDEX('FLAT_ANY_GEOG');
 END;

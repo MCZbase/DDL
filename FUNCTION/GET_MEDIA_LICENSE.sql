@@ -12,7 +12,7 @@ AS
 BEGIN
       l_val := 0; 
       open l_cur for 'select case 
-           when MCZBASE.is_mcz_media(media.media_id) = 1 then ''Creative Commons Attribution Share Alike Non Commerical (CC-BY-NC-SA 3.0)'' 
+           when MCZBASE.is_mcz_media(media.media_id) = 1 then ''Creative Commons Attribution Share Alike Non Commerical (CC-BY-NC-SA 4.0)'' 
            else ctmedia_license.display
            end as license 
        from media left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id

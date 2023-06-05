@@ -625,12 +625,16 @@ BEGIN
     	VERBATIM_LOCALITY || ':' ||
     	coll_event_remarks || ':' ||
     	collecting_method || ':' ||
-    	habitat_desc
+    	habitat_desc|| ':' ||
+        verbatimdepth || ':' ||
+        verbatimelevation
     	= 
     	rec.VERBATIM_LOCALITY || ':' ||
     	rec.coll_event_remarks || ':' ||
     	rec.collecting_method || ':' ||
-    	rec.habitat_desc;
+    	rec.habitat_desc || ':' ||
+        rec.verbatimdepth || ':' ||
+        rec.verbatimelevation;
     	--dbms_output.put_line('fund events: ' || num);
     	if (num = 1) then
     		--dbms_output.put_line ('there is an existing coll event');
@@ -653,12 +657,16 @@ BEGIN
     	    VERBATIM_LOCALITY || ':' ||
     	    coll_event_remarks || ':' ||
     	    collecting_method || ':' ||
-    	    habitat_desc
+    	    habitat_desc || ':' ||
+            verbatimdepth || ':' ||
+            verbatimelevation
         	= 
         	rec.VERBATIM_LOCALITY || ':' ||
         	rec.coll_event_remarks || ':' ||
         	rec.collecting_method || ':' ||
-        	rec.habitat_desc;
+        	rec.habitat_desc || ':' ||
+            rec.verbatimdepth || ':' ||
+            rec.verbatimelevation;
     		l_collecting_event_id := gcollecting_event_id;
     		--dbms_output.put_line('there is an existing coll event');
     	else
@@ -670,6 +678,8 @@ BEGIN
     			locality_id,
     			verbatim_date,
     			VERBATIM_LOCALITY,
+                verbatimdepth,
+                verbatimelevation,
     			began_date,
     			ended_date,
     			coll_event_remarks,
@@ -690,6 +700,8 @@ BEGIN
     			l_locality_id,
     			rec.verbatim_date,
     			rec.VERBATIM_LOCALITY,
+                rec.verbatimdepth,
+                rec.verbatimelevation,
     			rec.began_date,			
     			rec.ended_date,
     			rec.coll_event_remarks,

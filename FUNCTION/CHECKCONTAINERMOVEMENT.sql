@@ -48,5 +48,3 @@
     WHEN OTHERS THEN
        RETURN SQLCODE || ': ' || SQLERRM;
   end;
- 
- 

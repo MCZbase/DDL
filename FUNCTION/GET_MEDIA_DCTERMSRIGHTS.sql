@@ -12,7 +12,7 @@ AS
 BEGIN
       l_val := 0; 
       open l_cur for 'select case 
-           when MCZBASE.is_mcz_media(media.media_id) = 1 then ''http://creativecommons.org/licences/by-nc-sa/3.0/legalcode'' 
+           when MCZBASE.is_mcz_media(media.media_id) = 1 then ''http://creativecommons.org/licences/by-nc-sa/4.0/legalcode'' 
            else ctmedia_license.uri
            end as license 
        from media left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id

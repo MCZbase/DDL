@@ -113,6 +113,8 @@ BEGIN
                                (vpd_collection_cde.collection_cde is not null or media_relations.media_relationship is null) 
                              ) or (
                                media_relations.media_relationship <> ''shows cataloged_item''
+                             ) or (
+                               media_relations.media_relationship is null 
                             ))
                             and
                             media.media_id = :x '
