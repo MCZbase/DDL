@@ -12,6 +12,8 @@
     -- @param collection_object_id the id for the collection object to which to add this other ID number.
     -- @param other_id_num, the other ID number to attempt to parse.
     -- @param other_id_type, the type of the other id number.
+    --
+    -- @see update_other_id for updates.
 IS
     part_one varchar2(255);
     part_two varchar2(255);
@@ -47,11 +49,11 @@ BEGIN
          part_two := substr(
                other_id_num,
                2);
-   ELSIF regexp_like(other_id_num, '^[^0-9]+[0-9]+[^0-9]*$') THEN
+   ELSIF regexp_like(other_id_num, '^[^0-9]*[0-9]+[^0-9]*$') THEN
       -- non-numeric prefix, a number, and an optional non-numeric suffix.
-      part_one := regexp_substr(other_id_num, '^([^0-9]+)([0-9]+)([^0-9]*)$', 1,1,'i',1);
-      part_two := regexp_substr(other_id_num, '^([^0-9]+)([0-9]+)([^0-9]*)$', 1,1,'i',2);
-      part_three := regexp_substr(other_id_num, '^([^0-9]+)([0-9]+)([^0-9]*)$', 1,1,'i',3);
+      part_one := regexp_substr(other_id_num, '^([^0-9]*)([0-9]+)([^0-9]*)$', 1,1,'i',1);
+      part_two := regexp_substr(other_id_num, '^([^0-9]*)([0-9]+)([^0-9]*)$', 1,1,'i',2);
+      part_three := regexp_substr(other_id_num, '^([^0-9]*)([0-9]+)([^0-9]*)$', 1,1,'i',3);
    ELSE 
       -- loop through list of delimiter defined above and see what falls out
       -- behavior here is somewhat opaque and may not do what is expected for all case.

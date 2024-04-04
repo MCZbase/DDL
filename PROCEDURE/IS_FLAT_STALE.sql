@@ -13,7 +13,7 @@ BEGIN
                     stale_flag = 1 AND 
                     ROWNUM < 5000
         ) LOOP
-                --dbms_output.put_line(r.collection_object_id);
+                -- dbms_output.put_line(r.collection_object_id);
                 -- update flat_media set stale_fg=1 where collection_object_id = r.collection_object_id;
                 update_flat(r.collection_object_id);
                 BEGIN

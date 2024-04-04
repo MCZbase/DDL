@@ -61,8 +61,11 @@ BEGIN
                         orig_lat_long_units,
                         verbatimLatitude,
                         verbatimLongitude,
+                        verbatimsrs,
                         lat_long_ref_source,
                         coordinateUncertaintyInMeters,
+                        coordinate_precision,
+                        pointradiusspatialfit,
                         georefMethod,
                         lat_long_remarks,
                         lat_long_determiner,
@@ -82,6 +85,13 @@ BEGIN
                         kingdom,
                         phylum,
                         phylOrder,
+                        subphylum,
+                        subclass,
+                        infraclass,
+                        superorder,
+                        suborder,
+                        infraorder,
+                        superfamily,
                         family,
                         subfamily,
                         tribe,
@@ -120,6 +130,8 @@ BEGIN
                         cat_num_suffix,
                         total_parts,
                         cited_as,
+                        EARLIESTEONORLOWESTEONOTHEM,
+                        LATESTEONORHIGHESTEONOTHEM,
                         earliestEraOrLowestErathem, 
                         latestEraOrHighestErathem, 
                         earliestPeriodOrLowestSystem, 
@@ -258,8 +270,11 @@ BEGIN
                                         accepted_lat_long.long_dir),*/
                         collecting_event.verbatimlatitude,
                         collecting_event.verbatimlongitude,
+                        collecting_event.verbatimsrs,
                         accepted_lat_long.lat_long_ref_source,
                         to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units),
+                        accepted_lat_long.coordinate_precision,
+                        accepted_lat_long.spatialfit,
                         accepted_lat_long.georefmethod,
                         accepted_lat_long.lat_long_remarks,
                         lldetr.agent_name,
@@ -294,6 +309,34 @@ BEGIN
                                 THEN get_taxonomy(cataloged_item.collection_object_id, 'phylOrder')
                                 ELSE phylOrder
                         END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'subphylum')
+                                ELSE subphylum
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'subclass')
+                                ELSE subclass
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'infraclass')
+                                ELSE infraclass
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'superorder')
+                                ELSE superorder
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'suborder')
+                                ELSE suborder
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'infraorder')
+                                ELSE infraorder
+                        END,
+                        CASE WHEN taxa_formula LIKE '%B'
+                                THEN get_taxonomy(cataloged_item.collection_object_id, 'superfamily')
+                                ELSE superfamily
+                        END,                        
                         CASE WHEN taxa_formula LIKE '%B'
                                 THEN get_taxonomy(cataloged_item.collection_object_id, 'Family')
                                 ELSE family
@@ -380,6 +423,9 @@ BEGIN
                         cataloged_item.cat_num_suffix,
                         sumparts(cataloged_item.collection_object_id),
                         concatcitedas(cataloged_item.collection_object_id),
+                        
+                        mczbase.get_geol_attr_range(locality.locality_id, 'Eonothem/Eon',1), 
+                        mczbase.get_geol_attr_range(locality.locality_id, 'Eonothem/Eon',0),      
 
                         mczbase.get_geol_attr_range(locality.locality_id, 'Erathem/Era',1), 
                         mczbase.get_geol_attr_range(locality.locality_id, 'Erathem/Era',0), 

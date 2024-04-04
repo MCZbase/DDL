@@ -18,6 +18,7 @@
       l_str    varchar2(4000);
       pos      number;
       l_val    varchar2(4000);
+      l_precambrian varchar2(4000);
       l_cur    rc;
    BEGIN
        --  Obtain the attribute value 
@@ -52,7 +53,12 @@
              end if;
           end if;
           l_str := trim(l_str);
-       end if ;
+       elsif attrib = 'Eonothem/Eon' then
+           l_precambrian := get_geol_attr_range(locality_id, 'Period/System', earlier);
+           if l_precambrian = 'Precambrian' then
+              l_str := 'Precambrian';
+           end if;
+       end if;
        
        return l_str;
 

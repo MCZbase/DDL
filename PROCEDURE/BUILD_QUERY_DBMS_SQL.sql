@@ -3,10 +3,10 @@
 as 
 
 ---sql statement variables
-varSQL varchar2(4000);
-populateTableSQL varchar2(4000);
+varSQL CLOB;
+populateTableSQL CLOB;
 varJOINS varchar2(4000);
-varCONDITIONAL varchar2(4000);
+varCONDITIONAL CLOB;
 varAttributesJoin varchar2(4000);
 varAccessionsJoin varchar2(4000);
 varLoansJoin varchar2(4000);
@@ -23,6 +23,8 @@ varKeywordsJoin varchar2(4000);
 varTaxonomyJoin varchar2(4000);
 varPublicSearch varchar2(4000);
 varJoinList varchar2(4000) := 'Cataloged Items';
+isCatNum boolean := false;
+varJoinTerm varchar(10);
 
 ---cf_spec_search_cols variables
 varTableName cf_spec_search_cols.table_name%TYPE; 
@@ -46,7 +48,7 @@ begin
 Select count(*) into oneOfUs from dba_role_privs where GRANTED_ROLE = 'COLDFUSION_USER' and grantee = upper(varUserName);
 
 varSQL := 
-  'select distinct :1, cataloged_item.collection_object_id
+  'select distinct :1 as resultID, cataloged_item.collection_object_id
   from 
   coll_object
 
@@ -72,9 +74,9 @@ varLoansJoin :=
   '
   ---loan
   join specimen_part loan_part on (cataloged_item.collection_object_id = loan_part.DERIVED_FROM_CAT_ITEM)
-  join loan_item on (loan_part.collection_object_id = loan_item.collection_object_id)
-  join loan on (loan_item.transaction_id=loan.transaction_id)
-  join trans loan_trans on (loan_item.transaction_id=loan_trans.transaction_id)
+  left outer join loan_item on (loan_part.collection_object_id = loan_item.collection_object_id)
+  left outer join loan on (loan_item.transaction_id=loan.transaction_id)
+  left outer join trans loan_trans on (loan_item.transaction_id=loan_trans.transaction_id)
   left outer join trans_agent loan_agents on (loan_trans.transaction_id = loan_agents.transaction_id) 
   left outer join agent_name loan_names on (loan_agents.agent_id = loan_names.AGENT_ID)';
 
@@ -82,9 +84,9 @@ varDeaccsJoin :=
   '
   ---deaccession
   join specimen_part deacc_part on (cataloged_item.collection_object_id = deacc_part.DERIVED_FROM_CAT_ITEM)
-  join deacc_item on (deacc_part.collection_object_id = deacc_item.collection_object_id)
-  join deaccession on (deacc_item.transaction_id=deaccession.transaction_id)
-  join trans deacc_trans on (deacc_item.transaction_id=deacc_trans.transaction_id)
+  left outer join deacc_item on (deacc_part.collection_object_id = deacc_item.collection_object_id)
+  left outer join deaccession on (deacc_item.transaction_id=deaccession.transaction_id)
+  left outer join trans deacc_trans on (deacc_item.transaction_id=deacc_trans.transaction_id)
   left outer join trans_agent deacc_agents on (deacc_trans.transaction_id = deacc_agents.transaction_id) 
   left outer join agent_name deacc_names on (deacc_agents.agent_id = deacc_names.AGENT_ID)';  
 
@@ -156,7 +158,7 @@ varNamedGroupsJoin :=
 varKeywordsJoin := 
   '---Keywords
   join flat on (cataloged_item.collection_object_id = flat.collection_object_id)'; 
-  
+
 varTaxonomyJoin :=
   '---Taxonomy
   join taxa_terms on (cataloged_item.collection_object_id = taxa_terms.collection_object_id)
@@ -260,10 +262,25 @@ end if;
 
 ---build conditionals
 
+---check to see if this is the catalog number
+varJoinTerm := c1_rec.joinfield;
+
+if c1_rec.searchfield like 'CAT_NUM%' then
+    if not isCatNum then
+        varJoinTerm :=  varJoinTerm || ' ( ';
+        isCatNum := true;
+    end if;
+else
+    if isCatNum then
+        varConditional := varConditional || ' ) ';
+        isCatNum := false;
+    end if;
+end if;
+
 if c1_rec.searchTerm = 'NULL' THEN
-   varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' IS NULL ';
+   varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' IS NULL ';
 elsif c1_rec.searchTerm = 'NOT NULL' THEN
-   varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' IS NOT NULL ';
+   varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' IS NOT NULL ';
 else 
     --  TODO: obtain join from SearchTermsRecord and use it to choose use of and/or clauses, and parenthetical phrases around or clauses
     case varDataType
@@ -273,24 +290,24 @@ else
         if REGEXP_LIKE(c1_rec.searchTerm, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$') THEN
             if c1_rec.comparator = '=' then 
                 -- search for a day, where date may contain times
-                varConditional := varConditional || ' ' || c1_rec.joinfield  || ' to_char(' || varColumnName || ',''yyyy-mm-dd'') = :bnd' || x || ' ' ;
+                varConditional := varConditional || ' ' || varJoinTerm  || ' to_char(' || varColumnName || ',''yyyy-mm-dd'') = :bnd' || x || ' ' ;
             elsif c1_rec.comparator = '>=' then 
-                varConditional := varConditional || ' ' || c1_rec.joinfield  || ' ' || varColumnName || ' >= to_date( :bnd' || x || ', ''yyyy-mm-dd'')' ;     
+                varConditional := varConditional || ' ' || varJoinTerm  || ' ' || varColumnName || ' >= to_date( :bnd' || x || ', ''yyyy-mm-dd'')' ;     
             elsif c1_rec.comparator = '<=' then 
-                varConditional := varConditional || ' ' || c1_rec.joinfield  || ' ' || varColumnName || ' <= to_date( :bnd' || x || ', ''yyyy-mm-dd'')' ;            
+                varConditional := varConditional || ' ' || varJoinTerm  || ' ' || varColumnName || ' <= to_date( :bnd' || x || ', ''yyyy-mm-dd'')' ;            
             else 
                 RAISE_APPLICATION_ERROR(-20101,'Search other than =, <=, >= on yyyy-mm-dd for fields with data type of DATE not supported yet.',TRUE);
             end if;
         elsif REGEXP_LIKE(c1_rec.searchTerm, '^[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}-[0-9]{2}-[0-9]{2}$') THEN    
-            varConditional := varConditional || ' ' || c1_rec.joinfield  || ' ' || varColumnName || ' BETWEEN to_date( :bnd' || x || ', ''yyyy-mm-dd'') and to_date( :bnda' || x || ', ''yyyy-mm-dd'')+INTERVAL ''1'' DAY - INTERVAL ''1'' SECOND' ;            
+            varConditional := varConditional || ' ' || varJoinTerm  || ' ' || varColumnName || ' BETWEEN to_date( :bnd' || x || ', ''yyyy-mm-dd'') and to_date( :bnda' || x || ', ''yyyy-mm-dd'')+INTERVAL ''1'' DAY - INTERVAL ''1'' SECOND' ;            
         elsif  REGEXP_LIKE(c1_rec.searchTerm, '^[0-9]{4}$') THEN  
-            varConditional := varConditional || ' ' || c1_rec.joinfield  || ' ' || varColumnName || ' BETWEEN to_date( :bnd' || x || ', ''yyyy-mm-dd'') and to_date( :bnda' || x || ', ''yyyy-mm-dd'')+INTERVAL ''1'' DAY - INTERVAL ''1'' SECOND' ;
+            varConditional := varConditional || ' ' || varJoinTerm  || ' ' || varColumnName || ' BETWEEN to_date( :bnd' || x || ', ''yyyy-mm-dd'') and to_date( :bnda' || x || ', ''yyyy-mm-dd'')+INTERVAL ''1'' DAY - INTERVAL ''1'' SECOND' ;
         else 
             RAISE_APPLICATION_ERROR(-20102,'Search other than on yyyy-mm-dd for fields with data type of DATE not supported yet.',TRUE);
         end if;
     when 'NUMBER' THEN
         if upper(c1_rec.comparator) = 'IN' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' IN (' || ':bnd' || x;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' IN (' || ':bnd' || x;
             FOR Y in 1..regexp_count(c1_rec.searchTerm, ',')
                 LOOP
                 X:=X+1;
@@ -298,15 +315,15 @@ else
                 END LOOP;
             varConditional := varConditional || ')';
         else
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x;
         end if;
     when 'CHAR' THEN
         if upper(c1_rec.comparator) = 'LIKE' then
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
+            varConditional := varConditional || ' ' || varJoinTerm || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
         elsif c1_rec.comparator = '=' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield  || ' upper(' || varColumnName || ') = upper(' || ':bnd' || x || ')';       
+            varConditional := varConditional || ' ' || varJoinTerm  || ' upper(' || varColumnName || ') = upper(' || ':bnd' || x || ')';       
         elsif upper(c1_rec.comparator) = 'IN' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' IN (' || ':bnd' || x;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' IN (' || ':bnd' || x;
             FOR Y in 1..regexp_count(c1_rec.searchTerm, ',')
                 LOOP
                 X:=X+1;
@@ -314,22 +331,22 @@ else
                 END LOOP;
             varConditional := varConditional || ')';          
         else    
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x ;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x ;
         end if;
     when 'VARCHAR2' THEN
         if upper(c1_rec.comparator) = 'LIKE' then
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
+            varConditional := varConditional || ' ' || varJoinTerm || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
         elsif upper(c1_rec.comparator) = 'NOT LIKE' then
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
+            varConditional := varConditional || ' ' || varJoinTerm || ' upper(' || varColumnName || ') ' || c1_rec.comparator || ' upper(''%''||' || ':bnd' || x || '||''%'')';
         elsif c1_rec.comparator = '=' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' upper(' || varColumnName || ') = upper(' || ':bnd' || x || ')';
+            varConditional := varConditional || ' ' || varJoinTerm || ' upper(' || varColumnName || ') = upper(' || ':bnd' || x || ')';
         elsif upper(c1_rec.comparator) = 'SOUNDEX' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' soundex(' || varColumnName || ') = soundex(' || ':bnd' || x || ')';   
+            varConditional := varConditional || ' ' || varJoinTerm || ' soundex(' || varColumnName || ') = soundex(' || ':bnd' || x || ')';   
         elsif upper(c1_rec.comparator) = 'JARO_WINKLER' then
             -- TODO: Returns zero matches
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' (utl_match.jaro_winkler_similarity(' || varColumnName || ', ' || ':bnd' || x || ') >= 80) ';  
+            varConditional := varConditional || ' ' || varJoinTerm || ' (utl_match.jaro_winkler_similarity(' || varColumnName || ', ' || ':bnd' || x || ') >= 80) ';  
         elsif upper(c1_rec.comparator) = 'IN' then 
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' IN (' || ':bnd' || x;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' IN (' || ':bnd' || x;
             FOR Y in 1..regexp_count(c1_rec.searchTerm, ',')
                 LOOP
                 X:=X+1;                
@@ -337,10 +354,10 @@ else
                 END LOOP;
             varConditional := varConditional || ')';         
         else    
-            varConditional := varConditional || ' ' || c1_rec.joinfield || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x ;
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x ;
         end if;
     when 'CTXKEYWORD' THEN
-        varConditional := varConditional || ' ' || c1_rec.joinfield || ' contains(' || varColumnName || ', :bnd' || x || ', 1) > 0';
+        varConditional := varConditional || ' ' || varJoinTerm || ' contains(' || varColumnName || ', :bnd' || x || ', 1) > 0';
     END CASE;
 END IF;
 
@@ -349,15 +366,18 @@ If oneOfUs = 0 and isLocalitySearch = 1 then
         (select coll_object_encumbrance.collection_object_id
         from coll_object_encumbrance, encumbrance
         where coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
-        and encumbrance.encumbrance_action = ''mask coordinates'')';
+        and encumbrance.encumbrance_action = ''mask locality'')';
 end if;
 
 x := x + 1;
 end loop;
 varSQL := varSQL || varJOINS || ' WHERE 1=1 ' || varConditional;
 
-populateTableSQL := 'insert into ' || varusername || '.user_search_table (result_id, collection_object_id)
-' || varSQL;
+populateTableSQL := 'insert into ' || varusername || '.user_search_table (result_id, collection_object_id, pagesort) 
+                    select resultID, collection_object_id, rownum from (' || varSQL || ')';
+
+---was the last search term a catalog number? If so...add a closing ')'
+if isCatNum then populateTableSQL := populateTableSQL || ')'; end if;
 
 dbms_output.put_line(populateTableSQL);
 
@@ -411,7 +431,7 @@ for c1_rec in c1 loop
               dbms_sql.BIND_VARIABLE(c, ':bnda' || x, regexp_substr(c1_rec.searchTerm,'[^/]+',1,2));          
            else
               dbms_output.put_line(':bnd' || x || ' ' || c1_rec.searchTerm);
-              dbms_sql.BIND_VARIABLE(c, ':bnd' || x, c1_rec.searchTerm);
+              dbms_sql.BIND_VARIABLE(c, ':bnd' || x, to_char(c1_rec.searchTerm));
            end if;
         end if;
     end if;    

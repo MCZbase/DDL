@@ -11,7 +11,7 @@
       l_string       CLOB := regexp_replace(p_list, '\]$','') || ',{';
       l_comma_index  PLS_INTEGER;
       l_index        PLS_INTEGER := 1;
-      RowString       VARCHAR2(4000);
+      RowString      VARCHAR2(32767);
       out_rec         SearchTermsRecord := SearchTermsRecord(NULL,NULL,NULL,NULL);
     BEGIN
       LOOP
@@ -20,6 +20,7 @@
       -- e.g. https://github.com/pljson/pljson or update to oracle 12+ for native json functionality.
        EXIT WHEN l_comma_index = 0;
        RowString := SUBSTR(l_string, l_index, l_comma_index - l_index);
+       dbms_output.put_line(RowString);
        out_rec.joinfield := regexp_substr(RowString,'"join":([[:blank:]]*)"(and|or)"',1,1,'i',2);
        if out_rec.joinfield is null then 
           out_rec.joinfield := 'and';
@@ -28,7 +29,7 @@
        out_rec.Comparator := regexp_substr(RowString,'"comparator":([[:blank:]]*)"(.*)","value":',1,1,'i',2);
        out_rec.searchTerm := regexp_substr(RowString,'"value":([[:blank:]]*)"(.*)"$',1,1,'i',2);      
        --  raise_application_error(-20001,'['|| out_rec.joinfield || '][' || '['|| out_rec.searchfield || '][' || out_rec.comparator || '][' || out_rec.searchterm || ']');
-       ---dbms_output.put_line('['|| out_rec.joinfield || '][' || '['|| out_rec.searchfield || '][' || out_rec.comparator || '][' || out_rec.searchterm || ']');
+       dbms_output.put_line('['|| out_rec.joinfield || '][' || '['|| out_rec.searchfield || '][' || out_rec.comparator || '][' || out_rec.searchterm || ']');
        PIPE ROW (out_rec);
        l_index := l_comma_index + 1;
     END LOOP;

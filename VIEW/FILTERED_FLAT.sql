@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "FILTERED_FLAT" ("COLLECTION_OBJECT_ID", "CAT_NUM", "ACCN_ID", "INSTITUTION_ACRONYM", "COLLECTION_CDE", "COLLECTION_ID", "COLLECTION", "MINIMUM_ELEVATION", "MAXIMUM_ELEVATION", "ORIG_ELEV_UNITS", "IDENTIFICATION_ID", "LAST_EDIT_DATE", "INDIVIDUALCOUNT", "COLL_OBJ_DISPOSITION", "COLLECTORS", "PREPARATORS", "FIELD_NUM", "OTHERCATALOGNUMBERS", "GENBANKNUM", "RELATEDCATALOGEDITEMS", "TYPESTATUS", "TYPESTATUSWORDS", "TYPESTATUSPLAIN", "SEX", "PARTS", "PARTDETAIL", "ACCESSION", "BEGAN_DATE", "ENDED_DATE", "VERBATIM_DATE", "ISO_BEGAN_DATE", "ISO_ENDED_DATE", "COLLECTING_EVENT_ID", "HIGHER_GEOG", "HIGHERGEOGRAPHYID", "CONTINENT_OCEAN", "CONTINENT", "WATERBODY", "COUNTRY", "SOVEREIGN_NATION", "STATE_PROV", "COUNTY", "FEATURE", "WATER_FEATURE", "ISLAND", "ISLAND_GROUP", "QUAD", "SEA", "GEOG_AUTH_REC_ID", "SPEC_LOCALITY", "MIN_ELEV_IN_M", "MAX_ELEV_IN_M", "LOCALITY_ID", "LOCALITY_REMARKS", "DEC_LAT", "DEC_LONG", "DATUM", "ORIG_LAT_LONG_UNITS", "VERBATIMLATITUDE", "VERBATIMLONGITUDE", "LAT_LONG_REF_SOURCE", "COORDINATEUNCERTAINTYINMETERS", "GEOREFMETHOD", "LAT_LONG_REMARKS", "LAT_LONG_DETERMINER", "SCIENTIFIC_NAME", "SCIENTIFICNAMEID", "TAXONID", "IDENTIFIEDBY", "MADE_DATE", "REMARKS", "HABITAT", "ASSOCIATED_SPECIES", "ENCUMBRANCES", "TAXA_FORMULA", "FULL_TAXON_NAME", "PHYLCLASS", "KINGDOM", "PHYLUM", "PHYLORDER", "FAMILY", "GENUS", "SPECIES", "SUBSPECIES", "INFRASPECIFIC_RANK", "AUTHOR_TEXT", "IDENTIFICATIONMODIFIER", "NOMENCLATURAL_CODE", "GUID", "BASISOFRECORD", "DEPTH_UNITS", "MIN_DEPTH", "MAX_DEPTH", "MIN_DEPTH_IN_M", "MAX_DEPTH_IN_M", "COLLECTING_METHOD", "COLLECTING_SOURCE", "DAYOFYEAR", "AGE_CLASS", "ATTRIBUTES", "VERIFICATIONSTATUS", "SPECIMENDETAILURL", "IMAGEURL", "IMAGEURLFILTERED", "FIELDNOTESURL", "CATALOGNUMBERTEXT", "RELATEDINFORMATION", "COLLECTORNUMBER", "VERBATIMELEVATION", "YEAR", "MONTH", "DAY", "ID_SENSU", "EMPTYSTRING", "CAT_NUM_PREFIX", "CAT_NUM_INTEGER", "CAT_NUM_SUFFIX", "TOTAL_PARTS", "CITED_AS", "EARLIESTERAORLOWESTERATHEM", "LATESTERAORHIGHESTERATHEM", "EARLIESTPERIODORLOWESTSYSTEM", "LATESTPERIODORHIGHESTSYSTEM", "EARLIESTEPOCHORLOWESTSERIES", "LATESTEPOCHORHIGHESTSERIES", "EARLIESTAGEORLOWESTSTAGE", "LATESTAGEORHIGHESTSTAGE", "LITHOSTRATIGRAPHICTERMS", "GEOL_GROUP", "FORMATION", "MEMBER", "BED", "ASSOCIATED_COLLECTION", "COLLECTING_TIME", "ATTRIBUTES_JSON", "VERBATIMLOCALITY", "ASSOCIATEDSEQUENCES", "TOPTYPESTATUSKIND", "TOPTYPESTATUS", "COUNTRYCODE", "RECATALOGED_FG", "RECORDEDBYID", "IDENTIFIEDBYID", "GEOREFERENCEDBYID", "STORED_AS", "ROOMS", "CABINETS", "DRAWERS", "SUBFAMILY", "TRIBE") AS 
+  CREATE OR REPLACE FORCE VIEW "FILTERED_FLAT" ("COLLECTION_OBJECT_ID", "CAT_NUM", "ACCN_ID", "INSTITUTION_ACRONYM", "COLLECTION_CDE", "COLLECTION_ID", "COLLECTION", "MINIMUM_ELEVATION", "MAXIMUM_ELEVATION", "ORIG_ELEV_UNITS", "IDENTIFICATION_ID", "LAST_EDIT_DATE", "INDIVIDUALCOUNT", "COLL_OBJ_DISPOSITION", "COLLECTORS", "PREPARATORS", "FIELD_NUM", "OTHERCATALOGNUMBERS", "GENBANKNUM", "RELATEDCATALOGEDITEMS", "TYPESTATUS", "TYPESTATUSWORDS", "TYPESTATUSPLAIN", "SEX", "PARTS", "PARTDETAIL", "ACCESSION", "BEGAN_DATE", "ENDED_DATE", "VERBATIM_DATE", "ISO_BEGAN_DATE", "ISO_ENDED_DATE", "COLLECTING_EVENT_ID", "HIGHER_GEOG", "HIGHERGEOGRAPHYID", "CONTINENT_OCEAN", "CONTINENT", "WATERBODY", "COUNTRY", "SOVEREIGN_NATION", "STATE_PROV", "COUNTY", "FEATURE", "WATER_FEATURE", "ISLAND", "ISLAND_GROUP", "QUAD", "SEA", "GEOG_AUTH_REC_ID", "SPEC_LOCALITY", "MIN_ELEV_IN_M", "MAX_ELEV_IN_M", "LOCALITY_ID", "LOCALITY_REMARKS", "DEC_LAT", "DEC_LONG", "DATUM", "ORIG_LAT_LONG_UNITS", "VERBATIMLATITUDE", "VERBATIMLONGITUDE", "LAT_LONG_REF_SOURCE", "COORDINATEUNCERTAINTYINMETERS", "GEOREFMETHOD", "LAT_LONG_REMARKS", "LAT_LONG_DETERMINER", "SCIENTIFIC_NAME", "SCIENTIFICNAMEID", "TAXONID", "IDENTIFIEDBY", "MADE_DATE", "REMARKS", "HABITAT", "ASSOCIATED_SPECIES", "ENCUMBRANCES", "TAXA_FORMULA", "FULL_TAXON_NAME", "PHYLCLASS", "KINGDOM", "PHYLUM", "PHYLORDER", "FAMILY", "GENUS", "SPECIES", "SUBSPECIES", "INFRASPECIFIC_RANK", "AUTHOR_TEXT", "IDENTIFICATIONMODIFIER", "NOMENCLATURAL_CODE", "GUID", "BASISOFRECORD", "DEPTH_UNITS", "MIN_DEPTH", "MAX_DEPTH", "MIN_DEPTH_IN_M", "MAX_DEPTH_IN_M", "COLLECTING_METHOD", "COLLECTING_SOURCE", "DAYOFYEAR", "AGE_CLASS", "ATTRIBUTES", "VERIFICATIONSTATUS", "SPECIMENDETAILURL", "IMAGEURL", "IMAGEURLFILTERED", "FIELDNOTESURL", "CATALOGNUMBERTEXT", "RELATEDINFORMATION", "COLLECTORNUMBER", "VERBATIMELEVATION", "YEAR", "MONTH", "DAY", "ID_SENSU", "EMPTYSTRING", "CAT_NUM_PREFIX", "CAT_NUM_INTEGER", "CAT_NUM_SUFFIX", "TOTAL_PARTS", "CITED_AS", "EARLIESTEONORLOWESTEONOTHEM", "LATESTEONORHIGHESTEONOTHEM", "EARLIESTERAORLOWESTERATHEM", "LATESTERAORHIGHESTERATHEM", "EARLIESTPERIODORLOWESTSYSTEM", "LATESTPERIODORHIGHESTSYSTEM", "EARLIESTEPOCHORLOWESTSERIES", "LATESTEPOCHORHIGHESTSERIES", "EARLIESTAGEORLOWESTSTAGE", "LATESTAGEORHIGHESTSTAGE", "LITHOSTRATIGRAPHICTERMS", "GEOL_GROUP", "FORMATION", "MEMBER", "BED", "ASSOCIATED_COLLECTION", "COLLECTING_TIME", "ATTRIBUTES_JSON", "VERBATIMLOCALITY", "ASSOCIATEDSEQUENCES", "TOPTYPESTATUSKIND", "TOPTYPESTATUS", "COUNTRYCODE", "RECATALOGED_FG", "RECORDEDBYID", "IDENTIFIEDBYID", "GEOREFERENCEDBYID", "STORED_AS", "ROOMS", "CABINETS", "DRAWERS", "SUBFAMILY", "TRIBE", "SUBPHYLUM", "SUBCLASS", "INFRACLASS", "SUPERORDER", "SUBORDER", "INFRAORDER", "SUPERFAMILY", "COORDINATE_PRECISION", "POINTRADIUSSPATIALFIT", "VERBATIMSRS") AS 
   SELECT collection_object_id,
     cat_num,
     accn_id,
@@ -7,8 +7,16 @@
     collection_cde,
     collection_id,
     collection,
-    minimum_elevation,
-    maximum_elevation,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      ELSE minimum_elevation
+    END minimum_elevation,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      ELSE maximum_elevation
+    END maximum_elevation,
     orig_elev_units,
     identification_id,
     last_edit_date,
@@ -93,34 +101,46 @@
     sea,
     geog_auth_rec_id,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN 'Masked. Call for detailed locality'
       ELSE spec_locality
     END spec_locality,
-    min_elev_in_m,
-    max_elev_in_m ,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else min_elev_in_m
+    END min_elev_in_m,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else max_elev_in_m
+    END max_elev_in_m,    
     locality_id,
-    locality_remarks,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN '[Masked]'
+      else locality_remarks
+    END locality_remarks,     
     -- mask coordinates
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN NULL
       ELSE dec_lat
     END dec_lat,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN NULL
       ELSE dec_long
     END dec_long,
     datum,
     orig_lat_long_units,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN 'Masked'
       ELSE verbatimlatitude
     END verbatimlatitude,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN 'Masked'
       ELSE verbatimlongitude
     END verbatimlongitude,
@@ -128,7 +148,7 @@
     coordinateuncertaintyinmeters,
     georefmethod,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN 'Masked'
       ELSE lat_long_remarks
     END lat_long_remarks,
@@ -143,7 +163,11 @@
       THEN 'Call for detailed information'
       else remarks
     END remarks,
-    habitat,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN '[Masked]'
+      else habitat
+    END habitat, 
     associated_species,
     encumbrances,
     taxa_formula,
@@ -163,10 +187,26 @@
     guid,
     basisOfRecord,
     depth_units,
-    min_depth,
-    max_depth,
-    min_depth_in_m,
-    max_depth_in_m,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else min_depth
+    END min_depth, 
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else max_depth
+    END max_depth,     
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else min_depth_in_m
+    END min_depth_in_m, 
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN null
+      else max_depth_in_m
+    END max_depth_in_m,
     collecting_method,
     collecting_source,
     dayOfYear,
@@ -178,13 +218,17 @@
     imageUrlFiltered as imageUrlFiltered,
     fieldNotesUrl,
     catalogNumberText,
-    '<a href="http://arctos.database.museum/guid/'
+    '<a href="http://mczbase.mcz.harvard.edu/guid/'
     || guid
     || '">'
     || guid
     || '</a>' RelatedInformation,
     collectorNumber,
-    verbatimelEvation,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN '[Masked]'
+      else verbatimelEvation
+    END verbatimelEvation,
     CASE
       WHEN encumbrances LIKE '%mask year collected%'
       THEN 8888
@@ -203,6 +247,8 @@
       ELSE total_parts
     END TOTAL_PARTS,
     cited_as,
+    EARLIESTEONORLOWESTEONOTHEM,
+    LatestEonOrHighestEONOTHEM,
     earliestEraOrLowestErathem,
     latestEraOrHighestErathem,
     earliestPeriodOrLowestSystem,
@@ -220,7 +266,7 @@
     collecting_time,
     ATTRIBUTES_JSON,
     CASE
-      WHEN encumbrances LIKE '%mask coordinates%'
+      WHEN encumbrances LIKE '%mask locality%'
       THEN 'Masked. Call for detailed locality'
       ELSE VERBATIMLOCALITY
     END VERBATIMLOCALITY,
@@ -237,7 +283,21 @@
     '' as cabinets,
     '' as drawers,
     subfamily,
-    tribe
+    tribe,
+    subphylum,
+    subclass,
+    infraclass,
+    superorder,
+    suborder,
+    infraorder,
+    superfamily,
+    coordinate_precision,
+    pointradiusspatialfit,
+    CASE
+      WHEN encumbrances LIKE '%mask locality%'
+      THEN ''
+      ELSE VERBATIMSRS
+      END as VERBATIMSRS
   FROM flat
   WHERE
     -- exclude masked records

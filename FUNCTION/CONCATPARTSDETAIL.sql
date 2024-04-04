@@ -72,14 +72,14 @@
        end loop;
        IF ret_tmp IS NULL THEN
             ret := ' ';
-       ELSIF LENGTHC(ret_tmp) > 4000 THEN 
+       ELSIF LENGTHC(ret_tmp) > 3850 THEN 
             -- at a length() of ret_tmp of about 4000,      
             -- if ret_tmp contains multi-byte characters, then LENGHT() > 4000 can misscount and cause
             -- a failure by length(ret_tmp) > 4000 returning false while ret_temp has more bytes than ret can hold
             -- workaround by setting truncation limit 10 smaller at 3990 instead of 4000, also reduced substring to 3920
             -- using LENGTHC() instead of LENGTH may solve this, or not.
             -- workaround: ELSIF LENGTH(ret_tmp) > 3990 THEN 
-            ret := substr(ret_tmp, 1, 3920) || '}' || sep || ' *** THERE ARE ADDITIONAL PARTS THAT ARE NOT SHOWN HERE ***'; -- ADDED THIS LINE
+            ret := substr(ret_tmp, 1, 3850) || '}' || sep || ' *** THERE ARE ADDITIONAL PARTS THAT ARE NOT SHOWN HERE ***'; -- ADDED THIS LINE
         ELSE ret := ret_tmp;
         END IF;
        return ret;
