@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ATC" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ATC" 
 (cSearchExpression nvarchar2, cExpressionSearched  nvarchar2, nOccurrence smallint  default 1)
 -- @depricated does not appear to be used anywhere.
 --

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_ENCUMBRANCE_EXPIRE" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_ENCUMBRANCE_EXPIRE" 
 BEFORE UPDATE OR INSERT ON encumbrance
 FOR EACH ROW
 BEGIN
@@ -10,4 +10,5 @@ BEGIN
             'Encumbrances must have either an expiration event or an expiration date, but may not have both.');
     END IF;
 END;
+
 ALTER TRIGGER "TR_ENCUMBRANCE_EXPIRE" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "REMOVE_NOBARCODE_LEGACY_CONTNR" IS
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "REMOVE_NOBARCODE_LEGACY_CONTNR" IS
 s varchar2(4000);
 begin
 for r in (select container_id,parent_container_id from container where container_type='legacy container' and barcode is null) loop

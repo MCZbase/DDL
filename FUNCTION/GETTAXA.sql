@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETTAXA" (p_key_val  in number,rank in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETTAXA" (p_key_val  in number,rank in varchar2 )
     return varchar2
     -- Given a collection_object_id and a taxonomic rank, return the higher taxon at that rank for
     -- the taxon used in the current identification of the collection object.

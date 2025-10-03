@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTSWITHLOC" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTSWITHLOC" ( collobjid in integer)
     return varchar2
     as
         type rc is ref cursor;

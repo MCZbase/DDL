@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ALL_TAXON_NAMES" (collobjid  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ALL_TAXON_NAMES" (collobjid  in number )
     return varchar2
     as
         type rc is ref cursor;

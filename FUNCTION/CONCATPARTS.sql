@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTS" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTS" ( collobjid in integer)
 return varchar2
 --  given a collection object id return a semicolon delimited string list 
 --  of part names, preserve methods, and a subsample marker for all parts 

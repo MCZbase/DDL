@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTNAME_MAMMAL" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTNAME_MAMMAL" ( collobjid in integer)
     return varchar2
     --  Concatenation of part names, with reworking as requested by Mammalogy for 
     --  their labels.

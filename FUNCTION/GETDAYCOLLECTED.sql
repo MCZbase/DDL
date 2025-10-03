@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETDAYCOLLECTED" (b IN varchar,e IN varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETDAYCOLLECTED" (b IN varchar,e IN varchar)
 RETURN varchar
 -- given a pair of strings, assumed to be dates in iso format yyyy-mm-dd, 
 -- return the dd portion as a string, if it is the same in both dates, 

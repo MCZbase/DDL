@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_COLLECTION" after UPDATE on Collection for
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_COLLECTION" after UPDATE on Collection for
  each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Collection
@@ -28,6 +28,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

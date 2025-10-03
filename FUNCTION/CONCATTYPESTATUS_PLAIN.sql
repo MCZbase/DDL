@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATTYPESTATUS_PLAIN" (p_key_val in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATTYPESTATUS_PLAIN" (p_key_val in NUMBER )
 return varchar2
 --  Formluate a list of type status and taxon names for the type status consistent
 --  with the expectations of dwc:typeStatus (type status, type name without markup

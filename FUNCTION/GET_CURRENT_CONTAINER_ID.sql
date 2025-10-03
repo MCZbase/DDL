@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CURRENT_CONTAINER_ID" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CURRENT_CONTAINER_ID" (
 	collection_object_id IN NUMBER)
 RETURN NUMBER
 -- Given a collection_object_id for a part, return the current container ID for the 

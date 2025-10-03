@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "LOAN_COUNTS" ("TRANSACTION_ID", "NUM_LOTS", "NUM_SPECIMENS") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "LOAN_COUNTS" ("TRANSACTION_ID", "NUM_LOTS", "NUM_SPECIMENS") AS 
   select transaction_id, 
   count(distinct specimen_part.derived_from_cat_item) as num_lots, 
   sum(lot_count) as num_specimens

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ASSEMBLE_SHORTCITATION_TR" (publication_id  in varchar2, publication_title in varchar2, published_year in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ASSEMBLE_SHORTCITATION_TR" (publication_id  in varchar2, publication_title in varchar2, published_year in number )
     return varchar2
     -- Assemble the short form of formatted_publication in a manner that can run on 
     -- a trigger on the publication table.

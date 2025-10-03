@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SCINAMEBYTAXID" (taxonnameid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SCINAMEBYTAXID" (taxonnameid IN number )
 return varchar2
 as
 varScientificName taxonomy.scientific_name%TYPE;

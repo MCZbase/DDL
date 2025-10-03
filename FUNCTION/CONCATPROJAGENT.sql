@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPROJAGENT" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPROJAGENT" (p_key_val  in varchar2 )
 return varchar2
 as
 type rc is ref cursor;

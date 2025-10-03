@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "ADD_MISSING_LEDGERS" (p_collection_cde IN varchar2, p_cat_num_prefix IN varchar2) 
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "ADD_MISSING_LEDGERS" (p_collection_cde IN varchar2, p_cat_num_prefix IN varchar2) 
 as 
 
 cursor c1 is

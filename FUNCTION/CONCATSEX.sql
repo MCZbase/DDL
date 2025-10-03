@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATSEX" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATSEX" (p_key_val  in varchar2 )
 return varchar2
 -- return a comma separated list of values of the sex attribute for a collection object.
 -- @param p_key_val the collection_object_id for which to return values of the sex attribute.

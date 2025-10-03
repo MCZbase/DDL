@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_AGENT_RELATIONS" after UPDATE on Agent_Relations for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_AGENT_RELATIONS" after UPDATE on Agent_Relations for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Agent_Relations
 declare numrows INTEGER;
@@ -45,6 +45,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

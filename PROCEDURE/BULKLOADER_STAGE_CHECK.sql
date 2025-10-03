@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULKLOADER_STAGE_CHECK" (staging_user in varchar2)
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BULKLOADER_STAGE_CHECK" (staging_user in varchar2)
 is
  thisError varchar2(4000);
  numRecs NUMBER;

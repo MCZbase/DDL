@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CP" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CP" ( collobjid in integer)
     return varchar2
 --  Obsolete?   References table ctsp, which does not exist.    
     as

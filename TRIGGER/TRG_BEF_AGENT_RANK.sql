@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TRG_BEF_AGENT_RANK" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_BEF_AGENT_RANK" 
  before insert OR UPDATE ON agent_rank
  for each row
     begin
@@ -13,5 +13,6 @@
               );
     END IF;
     end;
+
 
 ALTER TRIGGER "TRG_BEF_AGENT_RANK" ENABLE

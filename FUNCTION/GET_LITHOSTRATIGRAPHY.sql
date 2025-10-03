@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_LITHOSTRATIGRAPHY" (LOCALITY_ID IN NUMBER ) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_LITHOSTRATIGRAPHY" (LOCALITY_ID IN NUMBER ) 
 --  Given a locality ID, return a : separated list of 
 --  Supergroup:Group:Formation:Member:Bed from the Geology_Attributes table.
 RETURN VARCHAR2 AS 

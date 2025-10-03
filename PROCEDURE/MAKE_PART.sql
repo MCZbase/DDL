@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "MAKE_PART" (
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "MAKE_PART" (
 	collection_object_id IN number ,
 	part_name IN varchar,
 	part_modifier IN varchar,

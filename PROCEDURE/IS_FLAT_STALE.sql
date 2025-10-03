@@ -1,5 +1,12 @@
 
-  CREATE OR REPLACE PROCEDURE "IS_FLAT_STALE" IS 
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "IS_FLAT_STALE" 
+-- Update records in FLAT and update the keyword indexes.
+-- Takes up to 5000 records in FLAT where stale_flag = 1
+-- and runs update_flat on them, then updates the keyword indexes.
+-- Note: FLAT.stale_flag is normally 0, gets set to 1 by triggers when
+-- data changes, and can be set manually to 2 or higher to isolate or
+-- identify records that have problems raised from update_flat.
+IS 
     aid NUMBER;
 BEGIN
         FOR r IN (
@@ -36,6 +43,6 @@ BEGIN
                 WHERE collection_object_id = r.collection_object_id;
         END LOOP;
 ---sync keyword index
-CTX_DDL.SYNC_INDEX('FLAT_TEXT_INDEX');
-CTX_DDL.SYNC_INDEX('FLAT_ANY_GEOG');
+CTX_DDL.SYNC_INDEX('MCZBASE.FLAT_TEXT_INDEX');
+CTX_DDL.SYNC_INDEX('MCZBASE.FLAT_ANY_GEOG');
 END;

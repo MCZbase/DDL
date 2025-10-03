@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_IDENT_REMARKS" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_IDENT_REMARKS" (collobjid IN number )
     return varchar2
 -- given an collection object id, return the remarks for the current identification of that specimen.
 -- utility function to support column not in flat in search results.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULKLOADER_LOAD_RELATIONS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BULKLOADER_LOAD_RELATIONS" as
 
 cursor c1 is
 select * from cf_temp_relations where (fail_reason is null or fail_reason <> 'delete');

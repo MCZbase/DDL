@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STARTPAGE" (pubid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STARTPAGE" (pubid IN number )
 return varchar2
 as
 varStartPage publication_attributes.pub_att_value%TYPE;

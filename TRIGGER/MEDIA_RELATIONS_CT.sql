@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "MEDIA_RELATIONS_CT" before insert OR UPDATE ON ctmedia_relationship
+  CREATE OR REPLACE EDITIONABLE TRIGGER "MEDIA_RELATIONS_CT" before insert OR UPDATE ON ctmedia_relationship
     for each row
     declare
     numrows number := 0;
@@ -46,5 +46,6 @@ BEGIN
             init_media_fkeys(tabl,colName);
         END IF;
 END;
+
 
 ALTER TRIGGER "MEDIA_RELATIONS_CT" ENABLE

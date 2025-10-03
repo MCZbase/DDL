@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MEDIA_RELATIONS_STRING" (mediaID IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MEDIA_RELATIONS_STRING" (mediaID IN number)
 	return varchar2
 	AS
 	the_relation varchar2(9000);
@@ -35,6 +35,12 @@ begin
 				select verbatim_locality || ' (' || verbatim_date || ')' into theValue from collecting_event
 				where collecting_event_id=r.related_primary_key;
 				the_relation:=the_relation || theValue;
+			when 'underscore_collection' then
+				select  nvl(collection_name, '[no name]') || '' into theValue from underscore_collection where underscore_collection_id=r.related_primary_key;
+                 if length(theValue) > 200 then 
+                    theValue:= substr(theValue,0,200-length(theValue)-4) || '... ';
+                 end if;
+				the_relation:=the_relation || theValue ||'; ';                  
 			when 'agent' then
 				select agent_name into theValue from preferred_agent_name where agent_id=r.related_primary_key;
 				the_relation:=the_relation || theValue;

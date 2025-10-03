@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "SEX" ("COLLECTION_OBJECT_ID", "SEX") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "SEX" ("COLLECTION_OBJECT_ID", "SEX") AS 
   (
 	select collection_object_id,
 	ConcatSex(collection_object_id) sex

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_TAXON_RELATIONS" after INSERT on Taxon_Relations for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_TAXON_RELATIONS" after INSERT on Taxon_Relations for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Taxon_Relations
 declare numrows INTEGER;
@@ -45,6 +45,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

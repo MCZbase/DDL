@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_PERSON" after INSERT on Person for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_PERSON" after INSERT on Person for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Person
 declare numrows INTEGER;
@@ -26,6 +26,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

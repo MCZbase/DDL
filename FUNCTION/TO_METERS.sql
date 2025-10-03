@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "TO_METERS" (meas IN number, unit in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "TO_METERS" (meas IN number, unit in varchar2 )
     return number DETERMINISTIC
 -- Given a number and a unit with dimension length, return the number converted to a length in meters.    
 -- Accepts values for unit in the form of an abbreviation, the singular unit name, or the plural unit name,

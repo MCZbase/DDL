@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MAMMAL_MEASUREMENTS" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MAMMAL_MEASUREMENTS" 
 ( p_key_val IN NUMBER
 ) 
 -- Given a collection_object.collection_object_id, returns the measurement --

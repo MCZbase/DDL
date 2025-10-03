@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CHK_ATT_CODETABLES" (atttype in varchar2, attval  in varchar2, collcde in varchar2) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CHK_ATT_CODETABLES" (atttype in varchar2, attval  in varchar2, collcde in varchar2) 
 return varchar2 as
 
 ---allows for single line check of attributes controlled by value and unit codetables. Primarily used by the parts bulkloaders.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATUNACCEPTEDIDENTS" (p_key_val  in number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATUNACCEPTEDIDENTS" (p_key_val  in number)
 return varchar2
 --  return a pipe concatenated list of the scientific names used in unaccepted 
 --  identifications of a cataloged item.

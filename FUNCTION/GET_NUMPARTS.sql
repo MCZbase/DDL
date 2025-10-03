@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_NUMPARTS" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_NUMPARTS" 
 ( collection_object_id IN VARCHAR2
 ) RETURN NUMBER 
 -- Given a collection_object.collection_object_id of a cataloged_item,

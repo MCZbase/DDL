@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STOREDAS_BY_CONTID" (containerId  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STOREDAS_BY_CONTID" (containerId  in number )
 return varchar2
 -- given a container_id return the scientific name for the stored as identification, if any
 -- for the part which is that container

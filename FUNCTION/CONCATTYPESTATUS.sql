@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATTYPESTATUS" (p_key_val in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATTYPESTATUS" (p_key_val in NUMBER )
 return varchar2
 as
 type rc is ref cursor;

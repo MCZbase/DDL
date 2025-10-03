@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_ENCUMBRANCE_AIUD_FLAT" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_ENCUMBRANCE_AIUD_FLAT" 
 AFTER INSERT OR UPDATE OR DELETE ON encumbrance
 FOR EACH ROW
 DECLARE id NUMBER;
@@ -15,4 +15,5 @@ BEGIN
     lastdate = SYSDATE
     WHERE collection_object_id in (select collection_object_id from coll_object_encumbrance where encumbrance_id = id);
 END;
+
 ALTER TRIGGER "TR_ENCUMBRANCE_AIUD_FLAT" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SUMPARTS" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SUMPARTS" ( collobjid in integer)
 return number
 -- Used by update flat.
 -- Obtains the sum of the lot counts for a set of specimen parts that

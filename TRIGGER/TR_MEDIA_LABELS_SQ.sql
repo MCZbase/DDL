@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_MEDIA_LABELS_SQ" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_MEDIA_LABELS_SQ" 
 before insert ON media_labels for each row
 begin
     IF :new.media_label_id IS NULL THEN
@@ -16,4 +16,5 @@ begin
         select 0 into :NEW.assigned_by_agent_id from dual;
     end if;
 end;
+
 ALTER TRIGGER "TR_MEDIA_LABELS_SQ" ENABLE

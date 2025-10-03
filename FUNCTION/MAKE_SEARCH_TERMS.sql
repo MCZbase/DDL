@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "MAKE_SEARCH_TERMS" (p_list IN CLOB)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "MAKE_SEARCH_TERMS" (p_list IN CLOB)
       RETURN searchTermsTable
 -- parse json in the form:       
 -- [{"field": "genus","comparator": "SOUNDEX","value": "MUREX"},{"join":"and","field": "family","comparator": "=","value": "MURICIDAE"}]      

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TD_ENCUMBRANCE" after DELETE on Encumbrance for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TD_ENCUMBRANCE" after DELETE on Encumbrance for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- DELETE trigger on Encumbrance
 declare numrows INTEGER;
@@ -22,6 +22,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

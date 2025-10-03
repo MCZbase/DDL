@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_PUBLICATION" AFTER INSERT OR UPDATE ON MCZBASE.PUBLICATION 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_PUBLICATION" AFTER INSERT OR UPDATE ON MCZBASE.PUBLICATION 
 FOR EACH ROW
 BEGIN
   delete from formatted_publication where publication_id = :NEW.publication_id;
@@ -16,5 +16,6 @@ BEGIN
   (:NEW.publication_id, 'short', (select assemble_shortcitation_tr(:NEW.publication_id, :NEW.publication_title, :NEW.published_year) from dual));
 
 END;
+
 
 ALTER TRIGGER "TU_PUBLICATION" ENABLE

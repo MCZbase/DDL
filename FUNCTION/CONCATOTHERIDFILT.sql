@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATOTHERIDFILT" (p_key_val  in varchar2,noFieldNum in number DEFAULT 0)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATOTHERIDFILT" (p_key_val  in varchar2,noFieldNum in number DEFAULT 0)
     return varchar2
     as
         type rc is ref cursor;

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATCOMMONNAME" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATCOMMONNAME" (p_key_val  in varchar2 )
 --  Given a taxon_name_id, obtain a varchar containing a comma separated list of common names
 --  associated with that taxon of length up to 4000 characters.
 --  

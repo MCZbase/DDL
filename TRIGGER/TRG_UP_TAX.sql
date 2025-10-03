@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TRG_UP_TAX" after update on taxonomy
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_UP_TAX" after update on taxonomy
 for each row
 begin
          insert into taxonomy_archive (
@@ -70,4 +70,5 @@ begin
                 :OLD.SUPERCLASS
          );
 end;
+
 ALTER TRIGGER "TRG_UP_TAX" ENABLE

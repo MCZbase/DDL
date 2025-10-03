@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATATTRIBUTESJSON" ( p_key_val  in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATATTRIBUTESJSON" ( p_key_val  in varchar2)
     return varchar2
     as
 -- assemble the set of attributes, including underscore_collection membership for a

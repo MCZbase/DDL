@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STORAGE_CABINETS" (collection_object_id IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STORAGE_CABINETS" (collection_object_id IN number )
 return varchar2
 -- given an collection object id for a cataloged item, return the cabinet level containers (fixture, cryovat, tank) 
 -- in which parts for that cataloged item are stored.

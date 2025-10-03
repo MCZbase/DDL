@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "getfirstidentifier" (p_key_val  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "getfirstidentifier" (p_key_val  in number )
 return varchar2
 -- return the name of the agent who is the first in a list of determiners in
 -- the current identification of a cataloged item.

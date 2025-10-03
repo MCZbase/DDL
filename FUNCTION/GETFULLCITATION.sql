@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETFULLCITATION" (pub_id  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETFULLCITATION" (pub_id  in varchar2 )
     return varchar2
     -- Obtain the long form of formatted_publication, removing any html tags and unescaping html entities.
     -- @param pub_id, the publication id for which to obtain the formatted citation.

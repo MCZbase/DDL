@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IS_FLUID" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IS_FLUID" 
 (
   PRESERVE_METHOD IN VARCHAR2  
 ) RETURN NUMBER AS 
@@ -11,10 +11,10 @@
 --  @return 1 if preserve_method is a fluid method, 0 otherwise.
 --  @see MCZBASE.IS_FLUID_STRICT() for a narrower definition of fluid.
 BEGIN
-  if preserve_method like '%ethanol' then return 1; end if;
+  if preserve_method like '%ethanol%' then return 1; end if;
   if preserve_method like '%alcohol' then return 1; end if;
-  if preserve_method like '%isopropyl' then return 1; end if;
-  if preserve_method like '%isopropanol' then return 1; end if;
+  if preserve_method like '%isopropyl%' then return 1; end if;
+  if preserve_method like '%isopropanol%' then return 1; end if;
   if preserve_method like '%formalin%' then return 1; end if;  
   if preserve_method like '%RNAlater' then return 1; end if; 
   if preserve_method like '%DMSO%' then return 1; end if;  

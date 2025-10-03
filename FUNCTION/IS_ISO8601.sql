@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IS_ISO8601" (v  in varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IS_ISO8601" (v  in varchar)
 return varchar
 --  Identify a string as conforming to the structure of an single or
 --  indeterminate ISO date or date time, and parse it into component parts.

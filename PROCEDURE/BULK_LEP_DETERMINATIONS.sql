@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULK_LEP_DETERMINATIONS" is
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BULK_LEP_DETERMINATIONS" is
 
 --  Copy additional determinations from DataShot (lepidoptera schema) into MCZbase 
 --  for records that have had been brought to state specialist reviewed and then

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TRG_DOWNLOAD_PROFILE_ID" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_DOWNLOAD_PROFILE_ID" 
    before insert on "MCZBASE"."DOWNLOAD_PROFILE" 
    for each row 
 begin  
@@ -9,5 +9,6 @@ begin
       end if; 
    end if; 
 end;
+
 
 ALTER TRIGGER "TRG_DOWNLOAD_PROFILE_ID" ENABLE

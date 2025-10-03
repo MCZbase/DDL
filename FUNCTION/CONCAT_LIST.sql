@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCAT_LIST" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCAT_LIST" 
   ( lst IN number_list_t, separator varchar2)
   RETURN  VARCHAR2 IS
    ret                 varchar2(1000);

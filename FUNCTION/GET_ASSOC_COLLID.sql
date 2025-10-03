@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_ASSOC_COLLID" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_ASSOC_COLLID" (collobjid IN number )
     return varchar2
 --  Given a collection_object_id, find the collection id for any attributes of the type
 --  Associated MCZ Collection.  

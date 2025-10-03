@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTS_CT" ( collobjid in integer, truncate_at in integer default 4000)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTS_CT" ( collobjid in integer, truncate_at in integer default 4000)
 return varchar2
 --  given a collection object id return a semicolon delimited string list 
 --  of part names, preserve methods, and a subsample marker for all parts 

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_ACCN" after UPDATE on Accn for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_ACCN" after UPDATE on Accn for each row
 -- ERwin Builtin Mon May 17 12:58:26 2004
 -- UPDATE trigger on Accn
 declare numrows INTEGER;
@@ -46,6 +46,7 @@ begin
 
 -- ERwin Builtin Mon May 17 12:58:26 2004
 end;
+
 
 
 

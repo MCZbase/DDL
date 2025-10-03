@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CITATION" (publication_id in number, format_style in varchar default 'long', plain in number default 0 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CITATION" (publication_id in number, format_style in varchar default 'long', plain in number default 0 )
     return varchar2
     -- Obtain the specified form of formatted_publication, 
     -- @param pubication_id, the publication id for which to obtain the formatted citation.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TYPESTATUSFORNAME" (p_key_val in NUMBER, taxonid in NUMBER)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TYPESTATUSFORNAME" (p_key_val in NUMBER, taxonid in NUMBER)
 return varchar2
 --  Return the list of type status names for some taxon on some specimen
 --  Supports production of one label for each taxon name for a specimen with

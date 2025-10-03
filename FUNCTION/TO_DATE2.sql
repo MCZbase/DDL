@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "TO_DATE2" (vcDate IN VARCHAR2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "TO_DATE2" (vcDate IN VARCHAR2)
 -- May not be in use.  Not found in coldfusion code, has no references.
 --
 -- Obtain the 4 digit year portion of a string converted to a date.

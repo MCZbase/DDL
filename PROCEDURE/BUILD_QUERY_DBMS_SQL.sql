@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BUILD_QUERY_DBMS_SQL" (resultID IN varchar2, varUsername IN varchar2, searchJSON IN CLOB) 
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BUILD_QUERY_DBMS_SQL" (resultID IN varchar2, varUsername IN varchar2, searchJSON IN CLOB) 
 as 
 
 ---sql statement variables

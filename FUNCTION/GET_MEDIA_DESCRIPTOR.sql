@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MEDIA_DESCRIPTOR" (mediaID IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MEDIA_DESCRIPTOR" (mediaID IN number)
 return varchar2
 -- Given a media_id, return a textual description of the media object suitable for use as the ac:description or an alt tag
 -- for the image.
@@ -73,6 +73,12 @@ begin
                     theValue:= substr(theValue,0,maxlengthpart-length(theValue)-4) || '... ';
                  end if;
 				the_relation:=the_relation || 'Locality: ' || theValue ||'; ';
+			when 'underscore_collection' then
+				select  nvl(collection_name, '[no name]') || '' into theValue from underscore_collection where underscore_collection_id=r.related_primary_key;
+                 if length(theValue) > maxlengthpart then 
+                    theValue:= substr(theValue,0,maxlengthpart-length(theValue)-4) || '... ';
+                 end if;
+				the_relation:=the_relation || 'Named Group: ' || theValue ||'; ';                
 			when 'collecting_event' then
 				select nvl(verbatim_locality, '[no verbatim locality data]') || ' (' || verbatim_date || ');' into theValue from collecting_event
 				where collecting_event_id=r.related_primary_key;

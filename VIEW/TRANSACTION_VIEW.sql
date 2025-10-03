@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "TRANSACTION_VIEW" ("TRANSACTION_ID", "TRANS_DATE", "DATE_ENTERED", "TRANSACTION_TYPE", "NATURE_OF_MATERIAL", "TRANS_REMARKS", "COLLECTION_ID", "SPECIFIC_TYPE", "STATUS", "SPECIFIC_NUMBER") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "TRANSACTION_VIEW" ("TRANSACTION_ID", "TRANS_DATE", "DATE_ENTERED", "TRANSACTION_TYPE", "NATURE_OF_MATERIAL", "TRANS_REMARKS", "COLLECTION_ID", "SPECIFIC_TYPE", "STATUS", "SPECIFIC_NUMBER") AS 
   select trans.transaction_id, trans_date, trans.date_entered, transaction_type, nature_of_material, 
 trans_remarks, trans.collection_id,
 loan_type as specific_type, loan_status as status, loan_number as specific_number

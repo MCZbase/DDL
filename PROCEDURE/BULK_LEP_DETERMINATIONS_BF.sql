@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULK_LEP_DETERMINATIONS_BF" is
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BULK_LEP_DETERMINATIONS_BF" is
 
 --  Backfill - try bulk_lep_determinations for cases where error is not null.
 --

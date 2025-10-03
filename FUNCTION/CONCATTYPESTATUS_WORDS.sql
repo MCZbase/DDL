@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATTYPESTATUS_WORDS" (p_key_val in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATTYPESTATUS_WORDS" (p_key_val in NUMBER )
 return varchar2
 -- Given a collection object id, returns a concatenated list of the type status values that apply to the collection object.
 -- @param p_key_val collection object id to look up

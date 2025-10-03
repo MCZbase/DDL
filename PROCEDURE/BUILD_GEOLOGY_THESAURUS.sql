@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BUILD_GEOLOGY_THESAURUS" 
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BUILD_GEOLOGY_THESAURUS" 
 --  create or replace a thesaurus named geology_thesaurus containing
 --  a thesaurus built from hierarchically nested rows in geology_attribute_hierarchy
 AS 

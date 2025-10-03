@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATFLATVALUESBYID" (idfield in varchar2, fieldval in varchar2, fieldtoconcat in varchar2, collcode in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATFLATVALUESBYID" (idfield in varchar2, fieldval in varchar2, fieldtoconcat in varchar2, collcode in varchar2)
     return varchar2
     as
         type rc is ref cursor;

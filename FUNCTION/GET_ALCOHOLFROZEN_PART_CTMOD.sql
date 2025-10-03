@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_ALCOHOLFROZEN_PART_CTMOD" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_ALCOHOLFROZEN_PART_CTMOD" 
 ( collection_object_id IN VARCHAR2
 ) RETURN VARCHAR2 
 -- Given a collection_object.collection_object_id, returns the number --

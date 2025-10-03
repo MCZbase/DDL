@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SYNONYMY" (taxonnameid IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SYNONYMY" (taxonnameid IN number)
     return varchar2
     as
         rela    varchar2(4000);

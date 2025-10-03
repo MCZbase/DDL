@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SUGGEST_SOVEREIGN_NATION_V2" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SUGGEST_SOVEREIGN_NATION_V2" (
 	locality_id IN NUMBER)
 RETURN VARCHAR2
 -- Given a locality ID, return a suggestion for the value of locality.sovereign_nation based on geog_auth_rec.country.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_ADDRESS" (p_key_val IN NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_ADDRESS" (p_key_val IN NUMBER )
 --  Given an agent id, return an addresss, preferring correspondence, then shipping, then home.
 --  Used in getLoanFormInfo.cfm to obtain inside and outside addresses for loans.
 --

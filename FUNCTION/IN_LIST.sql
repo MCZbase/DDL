@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IN_LIST" (p_in_list  IN  VARCHAR2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IN_LIST" (p_in_list  IN  VARCHAR2)
   RETURN t_in_list_tab
 AS
   l_tab   t_in_list_tab := t_in_list_tab();

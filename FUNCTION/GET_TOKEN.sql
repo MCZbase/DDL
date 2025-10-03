@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TOKEN" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TOKEN" (
     the_list  varchar2,
     the_index number,
     delim     varchar2 := ','

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CATITEM_MEDIA_COUNT" (collection_object_id in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CATITEM_MEDIA_COUNT" (collection_object_id in NUMBER )
 return varchar2
 -- Given a collection object id, returns a concatenated list of the 
 -- media relatioships for that cataloged item, with the number of media objects

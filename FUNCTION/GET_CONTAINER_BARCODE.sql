@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CONTAINER_BARCODE" (containerId  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CONTAINER_BARCODE" (containerId  in number )
     return varchar2
    as
    	barcode    varchar2(255);

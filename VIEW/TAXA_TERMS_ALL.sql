@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FORCE VIEW "TAXA_TERMS_ALL" ("COLLECTION_OBJECT_ID", "TAXA_TERM") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "TAXA_TERMS_ALL" ("COLLECTION_OBJECT_ID", "TAXA_TERM") AS 
   SELECT identification.collection_object_id,
     upper(scientific_name) taxa_term
   FROM identification

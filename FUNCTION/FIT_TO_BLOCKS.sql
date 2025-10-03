@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "FIT_TO_BLOCKS" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "FIT_TO_BLOCKS" 
 --  Given some string, picks a set of characters of length blocklength from that 
 --  string, starting at the blocknumber multiple of blocklength character.
 --  Functions to fit some concatenated set of fields onto a series of small 

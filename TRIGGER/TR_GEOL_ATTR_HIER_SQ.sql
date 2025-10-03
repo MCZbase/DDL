@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_GEOL_ATTR_HIER_SQ" before insert ON geology_attribute_hierarchy
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_GEOL_ATTR_HIER_SQ" before insert ON geology_attribute_hierarchy
 for each row
 begin
     IF :new.geology_attribute_hierarchy_id IS NULL THEN
@@ -8,5 +8,6 @@ begin
         from dual;
     END IF;
 end;
+
 
 ALTER TRIGGER "TR_GEOL_ATTR_HIER_SQ" ENABLE

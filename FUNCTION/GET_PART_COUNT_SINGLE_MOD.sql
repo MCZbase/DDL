@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_PART_COUNT_SINGLE_MOD" ( collection_object_id IN VARCHAR2
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_PART_COUNT_SINGLE_MOD" ( collection_object_id IN VARCHAR2
 )
 RETURN VARCHAR2 AS 
 -- Given a collection_object_id, returns the 

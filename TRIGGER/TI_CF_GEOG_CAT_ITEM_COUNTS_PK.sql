@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_CF_GEOG_CAT_ITEM_COUNTS_PK" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_CF_GEOG_CAT_ITEM_COUNTS_PK" 
    before insert on MCZBASE.cf_geog_cat_item_counts
    for each row 
 begin  
@@ -9,5 +9,6 @@ begin
       end if; 
    end if; 
 end;
+
 
 ALTER TRIGGER "TI_CF_GEOG_CAT_ITEM_COUNTS_PK" ENABLE

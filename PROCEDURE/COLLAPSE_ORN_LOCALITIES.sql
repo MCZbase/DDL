@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "COLLAPSE_ORN_LOCALITIES" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "COLLAPSE_ORN_LOCALITIES" as
 
 
 cursor c1 is select  min(l.locality_id) locality_id, l.geog_auth_rec_id, l.SPEC_LOCALITY, round(ll.dec_lat,1) dec_lat, round(ll.dec_long,1) dec_long, l.MINIMUM_ELEVATION, l.MAXIMUM_ELEVATION, l.ORIG_ELEV_UNITS, l.LOCALITY_REMARKS, ll.VERIFICATIONSTATUS, l.SOVEREIGN_NATION

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_ELEVATION" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_ELEVATION" 
 -- Given a locality.locality_id, returns the elevation as a varchar --
 -- by combining min_elevation, max_elevation, and orig_elevation_units           --
 -- ommits the - separator if max_levation is null.                 --

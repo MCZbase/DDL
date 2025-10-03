@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TOP_TYPESTATUS" (collection_object_id in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TOP_TYPESTATUS" (collection_object_id in NUMBER )
 return varchar2
 --  Obtain the single most important type status term from the citations of a
 --  collection object, if any, otherwise return an empty string.

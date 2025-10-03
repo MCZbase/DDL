@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_COMMON_NAME" after UPDATE on Common_Name for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_COMMON_NAME" after UPDATE on Common_Name for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Common_Name
 declare numrows INTEGER;
@@ -26,5 +26,6 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 ALTER TRIGGER "TU_COMMON_NAME" ENABLE

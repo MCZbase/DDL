@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATCOLL_OFTYPE" (p_key_val  in varchar2, name_type in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATCOLL_OFTYPE" (p_key_val  in varchar2, name_type in varchar2)
 return varchar2
 --  Obtain a string containing an ordered list of collectors for a collection object,
 --  where the collector names are provided in the specified form if available.

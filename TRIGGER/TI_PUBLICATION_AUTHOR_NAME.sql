@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_PUBLICATION_AUTHOR_NAME" after INSERT on Publication_Author_Name for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_PUBLICATION_AUTHOR_NAME" after INSERT on Publication_Author_Name for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Publication_Author_Name
 declare numrows INTEGER;
@@ -45,6 +45,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

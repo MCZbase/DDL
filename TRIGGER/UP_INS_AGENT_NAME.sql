@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "UP_INS_AGENT_NAME" after UPDATE or INSERT on agent_name for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "UP_INS_AGENT_NAME" after UPDATE or INSERT on agent_name for each row
 -- now that we have the data they're updating in the temp table,
 declare numrows INTEGER;
 begin
@@ -19,5 +19,6 @@ select count(*) into numrows
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 ALTER TRIGGER "UP_INS_AGENT_NAME" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "UPDATECOORDINATES" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "UPDATECOORDINATES" 
 -- Trigger to calculate decimal degrees from other formats when data are changed.
 -- DLM 6Dec04
 -- translates degrees with decimal minutes, degrees minutes seconds, and utm to 
@@ -68,4 +68,5 @@ BEGIN
         :new.dec_long := temp_dec_long;          
     END IF;
 END updateCoordinates;
+
 ALTER TRIGGER "UPDATECOORDINATES" ENABLE

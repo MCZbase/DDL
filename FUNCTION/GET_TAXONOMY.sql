@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TAXONOMY" (collobjid IN number, rank in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TAXONOMY" (collobjid IN number, rank in varchar2 )
     return varchar2
     -- given a collection object id and a taxonomic rank, return the value of the given rank 
     -- for the current identification of the given collection object, e.g. obtain the family

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "BUILDSCIENTIFICNAME" (p_key_val IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "BUILDSCIENTIFICNAME" (p_key_val IN number )
 RETURN varchar2
 AS  nsn varchar2(4000);
         nft varchar2(4000);

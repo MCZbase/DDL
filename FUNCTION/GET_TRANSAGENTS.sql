@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TRANSAGENTS" (transaction_id IN number, asHtml in number, leaveout in varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TRANSAGENTS" (transaction_id IN number, asHtml in number, leaveout in varchar)
     return varchar
 -- Given a transaction_id, return a list of all of the agents who have roles in that transaction along with their rolesd.
 -- For use with transaction reports.

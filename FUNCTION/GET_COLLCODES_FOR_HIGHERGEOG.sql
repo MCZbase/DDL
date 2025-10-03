@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COLLCODES_FOR_HIGHERGEOG" ( geog_auth_rec_id in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COLLCODES_FOR_HIGHERGEOG" ( geog_auth_rec_id in NUMBER )
 return VARCHAR
 -- Function to obtain list of collection codes and cataloged item counts for a geog_auth_rec.
 -- @param geog_auth_rec_id the geog_auth_rec_id of the geog_auth_rec to lookup

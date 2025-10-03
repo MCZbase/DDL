@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATLOCWITHCONTAINERTYPE" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATLOCWITHCONTAINERTYPE" (
 	container_id IN NUMBER)
 RETURN VARCHAR2
 -- Given a container ID, return a colon delimited concatenated list of parent storage locations for that container.

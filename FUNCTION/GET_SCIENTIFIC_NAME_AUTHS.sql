@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SCIENTIFIC_NAME_AUTHS" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SCIENTIFIC_NAME_AUTHS" (collobjid IN number )
     return varchar2
 -- given an collection object id, return the scientific name used in the current identification of that specimen including the authorship.
 -- @param collobjid the collection object id of a cataloged item.

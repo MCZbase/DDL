@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "PARSE_OTHER_ID" (
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "PARSE_OTHER_ID" (
 	collection_object_id IN number,
 	other_id_num IN varchar2,
 	other_id_type IN varchar2)

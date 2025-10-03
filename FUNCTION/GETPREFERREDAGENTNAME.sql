@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETPREFERREDAGENTNAME" (aid IN varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETPREFERREDAGENTNAME" (aid IN varchar)
 RETURN varchar
 -- Given an agent_id, return the preferred name for the agent.
 -- @param aid the agent_id for the agent for which to look up the preferred name.

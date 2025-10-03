@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COLLCODES_FOR_SCINAME" ( sciname in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COLLCODES_FOR_SCINAME" ( sciname in varchar2 )
 return VARCHAR
 -- Function to obtain list of collection codes and cataloged item counts for a scientific name.
 -- @param sciname is the scientific_name to lookup

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_PK_COLLECTOR" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_PK_COLLECTOR" 
 before insert on MCZBASE.COLLECTOR
 for each row 
 begin  
@@ -9,4 +9,5 @@ begin
       end if; 
    end if; 
 end;
+
 ALTER TRIGGER "TI_PK_COLLECTOR" ENABLE

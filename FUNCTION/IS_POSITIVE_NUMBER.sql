@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IS_POSITIVE_NUMBER" (inStr varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IS_POSITIVE_NUMBER" (inStr varchar2 )
 return integer
 -- Test to see if a provided varchar value is interpretable as a positive number
 --

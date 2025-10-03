@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_CATITEM_VPD_AD" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_CATITEM_VPD_AD" 
 AFTER DELETE ON cataloged_item
 FOR EACH ROW
 DECLARE lid collecting_event.locality_id%TYPE;
@@ -13,5 +13,6 @@ BEGIN
     WHERE locality_id=lid
     AND collection_id=:OLD.collection_id;
 END;
+
 
 ALTER TRIGGER "TR_CATITEM_VPD_AD" ENABLE

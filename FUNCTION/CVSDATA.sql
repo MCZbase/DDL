@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CVSDATA" (str IN varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CVSDATA" (str IN varchar2 )
     -- accepts string containing any characters
     -- returns string enclosed in doublequotes
     -- and stripped of evil CVS things

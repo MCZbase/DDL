@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_BI_AGENT_RELATIONS" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_BI_AGENT_RELATIONS" 
    before insert on "MCZBASE"."AGENT_RELATIONS" 
    for each row 
 begin  
@@ -9,4 +9,5 @@ begin
       end if; 
    end if; 
 end;
+
 ALTER TRIGGER "TR_BI_AGENT_RELATIONS" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTSDETAILNOTRUNC" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTSDETAILNOTRUNC" ( collobjid in integer)
     return CLOB
     as
         tmp    varchar2(4000);

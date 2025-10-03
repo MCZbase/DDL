@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MY_CUSTOMID" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MY_CUSTOMID" 
 RETURN VARCHAR 
 --  obtain the custom identifier for the current user
 --  return previous number if none

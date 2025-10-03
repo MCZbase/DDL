@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STORED_AS_ID" (collobjid in number) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STORED_AS_ID" (collobjid in number) 
 return varchar2 
 as
 varStoredAs identification.scientific_name%type;

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TYPESTATUSTAXON" (collection_object_id in NUMBER, typestatus in VARCHAR2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TYPESTATUSTAXON" (collection_object_id in NUMBER, typestatus in VARCHAR2 )
 return number
 --  Given a collection object id and a type status, return the taxon_name_id for the first scientific name with that
 --  type status in the identification history of the collection object.

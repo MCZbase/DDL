@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATIDRBYIDID" (p_key_val  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATIDRBYIDID" (p_key_val  in number )
 return varchar2
 as
 type rc is ref cursor;

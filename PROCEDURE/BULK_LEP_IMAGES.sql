@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BULK_LEP_IMAGES" is
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BULK_LEP_IMAGES" is
   
   --  Copy image records from DataShot (lepidoptera schema) into MCZbase media records
 --  for records that have had been brought to state specialist reviewed and then

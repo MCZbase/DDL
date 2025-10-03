@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SUGGEST_SOV_NATION_FROM_STR" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SUGGEST_SOV_NATION_FROM_STR" (
 	country IN varchar2)
 RETURN VARCHAR2
 -- Given a name of a country, return a suggestion for the value of locality.sovereign_nation based 

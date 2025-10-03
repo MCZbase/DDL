@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "ADD_MISSING_SLIDE_TRAYS" AS
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "ADD_MISSING_SLIDE_TRAYS" AS
 
 CURSOR C1 IS select sp.collection_object_id, sp.derived_from_cat_item, sp.part_name, sp.preserve_method,  
     lot_count, pc.barcode, regexp_substr(pc.barcode, 'Shared_slide-cab-[0-9]*_col-[0-9]*_tray-') trayroot, coll_object_remarks, co.coll_obj_disposition, co.condition, 

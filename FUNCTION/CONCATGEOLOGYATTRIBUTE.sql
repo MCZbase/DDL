@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATGEOLOGYATTRIBUTE" (colobjid in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATGEOLOGYATTRIBUTE" (colobjid in number )
 return varchar2
 as
     type rc is ref cursor;

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETMEDIABYSPECIMEN" (tablName in varchar, colObjId IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETMEDIABYSPECIMEN" (tablName in varchar, colObjId IN number)
 -- Obtain a comma separated list of media records which show a specimen, its locality, or its collecting event
 -- which are not encumbered and do not show ledger entries for the specimen.
 -- @param tablName the type of media relationship to look up, 'locality', 'cataloged_item',

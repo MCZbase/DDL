@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "BULK_CHECK_ONE" (colobjid  in NUMBER)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "BULK_CHECK_ONE" (colobjid  in NUMBER)
 return varchar2
 as
  thisError varchar2(4000);

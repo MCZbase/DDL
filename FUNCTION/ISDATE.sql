@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ISDATE" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ISDATE" 
 ( p_string in varchar2)
 --  Test to see if a provided varchar is interpretable as a date
 --  in the form YYYY-MM-DD.

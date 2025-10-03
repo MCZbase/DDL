@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_DEPTH" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_DEPTH" 
 -- Given a locality.locality_id, returns the depth as a varchar --
 -- by combining min_depth, max_depth, and depth_units           --
 -- ommits the - separator if max_depth is null.                 --

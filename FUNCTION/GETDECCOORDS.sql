@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETDECCOORDS" (collobjid  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETDECCOORDS" (collobjid  in varchar2 )
     return  MYNUMTYPE pipelined
     as
      type rc is ref cursor;

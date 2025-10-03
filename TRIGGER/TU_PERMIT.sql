@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_PERMIT" after UPDATE on Permit for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_PERMIT" after UPDATE on Permit for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Permit
 declare numrows INTEGER;
@@ -85,6 +85,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

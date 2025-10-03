@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SHORTCOUNTRY" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SHORTCOUNTRY" 
 --  Given a string that might be a country name, shorten it if it occurs on a list of long country names
 (
   COUNTRY IN VARCHAR2  

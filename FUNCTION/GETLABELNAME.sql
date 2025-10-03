@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETLABELNAME" (collobjid IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETLABELNAME" (collobjid IN number)
 -- given a collection_object_id, return the label name of the first collector, or
 -- if the first collector has no agent_name of type labels, then the preferred name for that
 -- collector.

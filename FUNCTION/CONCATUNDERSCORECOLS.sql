@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATUNDERSCORECOLS" (collection_object_id  in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATUNDERSCORECOLS" (collection_object_id  in varchar2)
 return varchar2
     -- given a  collection_object_id return a concatenated list of named group 
     -- memberships for the specified cataloged item

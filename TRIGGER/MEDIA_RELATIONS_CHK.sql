@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "MEDIA_RELATIONS_CHK" before insert OR UPDATE ON media_relations
+  CREATE OR REPLACE EDITIONABLE TRIGGER "MEDIA_RELATIONS_CHK" before insert OR UPDATE ON media_relations
     for each row
     declare
     numrows number := 0;
@@ -43,5 +43,6 @@ BEGIN
     	      );
 		END IF;
 END;
+
 
 ALTER TRIGGER "MEDIA_RELATIONS_CHK" ENABLE

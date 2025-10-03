@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_EPITHET_GENUS_AUTHORS" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_EPITHET_GENUS_AUTHORS" (collobjid IN number )
 RETURN VARCHAR2 AS 
 --  Obtain the trivial epithet, a comma, the generic placement, and the authorship 
 --  with html markup from **** for a specimen

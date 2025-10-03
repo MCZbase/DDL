@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_PART_COUNT_MOD_FOR_PART" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_PART_COUNT_MOD_FOR_PART" 
 ( collection_object_id IN VARCHAR2
 ) RETURN VARCHAR2 
 -- Given a specimen_part.collection_object_id, returns the lot count

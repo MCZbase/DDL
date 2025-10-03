@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CATNUM" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CATNUM" (collobjid IN number )
 return varchar2
 as
 varCatNum cataloged_item.cat_num%TYPE;

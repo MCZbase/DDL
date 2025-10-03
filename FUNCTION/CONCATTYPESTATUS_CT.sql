@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATTYPESTATUS_CT" (p_key_val in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATTYPESTATUS_CT" (p_key_val in NUMBER )
 return varchar2
 -- Given a collection object id, returns a concatenated list of the 
 -- type status and names that apply to the collection object, with counts for the number of instances

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_HABITAT" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_HABITAT" 
 -- Given a collecting_event.collecting_event_id, returns the habitat_desc
 -- as a varchar.
 ( collecting_event_id IN NUMBER

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "Q_MEDIA_RELATIONS" (mediaID IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "Q_MEDIA_RELATIONS" (mediaID IN number)
 	return varchar2
 	-- returns pipe-delimited list of media relations
 	-- media_relations_id|media_relationship|related_primary_key|summary_value

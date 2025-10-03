@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IS_NUMBER" (inStr varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IS_NUMBER" (inStr varchar2 )
 return integer
 -- Test to see if a provided string is a number.
 --

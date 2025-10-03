@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MEDIA_TITLE" (mediaID IN number, itemizeLedger in number default 0)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MEDIA_TITLE" (mediaID IN number, itemizeLedger in number default 0)
 return varchar2
 -- Given a media_id, return a textual description of the media object suitable for use as the title for the image
 -- for the image.
@@ -74,6 +74,12 @@ begin
             when 'permit'  then 
                 select nvl2(permit_num, ' ' || permit_num || ' ', ' ') || permit_type || nvl2(issued_date, '. Issued Date: ' || issued_date || ' ', ' ') || permit_title into theValue from permit where permit_id = r.related_primary_key;
                 the_relation:=the_relation ||'<dfn>' || theLabel || '</dfn>: ' || theValue;     
+			when 'underscore_collection' then
+				select  nvl(collection_name, '[no name]') || '' into theValue from underscore_collection where underscore_collection_id=r.related_primary_key;
+                 if length(theValue) > maxlengthpart then 
+                    theValue:= substr(theValue,0,maxlengthpart-length(theValue)-4) || '... ';
+                 end if;
+				 the_relation:=the_relation ||'<dfn>' || theLabel || '</dfn>: '  || theValue;                   
 			when 'publication' then
                 begin
         			select formatted_publication into theValue 
@@ -260,4 +266,3 @@ begin
 
     return trim(the_relation);
 end;
-

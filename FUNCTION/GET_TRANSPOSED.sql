@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TRANSPOSED" ( p_a in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TRANSPOSED" ( p_a in varchar2 )
         return varchar2
         is
         l_str  varchar2(255) default null;

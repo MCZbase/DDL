@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATATTRIBUTEVALUE" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATATTRIBUTEVALUE" 
    (p_key_val  in varchar2, attribute_type in varchar2 )
 return varchar2
     -- given a  collection_object_id and an attribute type, 

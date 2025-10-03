@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SPLIT_TO_ARRAY_NUMBER" (input_list varchar2, delimiter varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SPLIT_TO_ARRAY_NUMBER" (input_list varchar2, delimiter varchar2)
 return dbms_sql.number_table
 is
 	v_list varchar2(32767) :=  input_list || delimiter;

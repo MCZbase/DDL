@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETAUTHORYEAR" (pub_id in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETAUTHORYEAR" (pub_id in varchar2 )
 return varchar2
 -- return an authorship string for a publication with author last names and year of publication.
 -- uses last names of first and second authors, separated by and if there are two or more authors

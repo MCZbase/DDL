@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "PARSE_CAT_NUM" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "PARSE_CAT_NUM" 
     BEFORE INSERT OR UPDATE ON cataloged_item
     FOR EACH ROW
     DECLARE
@@ -61,5 +61,6 @@ ELSE -- loop through list of delimiters defined above and see if one of them sep
           RAISE_APPLICATION_ERROR(-20001,'catnum parse failed: integer component (' || :NEW.cat_num_integer || ') is decimal');
       END IF;
 end;
+
 
 ALTER TRIGGER "PARSE_CAT_NUM" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MAX_COLLECTOR_ORDER" (collection_object_id in number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MAX_COLLECTOR_ORDER" (collection_object_id in number)
 RETURN NUMBER 
 AS 
    pragma autonomous_transaction;

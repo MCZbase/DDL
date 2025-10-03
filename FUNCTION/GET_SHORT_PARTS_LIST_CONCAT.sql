@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SHORT_PARTS_LIST_CONCAT" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SHORT_PARTS_LIST_CONCAT" 
 ( collobjid IN NUMBER
 ) 
 -- Given a collection_object.collection_object_id, return a string containing -- 

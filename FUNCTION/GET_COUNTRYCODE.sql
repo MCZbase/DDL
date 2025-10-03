@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COUNTRYCODE" (COUNTRY in VARCHAR )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COUNTRYCODE" (COUNTRY in VARCHAR )
 return varchar2
 -- Given a country name, return the country code for that country name, if any.
 -- @param country the country name to look up

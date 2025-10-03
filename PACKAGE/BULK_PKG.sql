@@ -1,9 +1,9 @@
 
-  CREATE OR REPLACE PACKAGE "BULK_PKG" as
+  CREATE OR REPLACE EDITIONABLE PACKAGE "BULK_PKG" as
 	PROCEDURE check_and_load;
 	PROCEDURE bulkloader_check;
 END;
-CREATE OR REPLACE PACKAGE BODY "BULK_PKG" as
+CREATE OR REPLACE EDITIONABLE PACKAGE BODY "BULK_PKG" as
 error_msg varchar2(4000);
 l_collection_object_id number;
 l_collecting_event_id number;

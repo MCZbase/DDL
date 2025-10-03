@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TD_PERMIT" after DELETE on Permit for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TD_PERMIT" after DELETE on Permit for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- DELETE trigger on Permit
 declare numrows INTEGER;
@@ -37,6 +37,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "SQ_GEOLOGY_ATTRIBUTES_SQ" before insert ON geology_attributes
+  CREATE OR REPLACE EDITIONABLE TRIGGER "SQ_GEOLOGY_ATTRIBUTES_SQ" before insert ON geology_attributes
 for each row
 begin
     IF :new.geology_attribute_id IS NULL THEN
@@ -8,5 +8,6 @@ begin
         from dual;
     END IF;
 end;
+
 
 ALTER TRIGGER "SQ_GEOLOGY_ATTRIBUTES_SQ" ENABLE

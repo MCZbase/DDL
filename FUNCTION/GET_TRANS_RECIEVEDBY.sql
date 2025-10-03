@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TRANS_RECIEVEDBY" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TRANS_RECIEVEDBY" 
 -- Given a transaction_id, if that transaction is a loan,   --
 -- returns a comma delimited, concatenated list of the preferred --
 -- names of the agents by whom the loan was recieved.    --

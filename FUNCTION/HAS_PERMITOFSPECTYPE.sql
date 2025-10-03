@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "HAS_PERMITOFSPECTYPE" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "HAS_PERMITOFSPECTYPE" (
 a_transaction_id in number,
 a_specific_type in varchar2
 )

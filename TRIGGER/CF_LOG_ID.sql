@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "CF_LOG_ID" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "CF_LOG_ID" 
  before insert  ON cf_log
  for each row
     begin
@@ -10,6 +10,7 @@
     		:NEW.access_date:= sysdate;
     	end if;
     end;
+
 
 
 ALTER TRIGGER "CF_LOG_ID" ENABLE

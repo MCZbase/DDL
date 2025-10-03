@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "LOAD_ENT_LOANS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "LOAD_ENT_LOANS" as
 
 cursor c1 is select * from x_entloans2 where moved is null or moved = 'X';
 numTRANSID number;

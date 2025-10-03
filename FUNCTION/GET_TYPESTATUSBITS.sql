@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TYPESTATUSBITS" (collection_object_id in NUMBER, typestatus in VARCHAR2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TYPESTATUSBITS" (collection_object_id in NUMBER, typestatus in VARCHAR2 )
 return varchar2
 --  Given a collection object id and a type status, return a pipe delimited list of the scientific name, the 
 --  authorship string for that name, the author of the cided publication, the formatted publication without html tags

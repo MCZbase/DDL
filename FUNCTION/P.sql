@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "P" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "P" ( collobjid in integer)
     return varchar2
     as
         type rc is ref cursor;

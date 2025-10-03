@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_CF_LOG_SQ" before insert ON cf_log
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_CF_LOG_SQ" before insert ON cf_log
 for each row
 begin
 	if :NEW.log_id is null then
@@ -9,5 +9,6 @@ begin
                 :NEW.access_date:= sysdate;
         end if;
 end;
+
 
 ALTER TRIGGER "TR_CF_LOG_SQ" ENABLE

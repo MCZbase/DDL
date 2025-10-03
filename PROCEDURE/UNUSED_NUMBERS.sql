@@ -1,8 +1,8 @@
 
-  CREATE OR REPLACE PROCEDURE "UNUSED_NUMBERS" (collcde in varchar2, catnumprefix in varchar2) as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "UNUSED_NUMBERS" (collcde in varchar2, catnumprefix in varchar2) as
 
 ---catalog numbers
-/*Cursor c1 is WITH aquery AS 
+Cursor c1 is WITH aquery AS 
 (SELECT cat_num_integer after_gap, 
     LAG(cat_num_integer,1,0) OVER (ORDER BY cat_num_integer) before_gap 
    FROM cataloged_item 
@@ -13,10 +13,10 @@ SELECT  before_gap, after_gap, after_gap - before_gap as gap_size
   FROM aquery 
  WHERE before_gap != 0 
    AND after_gap - before_gap > 1 
-order by before_gap;*/
+order by before_gap;
 
 ---other id numbers
-Cursor c1 is WITH aquery AS 
+/*Cursor c1 is WITH aquery AS 
 (select other_id_number after_gap,
     LAG(other_id_number,1,0) OVER (ORDER BY other_id_number) before_gap
     from COLL_OBJ_OTHER_ID_NUM where other_id_prefix = catnumprefix and collection_object_id in
@@ -25,7 +25,7 @@ SELECT  before_gap, after_gap, after_gap - before_gap as gap_size
   FROM aquery 
  WHERE before_gap != 0 
    AND after_gap - before_gap > 1 
-order by before_gap;
+order by before_gap;*/
 
 /*Cursor c1 is with aquery as
 (select other_id_number after_gap,

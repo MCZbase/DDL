@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_LOAN_ITEM" after INSERT on Loan_Item for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_LOAN_ITEM" after INSERT on Loan_Item for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Loan_Item
 declare numrows INTEGER;
@@ -64,6 +64,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

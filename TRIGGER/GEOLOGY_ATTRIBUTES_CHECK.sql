@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "GEOLOGY_ATTRIBUTES_CHECK" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GEOLOGY_ATTRIBUTES_CHECK" 
 before UPDATE or INSERT ON geology_attributes
 for each row
 declare
@@ -13,5 +13,6 @@ SELECT COUNT(*) INTO numrows FROM geology_attribute_hierarchy WHERE attribute = 
               );
         END IF;
 END;
+
 
 ALTER TRIGGER "GEOLOGY_ATTRIBUTES_CHECK" ENABLE

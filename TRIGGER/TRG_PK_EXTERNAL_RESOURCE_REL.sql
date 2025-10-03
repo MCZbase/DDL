@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TRG_PK_EXTERNAL_RESOURCE_REL" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_PK_EXTERNAL_RESOURCE_REL" 
    before insert on "MCZBASE"."EXTERNAL_RESOURCE_RELATION" 
    for each row 
 declare l_sysguid varchar2(32);   
@@ -23,4 +23,5 @@ begin
       end if; 
    end if; 
 end;
+
 ALTER TRIGGER "TRG_PK_EXTERNAL_RESOURCE_REL" ENABLE

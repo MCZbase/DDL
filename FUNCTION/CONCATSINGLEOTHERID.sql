@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATSINGLEOTHERID" (p_key_val  in number,
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATSINGLEOTHERID" (p_key_val  in number,
                         p_other_col_name in varchar2)
     return varchar2
     as

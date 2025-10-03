@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "MEDIA_RELATION_SUMMARY" (mediaRelationsId IN number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "MEDIA_RELATION_SUMMARY" (mediaRelationsId IN number)
     return varchar2
     AS
     summary varchar2(4000);

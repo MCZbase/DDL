@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COLLECTORSCOPE" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COLLECTORSCOPE" 
 (
   AGENT_ID  in number,
   show_scope varchar2 default 'collections'

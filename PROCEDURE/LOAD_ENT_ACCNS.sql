@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "LOAD_ENT_ACCNS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "LOAD_ENT_ACCNS" as
 
 cursor c1 is select * from X_ENT_HISTORICAL_ACCN20230713 where moved is null or moved = 'X';
 /*cursor c1 is select * from X_ENT_HISTORICAL_ACCN20230713 x join x_ent_accnagentfix af on  x.ADDITIONAL_OUTSIDE_CONTACT2 = af.agent_name where moved is null or moved = 'X' and error like '%ADDITIONAL%';*/

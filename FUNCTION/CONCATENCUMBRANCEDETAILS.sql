@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATENCUMBRANCEDETAILS" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATENCUMBRANCEDETAILS" (p_key_val  in varchar2 )
 return varchar2
 -- given a collection object id return a semicolon delimited list of encumbrance
 -- details for that collection object.

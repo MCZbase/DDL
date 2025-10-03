@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "DEDUPE_IP_NAMES" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "DEDUPE_IP_NAMES" as
 
 /*cursor c1 is select scientific_name from taxonomy where taxon_name_id in
 (select TAXON_NAME_ID from identification_taxonomy it, identification i, cataloged_item ci

@@ -1,10 +1,13 @@
 
-  CREATE OR REPLACE PROCEDURE "UPDATE_FLAT" (collobjid IN NUMBER) IS
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "UPDATE_FLAT" (collobjid IN NUMBER) IS
 BEGIN
         UPDATE flat
         SET (
                         cat_num,
                         accn_id,
+                        received_from,
+                        accession_date,
+                        received_date,
                         collecting_event_id,
                         collection_cde,
                         collection_id,
@@ -163,6 +166,9 @@ BEGIN
                 SELECT
                         cataloged_item.cat_num,
                         cataloged_item.accn_id,
+                        MCZBASE.GET_TRANS_RECIEVEDAGENT(accn.transaction_id),
+                        trans.TRANS_DATE,
+                        decode(accn.received_date,to_date('1700-01-01','yyyy-mm-dd'),null,accn.received_date),
                         cataloged_item.collecting_event_id,
                         collection.collection_cde,
                         cataloged_item.collection_id,
@@ -176,7 +182,7 @@ BEGIN
                                 NULL, coll_object.coll_object_entered_date,
                                 coll_object.last_edit_date),
                         get_individualcount(coll_object.collection_object_id),
-                        coll_object.coll_obj_disposition,
+                        mczbase.CONCATDISPOSITIONS(cataloged_item.collection_object_id),
                         concatColl(cataloged_item.collection_object_id),
                         mczbase.GET_SOLE_COLLECTOR_GUID(cataloged_item.collection_object_id),
                         concatPrep(cataloged_item.collection_object_id),

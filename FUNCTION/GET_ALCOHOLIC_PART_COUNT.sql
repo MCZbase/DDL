@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_ALCOHOLIC_PART_COUNT" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_ALCOHOLIC_PART_COUNT" 
 ( collection_object_id IN VARCHAR2
 ) RETURN NUMBER 
 -- Given a collection_object.collection_object_id, returns the number --

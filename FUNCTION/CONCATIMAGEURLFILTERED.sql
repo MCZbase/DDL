@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATIMAGEURLFILTERED" (p_key_val  in number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATIMAGEURLFILTERED" (p_key_val  in number)
     --  Given a collection object id, returns a string containing a pipe delimited list
     --  of URIs for media objects suitable for external use in the dwc:associatedMedia term.
     --  @param p_key_val the primary key for a collection object for which to look up the 

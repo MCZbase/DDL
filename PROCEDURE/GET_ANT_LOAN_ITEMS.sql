@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "GET_ANT_LOAN_ITEMS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GET_ANT_LOAN_ITEMS" as
 
 cursor c1 is select t.transaction_id, nature_of_material, loan_number
 from loan l, trans t 

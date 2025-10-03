@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TRANS_SOLE_SHIP_DATE" (transaction_id IN NUMBER) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TRANS_SOLE_SHIP_DATE" (transaction_id IN NUMBER) 
 RETURN DATE
 -- Given a transaction_id, if that transaction has a single shipment date,   --
 -- return the date of that single shipment (or same date of multiple shipments) --

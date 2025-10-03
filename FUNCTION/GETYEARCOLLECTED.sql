@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETYEARCOLLECTED" (b IN varchar,e IN varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETYEARCOLLECTED" (b IN varchar,e IN varchar)
 RETURN varchar
 -- Given a pair of strings that are expected to be begin and end dates, 
 -- extract the year from the strings, that is, expectation is to 

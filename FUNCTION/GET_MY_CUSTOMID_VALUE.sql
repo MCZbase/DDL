@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_MY_CUSTOMID_VALUE" (collection_object_id number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_MY_CUSTOMID_VALUE" (collection_object_id number)
 RETURN VARCHAR 
 --  obtain the display value of the custom identifier for the current user
 --  for the specified cataloged item

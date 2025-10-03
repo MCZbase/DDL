@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_GUID_BYPART" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_GUID_BYPART" (collobjid IN number )
 return varchar2
 -- obtain the base guid (MCZ:{collectionCode}:{catalogNumber} for an
 -- MCZbase cataloged item record, without a urn:catalog or resolvable http prefix

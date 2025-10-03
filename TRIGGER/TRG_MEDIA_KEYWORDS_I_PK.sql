@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TRG_MEDIA_KEYWORDS_I_PK" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_MEDIA_KEYWORDS_I_PK" 
    before insert on "MCZBASE"."MEDIA_KEYWORDS" 
    for each row 
 begin  
@@ -9,4 +9,5 @@ begin
       end if; 
    end if; 
 end;
+
 ALTER TRIGGER "TRG_MEDIA_KEYWORDS_I_PK" ENABLE

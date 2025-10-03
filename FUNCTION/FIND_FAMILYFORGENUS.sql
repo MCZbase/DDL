@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "FIND_FAMILYFORGENUS" (genus  in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "FIND_FAMILYFORGENUS" (genus  in varchar2)
     return varchar2
     -- Given a generic name, find the single family this genus is most frequently placed in in MCZbase
     -- return null if no match is found.

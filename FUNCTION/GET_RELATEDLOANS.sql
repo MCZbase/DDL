@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_RELATEDLOANS" (transaction_id IN number, asHtml in number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_RELATEDLOANS" (transaction_id IN number, asHtml in number)
     return varchar
 -- Given a transaction_id, return a list of any subloans or parent loans.
 --

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATNAME" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATNAME" (p_key_val  in varchar2 )
 -- unused?  No references in DDL or coldfusion
 -- given a publication id, obtain a list of last names of authors, in order and year of publication.
 -- @param p_key_val a publication id for which to lookup author names and year.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATCOLL" (p_key_val  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATCOLL" (p_key_val  in varchar2 )
 return varchar2
 -- obtain a comma separated list of preferred names of collectors (of role c) for a collection object.
 -- @param p_key_val the collection object id for which to obtain collectors.

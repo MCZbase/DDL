@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "UP_BS_ID" ( for_staging_user in varchar2)
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "UP_BS_ID" ( for_staging_user in varchar2)
 -- prepare bulkloader_stage records for ingest by changing from the user provided collection_object_id to
 -- a unique value from the bulkloader_pkey sequence, for a particular staging user.
 -- @param for_staging_user, the username of the user for whom records in bulkloader_staging

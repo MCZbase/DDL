@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SOVEREIGNNATIONCODE" (locality_id in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SOVEREIGNNATIONCODE" (locality_id in NUMBER )
 return varchar2
 -- Given a locality id, return the country code for that sovereign nation, or '[unknown]'
 -- or 'High Seas', if sovereign nation is null, looks in geog_auth_rec.country.

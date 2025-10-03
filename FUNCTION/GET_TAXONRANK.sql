@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TAXONRANK" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TAXONRANK" 
 -- Given a taxon_name_id, returns the rank for the taxon
 -- as a varchar sutable for use as dwc:taxonRank.
 --

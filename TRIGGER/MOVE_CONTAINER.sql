@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "MOVE_CONTAINER" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "MOVE_CONTAINER" 
 before UPDATE or INSERT ON container
 --------------------------------------------------------------------------------------------------
 -- this trigger checks that container movements are valid. The following rules are enforced:
@@ -98,5 +98,6 @@ WHEN NO_DATA_FOUND THEN
    NULL;
 END move_container;
 --ALTER TRIGGER "MCZBASE"."MOVE_CONTAINER" ENABLE
+
 
 ALTER TRIGGER "MOVE_CONTAINER" ENABLE

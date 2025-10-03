@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TD_COLLECTION" after DELETE on Collection for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TD_COLLECTION" after DELETE on Collection for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- DELETE trigger on Collection
 declare numrows INTEGER;
@@ -22,6 +22,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

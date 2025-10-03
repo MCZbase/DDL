@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_PART_COUNT_SINGLE" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_PART_COUNT_SINGLE" 
 ( collection_object_id IN VARCHAR2
 ) RETURN NUMBER 
 -- Given a collection_object_id, returns the value of

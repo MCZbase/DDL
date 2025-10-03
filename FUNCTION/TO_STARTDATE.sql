@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "TO_STARTDATE" (datestring in varchar)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "TO_STARTDATE" (datestring in varchar)
 return timestamp
 --  Given a string test for conformation to the structure of an single or
 --  indeterminate ISO date or date time and convert to a timestamp for the

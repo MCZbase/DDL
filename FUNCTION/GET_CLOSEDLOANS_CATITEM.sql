@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_CLOSEDLOANS_CATITEM" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_CLOSEDLOANS_CATITEM" 
 -- Given a collection_object_id for a cataloged item  
 -- returns a comma delimited, concatenated list of the  
 -- loan numbers of open loans parts of that item are in closed loans   

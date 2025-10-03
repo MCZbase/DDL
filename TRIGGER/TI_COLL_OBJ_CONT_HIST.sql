@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_COLL_OBJ_CONT_HIST" after INSERT on Coll_Obj_Cont_Hist for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_COLL_OBJ_CONT_HIST" after INSERT on Coll_Obj_Cont_Hist for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Coll_Obj_Cont_Hist
 declare numrows INTEGER;
@@ -45,6 +45,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

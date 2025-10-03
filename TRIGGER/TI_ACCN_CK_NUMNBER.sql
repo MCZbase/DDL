@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_ACCN_CK_NUMNBER" before INSERT on Accn for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_ACCN_CK_NUMNBER" before INSERT on Accn for each row
 -- ERwin Builtin Mon May 17 12:58:26 2004
 -- INSERT trigger on Accn
 declare numrows INTEGER;
@@ -28,4 +28,5 @@ begin
 
     
 end;
+
 ALTER TRIGGER "TI_ACCN_CK_NUMNBER" ENABLE

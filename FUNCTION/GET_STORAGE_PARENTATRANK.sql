@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STORAGE_PARENTATRANK" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STORAGE_PARENTATRANK" (
 	container_id IN NUMBER,
     storagerank in varchar,
     showrank in number default 1

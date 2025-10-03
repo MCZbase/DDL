@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_PERMIT_SHIPMENT" after INSERT on Permit_Shipment for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_PERMIT_SHIPMENT" after INSERT on Permit_Shipment for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Permit_Shipment
 declare numrows INTEGER;
@@ -26,6 +26,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

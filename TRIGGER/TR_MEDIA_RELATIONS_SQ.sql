@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_MEDIA_RELATIONS_SQ" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_MEDIA_RELATIONS_SQ" 
 before insert ON media_relations
 for each row
 begin
@@ -16,5 +16,6 @@ begin
         and upper(agent_name.agent_name) = SYS_CONTEXT('USERENV','SESSION_USER');
     end if;
 end;
+
 
 ALTER TRIGGER "TR_MEDIA_RELATIONS_SQ" ENABLE

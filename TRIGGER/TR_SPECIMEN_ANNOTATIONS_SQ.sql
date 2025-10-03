@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TR_SPECIMEN_ANNOTATIONS_SQ" before insert ON specimen_annotations
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_SPECIMEN_ANNOTATIONS_SQ" before insert ON specimen_annotations
 for each row
 begin
     if :NEW.annotation_id is null then
@@ -11,5 +11,6 @@ begin
         :NEW.annotate_date := sysdate;
     end if;
 end;
+
 
 ALTER TRIGGER "TR_SPECIMEN_ANNOTATIONS_SQ" ENABLE

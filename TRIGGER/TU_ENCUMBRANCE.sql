@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_ENCUMBRANCE" after UPDATE on Encumbrance for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_ENCUMBRANCE" after UPDATE on Encumbrance for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- UPDATE trigger on Encumbrance
 declare numrows INTEGER;
@@ -46,6 +46,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ASSEMBLE_SHORTCITATION" (publication_id  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ASSEMBLE_SHORTCITATION" (publication_id  in varchar2 )
     return varchar2
     -- Assemble the short form of formatted_publication.
     -- Produces a value suitable to be saved in formatted_publication, but does not 

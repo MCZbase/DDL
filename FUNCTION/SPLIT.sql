@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "SPLIT" (input_list varchar2, ret_this_one number, delimiter varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "SPLIT" (input_list varchar2, ret_this_one number, delimiter varchar2)
 return varchar2
 is
 	v_list varchar2(32767) := delimiter || input_list;

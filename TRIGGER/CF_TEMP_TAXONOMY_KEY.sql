@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "CF_TEMP_TAXONOMY_KEY" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "CF_TEMP_TAXONOMY_KEY" 
  before insert  ON cf_temp_taxonomy
  for each row
 DECLARE
@@ -100,4 +100,5 @@ DECLARE
 		END IF;
 		:NEW.scientific_name := trim(nsn);
     end;
+
 ALTER TRIGGER "CF_TEMP_TAXONOMY_KEY" ENABLE

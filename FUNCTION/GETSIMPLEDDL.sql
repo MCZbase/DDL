@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GETSIMPLEDDL" (objecttype in varchar2, objectname in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GETSIMPLEDDL" (objecttype in varchar2, objectname in varchar2)
 -- obtain a simple view of the create object DDL for an object (simple, that is, without storage
 -- or segment attributes for a table).
 -- @param objecttype the type of object represented by objectname (e.g. TABLE, VIEW, FUNCTION)
@@ -14,6 +14,8 @@ begin
    -- Specify the object type.
     if objecttype = 'JOB' then 
         doc := dbms_metadata.get_ddl('PROCOBJ',objectname);
+    elsif objecttype = 'JAVA SOURCE' then
+        doc := dbms_metadata.get_ddl('JAVA_SOURCE',dbms_java.longname(objectname));
     else
        h := dbms_metadata.open(objecttype);
        -- Use filters to specify the particular object desired.

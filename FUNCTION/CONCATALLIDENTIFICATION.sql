@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATALLIDENTIFICATION" (p_key_val  in number)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATALLIDENTIFICATION" (p_key_val  in number)
 return varchar2
 as
 l_str    varchar2(4000);

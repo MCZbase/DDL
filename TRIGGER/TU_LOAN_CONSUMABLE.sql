@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TU_LOAN_CONSUMABLE" after update on LOAN
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TU_LOAN_CONSUMABLE" after update on LOAN
 FOR EACH ROW
 declare 
 newdeaccid number;
@@ -70,4 +70,5 @@ select count(*) into numDeaccItems
 end if;
 
 end;
+
 ALTER TRIGGER "TU_LOAN_CONSUMABLE" ENABLE

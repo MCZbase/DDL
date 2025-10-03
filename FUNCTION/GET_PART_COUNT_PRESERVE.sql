@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_PART_COUNT_PRESERVE" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_PART_COUNT_PRESERVE" 
 ( collection_object_id IN VARCHAR2, preserve in varchar2
 ) RETURN NUMBER 
 -- Given a collection_object.collection_object_id, returns the number --

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "TO_DATE_SAFE" (possibleDate IN VARCHAR2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "TO_DATE_SAFE" (possibleDate IN VARCHAR2)
 -- Attempt to convert a string to a date.
 -- @param possibleDate string possibly containing a date in the form yyyy-mm-dd, 
 --   dd-Mon-yy, or dd Month yyyy

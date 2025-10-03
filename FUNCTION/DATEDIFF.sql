@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "DATEDIFF" ( p_what in varchar2,
+  CREATE OR REPLACE EDITIONABLE FUNCTION "DATEDIFF" ( p_what in varchar2,
                                         p_d1   in date,
                                          p_d2   in date ) return number
     as

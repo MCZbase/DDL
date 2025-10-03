@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "DECIMALZERO" (n  in number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "DECIMALZERO" (n  in number )
     return VARCHAR2
    as r VARCHAR2(40);
    begin

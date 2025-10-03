@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "AY" (pub_id  in varchar2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "AY" (pub_id  in varchar2 )
     return varchar2
     -- @deprecated does not appear to be used 
     --

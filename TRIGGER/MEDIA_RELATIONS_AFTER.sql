@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "MEDIA_RELATIONS_AFTER" AFTER insert OR UPDATE OR DELETE ON media_relations
+  CREATE OR REPLACE EDITIONABLE TRIGGER "MEDIA_RELATIONS_AFTER" AFTER insert OR UPDATE OR DELETE ON media_relations
     for each row
     declare
     numrows number := 0;
@@ -28,5 +28,6 @@ BEGIN
      DELETE FROM tab_media_rel_fkey WHERE media_relations_id=:OLD.media_relations_id;
         END IF;
 END;
+
 
 ALTER TRIGGER "MEDIA_RELATIONS_AFTER" ENABLE

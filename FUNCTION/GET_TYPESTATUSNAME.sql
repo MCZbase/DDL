@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TYPESTATUSNAME" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TYPESTATUSNAME" 
 (collection_object_id in NUMBER, typestatus in VARCHAR2,
  usedisplayname in number default 1)
 return varchar2

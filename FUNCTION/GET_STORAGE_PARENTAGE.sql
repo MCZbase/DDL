@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_STORAGE_PARENTAGE" (
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_STORAGE_PARENTAGE" (
 	container_id IN NUMBER)
 RETURN VARCHAR2
 -- Given a container ID, return a concatenated list of parent storage locations for that container up to room for simple printing.
@@ -19,7 +19,10 @@ BEGIN
 	OPEN l_cur FOR '
     select decode(parent_container_id,1, label||'': Unplaced'', label) label,
            decode(container_type,''campus'','''',container_type) container_type from container 
-    where container_type <> ''collection object'' and container_type <> ''building'' and container_type <> ''floor''
+    where container_type <> ''collection object'' 
+         and container_type <> ''institution''
+         and container_type <> ''building'' 
+         and container_type <> ''floor''
          and label <> ''MCZ-campus'' and container_id <> 1 
          connect by prior parent_container_id = container_id
          start with container_id = :x'

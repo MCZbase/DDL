@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATSTRING" ( p_key_name in varchar2,
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATSTRING" ( p_key_name in varchar2,
                        p_key_val  in varchar2,
                        p_other_col_name in varchar2,
                         p_tname     in varchar2 )

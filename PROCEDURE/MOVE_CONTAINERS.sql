@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "MOVE_CONTAINERS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "MOVE_CONTAINERS" as
 
 cursor c1 is select container_id, barcode 
   from container 

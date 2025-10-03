@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PACKAGE "STATE_PKG" 
+  CREATE OR REPLACE EDITIONABLE PACKAGE "STATE_PKG" 
    as
    	type ridArray is table of number index by binary_integer;
        newRows ridArray;

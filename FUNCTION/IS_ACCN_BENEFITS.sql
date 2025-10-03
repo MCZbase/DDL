@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "IS_ACCN_BENEFITS" (COLLECTION_OBJECT_ID IN NUMBER) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "IS_ACCN_BENEFITS" (COLLECTION_OBJECT_ID IN NUMBER) 
 --  Given a collection_object_id, return 1 if there is a non-null value in the benefits summary
 --  of the accession to which this cataloged item belongs, otherwise return 0.
 --  @param COLLECTION_OBJECT_ID the collection object id for the cataloged item to check.

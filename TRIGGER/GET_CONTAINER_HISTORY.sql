@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "GET_CONTAINER_HISTORY" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GET_CONTAINER_HISTORY" 
 AFTER UPDATE ON container
 FOR EACH ROW
 DECLARE isAlreadyThere NUMBER;
@@ -16,5 +16,6 @@ SELECT count(*) INTO isAlreadyThere FROM container_history WHERE
 		VALUES(:Old.container_id, :Old.parent_container_id, :Old.parent_install_date);
 	END IF;
 END get_container_history;
+
 
 ALTER TRIGGER "GET_CONTAINER_HISTORY" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_GENBANK_LINKS" (p_key_val  in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_GENBANK_LINKS" (p_key_val  in varchar2)
     -- Given a collection_object_id, create a pipe delimited list of links to genbank for 
     -- all the NCBI GenBank ID other id values associated with that collection object.
     return varchar2

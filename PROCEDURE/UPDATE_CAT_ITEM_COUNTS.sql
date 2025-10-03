@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "UPDATE_CAT_ITEM_COUNTS" as
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "UPDATE_CAT_ITEM_COUNTS" as
 --  update the cf_geog_cat_item_counts table used to provide counts for specimen browse
 
 begin

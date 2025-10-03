@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_PERMIT" after INSERT on Permit for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_PERMIT" after INSERT on Permit for each row
 -- ERwin Builtin Wed May 05 11:26:47 2004
 -- INSERT trigger on Permit
 declare numrows INTEGER;
@@ -45,6 +45,7 @@ begin
 
 -- ERwin Builtin Wed May 05 11:26:47 2004
 end;
+
 
 
 

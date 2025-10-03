@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "ISNUMERIC" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "ISNUMERIC" 
     ( p_string in varchar2)
     return integer
     as

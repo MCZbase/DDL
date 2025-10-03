@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_TRANS_RECIEVEDAGENT" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_TRANS_RECIEVEDAGENT" 
 -- Given a transaction_id, if that transaction is a accession,   --
 -- returns a comma delimited, concatenated list of the preferred --
 -- names of the agents from whom the accession was recieved,     --

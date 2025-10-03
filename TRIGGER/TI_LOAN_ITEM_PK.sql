@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "TI_LOAN_ITEM_PK" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TI_LOAN_ITEM_PK" 
    before insert on MCZBASE.LOAN_ITEM
    for each row 
 begin  
@@ -9,6 +9,7 @@ begin
       end if; 
    end if; 
 end;
+
 
 
 ALTER TRIGGER "TI_LOAN_ITEM_PK" ENABLE

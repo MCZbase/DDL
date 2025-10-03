@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_OTHERID_NOTCOLL_CONCAT" ( p_key_val IN NUMBER ) 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_OTHERID_NOTCOLL_CONCAT" ( p_key_val IN NUMBER ) 
 -- Given a collection_object_id, returns a semicolon delimited list  -- 
 -- of the other numbers, excluding the collector number, that --
 -- are associated with that collection_object in the table.field     --

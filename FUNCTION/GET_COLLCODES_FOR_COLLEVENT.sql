@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COLLCODES_FOR_COLLEVENT" ( collecting_event_id in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COLLCODES_FOR_COLLEVENT" ( collecting_event_id in NUMBER )
 return VARCHAR
 -- Function to obtain list of collection codes and cataloged item counts for a collecting_event.
 -- @param collecting_event_id the collecting_event_id of the collecting event to lookup

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE PROCEDURE "BUILD_FORMATTED_PUB" as 
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "BUILD_FORMATTED_PUB" as 
 
 cursor c1 is 
 select publication_id from publication where publication_id not in 

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_SINGLE_OTHER_ID_DISPLAY" (p_key_val  in varchar2,
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_SINGLE_OTHER_ID_DISPLAY" (p_key_val  in varchar2,
          p_other_col_name in varchar2)
     return varchar2
     as

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "PROJECT_TAXONOMY_KEY" 
+  CREATE OR REPLACE EDITIONABLE TRIGGER "PROJECT_TAXONOMY_KEY" 
  before insert  ON project_taxonomy
  for each row
     begin
@@ -7,5 +7,6 @@
     select sq_project_taxon_id.nextval into :new.project_taxon_id from dual;
     end if;
     end;
+
 
 ALTER TRIGGER "PROJECT_TAXONOMY_KEY" ENABLE

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE TRIGGER "PRE_UP_INS_AGENT_NAME" before insert on agent_name for each row
+  CREATE OR REPLACE EDITIONABLE TRIGGER "PRE_UP_INS_AGENT_NAME" before insert on agent_name for each row
 -- DLM 1 Mar 2006
 -- require ONE preferred agent name
 begin
@@ -25,5 +25,6 @@ begin
 		:new.AGENT_NAME_TYPE,
 		:new.AGENT_NAME);
 end;
+
 
 ALTER TRIGGER "PRE_UP_INS_AGENT_NAME" ENABLE

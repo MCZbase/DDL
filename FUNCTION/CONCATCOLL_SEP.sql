@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATCOLL_SEP" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATCOLL_SEP" 
 (p_key_val  in varchar2, separator in varchar2 )
 return varchar2
 -- obtain a delimited list of preferred names of collectors (of role c) for a collection object.

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CHANGE_PASSWORD" (username IN varchar2, newpassword IN varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CHANGE_PASSWORD" (username IN varchar2, newpassword IN varchar2)
  
 RETURN integer
  

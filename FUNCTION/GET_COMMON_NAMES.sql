@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COMMON_NAMES" (collobjid IN number )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COMMON_NAMES" (collobjid IN number )
 --  Given a collection object id, return the common names for taxa used in idendifications
 --  of that collection object.
 return varchar2

@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "GET_COORDINATES" 
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GET_COORDINATES" 
 ( locality_id IN VARCHAR2, part in VARCHAR2 default 'both'
 ) RETURN VARCHAR2 
 -- Given a locality_id, returns a text representation of the accepted latitude-- 

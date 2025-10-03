@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATATTRIBUTEDETAIL" (p_key_val  in varchar2,
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATATTRIBUTEDETAIL" (p_key_val  in varchar2,
                                         p_other_col_name in varchar2 )
     return varchar2
     as

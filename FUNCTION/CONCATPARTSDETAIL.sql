@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATPARTSDETAIL" ( collobjid in integer)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATPARTSDETAIL" ( collobjid in integer)
     return varchar2
     as
         tmp    varchar2(4000);

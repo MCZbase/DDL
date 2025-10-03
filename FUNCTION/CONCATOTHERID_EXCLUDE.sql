@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATOTHERID_EXCLUDE" (p_key_val in number, exclusion_list in varchar2)
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATOTHERID_EXCLUDE" (p_key_val in number, exclusion_list in varchar2)
     return varchar2
     as
         type rc is ref cursor;

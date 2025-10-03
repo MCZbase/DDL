@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATTYPESTATUS_LABEL" (p_key_val in NUMBER )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATTYPESTATUS_LABEL" (p_key_val in NUMBER )
 return varchar2
 --  Formluate a list of type status and taxon names for the type status 
 --  formatted appropriately for printing on labels (returns just primary and 

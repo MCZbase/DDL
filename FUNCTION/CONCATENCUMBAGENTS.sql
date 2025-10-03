@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE FUNCTION "CONCATENCUMBAGENTS" (p_key_val  in VARCHAR2 )
+  CREATE OR REPLACE EDITIONABLE FUNCTION "CONCATENCUMBAGENTS" (p_key_val  in VARCHAR2 )
 return varchar2
 -- given a collection object id return a semicolon delimited list of encumbrance
 -- agents for that collection object.
