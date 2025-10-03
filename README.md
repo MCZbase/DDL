@@ -13,3 +13,5 @@ Generate new export by dumping from MCZbase database with:
     /
 
 Then use this export to update files in checkout of this DDL project.
+
+See Redmine 353 for more details.
