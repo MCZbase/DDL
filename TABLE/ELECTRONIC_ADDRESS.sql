@@ -8,4 +8,9 @@
   USING INDEX  ENABLE, 
 	 CONSTRAINT "FK_E_ADDRESS_AGENT" FOREIGN KEY ("AGENT_ID")
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "ELECTRONIC_ADDRESS" IS 'Telephone numbers and email addresses for agents.';
+COMMENT ON COLUMN "ELECTRONIC_ADDRESS"."AGENT_ID" IS 'The agent for whom this is a phone or email.';
+COMMENT ON COLUMN "ELECTRONIC_ADDRESS"."ADDRESS_TYPE" IS 'The specific type of address';
+COMMENT ON COLUMN "ELECTRONIC_ADDRESS"."ADDRESS" IS 'The electronic address (phone number or email)';
+COMMENT ON COLUMN "ELECTRONIC_ADDRESS"."ELECTRONIC_ADDRESS_ID" IS 'Surrogate numeric primary key';

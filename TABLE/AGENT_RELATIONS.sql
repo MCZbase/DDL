@@ -17,4 +17,14 @@
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
 	 CONSTRAINT "FK_CTAGENT_RELATIONSHIP" FOREIGN KEY ("AGENT_RELATIONSHIP")
 	  REFERENCES "CTAGENT_RELATIONSHIP" ("AGENT_RELATIONSHIP") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "AGENT_RELATIONS" IS 'A relationship between two agents.';
+COMMENT ON COLUMN "AGENT_RELATIONS"."AGENT_ID" IS 'agent that is the subject of the relationship';
+COMMENT ON COLUMN "AGENT_RELATIONS"."RELATED_AGENT_ID" IS 'agent that is the object of the relationship';
+COMMENT ON COLUMN "AGENT_RELATIONS"."AGENT_RELATIONSHIP" IS 'how agent_id is related to related_agent_id';
+COMMENT ON COLUMN "AGENT_RELATIONS"."DATE_TO_MERGE" IS 'if the relationship is a bad duplicate, the date on which the duplicate merge is to be applied.';
+COMMENT ON COLUMN "AGENT_RELATIONS"."ON_HOLD" IS 'if the relationship is a bad duplicate, a flag indicating that the two agent records are not to be merged.  Domain: NULL, 1,  ';
+COMMENT ON COLUMN "AGENT_RELATIONS"."HELD_BY" IS 'the person who set a value in on_hold to hold a bad duplicate merge.';
+COMMENT ON COLUMN "AGENT_RELATIONS"."AGENT_REMARKS" IS 'remarks concerning the relationship between the two agents.';
+COMMENT ON COLUMN "AGENT_RELATIONS"."CREATED_BY" IS 'the user who created this agent_relations record';
+COMMENT ON COLUMN "AGENT_RELATIONS"."AGENT_RELATIONS_ID" IS 'surrogate numeric primary key';

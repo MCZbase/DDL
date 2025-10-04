@@ -41,4 +41,15 @@
   CREATE UNIQUE INDEX "PK_CATALOGED_ITEM" ON "CATALOGED_ITEM" ("COLLECTION_OBJECT_ID") 
   
 ALTER TABLE "CATALOGED_ITEM" ADD CONSTRAINT "PK_CATALOGED_ITEM" PRIMARY KEY ("COLLECTION_OBJECT_ID")
-  USING INDEX "PK_CATALOGED_ITEM"  ENABLE
+  USING INDEX "PK_CATALOGED_ITEM"  ENABLE;
+COMMENT ON TABLE "CATALOGED_ITEM" IS 'Something to which a catalog number is assigned in a collection.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."COLLECTION_OBJECT_ID" IS 'cataloged items are a subtype of collection objects.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."CAT_NUM" IS 'The catalog number of the cataloged item, including any prefix or suffix.  Automatically assembled from cat_num_prefix, cat_num_integer, and cat_num_suffix.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."ACCN_ID" IS 'The accession under which this cataloged item was brought into the museum.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."COLLECTING_EVENT_ID" IS 'The collecting event in which this cataloged item was collected.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."COLLECTION_CDE" IS 'The collection code for the collection within which this cataloged item is held.  Autopopulated convenience field with value obtained from collection.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."CATALOGED_ITEM_TYPE" IS 'The type of the cataloged item, FS=fossil voucher, BI=biological preserved specimen, HO=human observation.    Broadly corresponds to dwc:basisOfRecord and the Darwin Core classes. ';
+COMMENT ON COLUMN "CATALOGED_ITEM"."COLLECTION_ID" IS 'Foreign key to the collection within which this cataloged item is held.  Enforces virtual private database limitiations on collection.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."CAT_NUM_PREFIX" IS 'The prefix portion of the catalog number, if any.  Including any separator.  Example "R-"';
+COMMENT ON COLUMN "CATALOGED_ITEM"."CAT_NUM_INTEGER" IS 'The numeric portion of the catalog number.';
+COMMENT ON COLUMN "CATALOGED_ITEM"."CAT_NUM_SUFFIX" IS 'The suffix portion of the catalog number, if any. Including any separator.  Example "-a"';

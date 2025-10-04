@@ -7,4 +7,8 @@
   USING INDEX  ENABLE, 
 	 CONSTRAINT "CTSPECIFIC_PERMIT_TYPE_FK1" FOREIGN KEY ("PERMIT_TYPE")
 	  REFERENCES "CTPERMIT_TYPE" ("PERMIT_TYPE") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "CTSPECIFIC_PERMIT_TYPE" IS 'Controlled vocabulary for specific types of permissions and rights documents.';
+COMMENT ON COLUMN "CTSPECIFIC_PERMIT_TYPE"."SPECIFIC_TYPE" IS 'Controlled Vocabulary';
+COMMENT ON COLUMN "CTSPECIFIC_PERMIT_TYPE"."PERMIT_TYPE" IS 'More General Type';
+COMMENT ON COLUMN "CTSPECIFIC_PERMIT_TYPE"."ACCN_SHOW_ON_SHIPMENT" IS 'If permit is on an accession it should be printable on all loan shippments of the material.';

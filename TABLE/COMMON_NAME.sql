@@ -8,4 +8,9 @@
   USING INDEX  ENABLE, 
 	 CONSTRAINT "FK_COMMONNAME_TAXONOMY" FOREIGN KEY ("TAXON_NAME_ID")
 	  REFERENCES "TAXONOMY" ("TAXON_NAME_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "COMMON_NAME" IS 'A common name for a taxon, as a finding aid.';
+COMMENT ON COLUMN "COMMON_NAME"."TAXON_NAME_ID" IS 'The taxon name to which the common name applies';
+COMMENT ON COLUMN "COMMON_NAME"."COMMON_NAME" IS 'A common name for a taxon.';
+COMMENT ON COLUMN "COMMON_NAME"."LANGUAGE_TAG" IS 'The IETF Language tag (BCP 47) for the language of the common name';
+COMMENT ON COLUMN "COMMON_NAME"."COMMON_NAME_ID" IS 'Surrogate numeric primary key';

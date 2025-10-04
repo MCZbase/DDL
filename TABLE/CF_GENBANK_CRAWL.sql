@@ -6,4 +6,4 @@
 	"FOUND_COUNT" NUMBER, 
 	"QUERY_TYPE" VARCHAR2(30 CHAR), 
 	"RUN_DATE" DATE DEFAULT sysdate
-   ) 
+   ) ;

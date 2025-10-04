@@ -1,4 +1,4 @@
 
   CREATE TABLE "CTEXTENT_UNITS" 
    (	"UNITS" VARCHAR2(20)
-   ) 
+   ) ;

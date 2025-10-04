@@ -4,4 +4,4 @@
 	"IN_MEDIA_URI" NUMBER, 
 	"IN_PREVIEW_URI" NUMBER, 
 	"LAST_CHECK" TIMESTAMP (6)
-   ) 
+   ) ;

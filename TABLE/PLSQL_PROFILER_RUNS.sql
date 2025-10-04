@@ -12,4 +12,5 @@
 	"SPARE1" VARCHAR2(256 CHAR), 
 	 PRIMARY KEY ("RUNID")
   USING INDEX  ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "PLSQL_PROFILER_RUNS" IS 'Run-specific information for the PL/SQL profiler';

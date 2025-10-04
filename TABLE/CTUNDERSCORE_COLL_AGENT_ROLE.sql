@@ -7,4 +7,9 @@
 	"INVERSE_LABEL" VARCHAR2(50), 
 	 CONSTRAINT "CT_UNDERSCORE_COLL_AGENT_R_PK" PRIMARY KEY ("ROLE")
   USING INDEX  ENABLE
-   ) 
+   ) ;
+COMMENT ON COLUMN "CTUNDERSCORE_COLL_AGENT_ROLE"."ROLE" IS 'Role an agent can have in a relationship to an underscore_collection, e.g PI for grants.';
+COMMENT ON COLUMN "CTUNDERSCORE_COLL_AGENT_ROLE"."DESCRIPTION" IS 'Definition of role';
+COMMENT ON COLUMN "CTUNDERSCORE_COLL_AGENT_ROLE"."ORDINAL" IS 'Sort order for display of relationships.';
+COMMENT ON COLUMN "CTUNDERSCORE_COLL_AGENT_ROLE"."LABEL" IS 'Label to display in form: named group-label-agent.';
+COMMENT ON COLUMN "CTUNDERSCORE_COLL_AGENT_ROLE"."INVERSE_LABEL" IS 'Label to display in form: agent-label-named group.';

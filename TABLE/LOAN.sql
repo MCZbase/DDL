@@ -22,4 +22,19 @@
   CREATE UNIQUE INDEX "PKEY_LOAN" ON "LOAN" ("TRANSACTION_ID") 
   
 ALTER TABLE "LOAN" ADD CONSTRAINT "PK_LOAN" PRIMARY KEY ("TRANSACTION_ID")
-  USING INDEX "PKEY_LOAN"  ENABLE
+  USING INDEX "PKEY_LOAN"  ENABLE;
+COMMENT ON TABLE "LOAN" IS 'Subtype of transactions (TRANS) where material cataloged in the MCZ are temporaraly loaned to another institution.';
+COMMENT ON COLUMN "LOAN"."TRANSACTION_ID" IS 'dependent key';
+COMMENT ON COLUMN "LOAN"."LOAN_TYPE" IS 'Type of loan (consumable, returnable, exhibition)';
+COMMENT ON COLUMN "LOAN"."LOAN_NUM_PREFIX" IS 'Deprecated.';
+COMMENT ON COLUMN "LOAN"."LOAN_NUM" IS 'Deprecated';
+COMMENT ON COLUMN "LOAN"."LOAN_NUM_SUFFIX" IS 'Deprecated.';
+COMMENT ON COLUMN "LOAN"."LOAN_STATUS" IS 'Current state of the loan in its life cycle.';
+COMMENT ON COLUMN "LOAN"."LOAN_INSTRUCTIONS" IS 'Free text instructions to the borrower about the loan and the handling of the material in the loan.';
+COMMENT ON COLUMN "LOAN"."RETURN_DUE_DATE" IS 'The current date by which the loan is due to be returned.';
+COMMENT ON COLUMN "LOAN"."LOAN_DESCRIPTION" IS 'Free text description of the material in the loan.';
+COMMENT ON COLUMN "LOAN"."LOAN_NUMBER" IS 'Identifier for the loan.';
+COMMENT ON COLUMN "LOAN"."INSURANCE_VALUE" IS 'Value for which the material in the loan is to be insured.';
+COMMENT ON COLUMN "LOAN"."INSURANCE_MAINTAINED_BY" IS 'The party responsible for insurance on the loan.';
+COMMENT ON COLUMN "LOAN"."CLOSED_DATE" IS 'Date on which the loan was closed.';
+COMMENT ON COLUMN "LOAN"."CLOSED_BY" IS 'Operator who marked the loan as closed.';

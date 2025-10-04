@@ -10,4 +10,7 @@
 	"ALLOWED_TABLESPACE" VARCHAR2(50), 
 	"BUGZILLA_API_KEY" VARCHAR2(900), 
 	"BUGZILLA_SERVER" VARCHAR2(255)
-   ) 
+   ) ;
+COMMENT ON TABLE "CF_GLOBAL_SETTINGS" IS 'Holds application constant secrets, expected to have only one row.';
+COMMENT ON COLUMN "CF_GLOBAL_SETTINGS"."BUGZILLA_API_KEY" IS 'API Key for accessing Bugzilla instance.';
+COMMENT ON COLUMN "CF_GLOBAL_SETTINGS"."BUGZILLA_SERVER" IS 'Server on which bugzilla is running';

@@ -33,4 +33,24 @@
   CREATE UNIQUE INDEX "PK_LOCALITY_ID" ON "LOCALITY" ("LOCALITY_ID") 
   
 ALTER TABLE "LOCALITY" ADD CONSTRAINT "PK_LOCALITY" PRIMARY KEY ("LOCALITY_ID")
-  USING INDEX "PK_LOCALITY_ID"  ENABLE
+  USING INDEX "PK_LOCALITY_ID"  ENABLE;
+COMMENT ON COLUMN "LOCALITY"."LOCALITY_ID" IS 'Surrogate numeric primary key.';
+COMMENT ON COLUMN "LOCALITY"."GEOG_AUTH_REC_ID" IS 'The higher geography in which this locality is placed.';
+COMMENT ON COLUMN "LOCALITY"."MAXIMUM_ELEVATION" IS 'Mimimum elevation in original elevation units.';
+COMMENT ON COLUMN "LOCALITY"."MINIMUM_ELEVATION" IS 'Maximum elevation in orginal elevation units.';
+COMMENT ON COLUMN "LOCALITY"."ORIG_ELEV_UNITS" IS 'The units for minimum and maximum elevation.';
+COMMENT ON COLUMN "LOCALITY"."TOWNSHIP" IS 'PLSS township, distance north or south from baseline in units of 6 miles';
+COMMENT ON COLUMN "LOCALITY"."TOWNSHIP_DIRECTION" IS 'PLSS township direction (N or S) off base line.';
+COMMENT ON COLUMN "LOCALITY"."RANGE" IS 'PLSS range, direction east or west from baseline in units of 6 miles.';
+COMMENT ON COLUMN "LOCALITY"."RANGE_DIRECTION" IS 'PLSS range direction (E or W) from base line.';
+COMMENT ON COLUMN "LOCALITY"."SECTION" IS 'PLSS section, number in range 1 to 36.';
+COMMENT ON COLUMN "LOCALITY"."SECTION_PART" IS 'PLSS aliquot part, heirarchical reference to quarter or half section subdivisions.';
+COMMENT ON COLUMN "LOCALITY"."SPEC_LOCALITY" IS 'Free text description of the locality within the specified higher geography.';
+COMMENT ON COLUMN "LOCALITY"."LOCALITY_REMARKS" IS 'Free text comments on the locality record.';
+COMMENT ON COLUMN "LOCALITY"."LEGACY_SPEC_LOCALITY_FG" IS 'Unused, all 0 or null';
+COMMENT ON COLUMN "LOCALITY"."DEPTH_UNITS" IS 'Units for min and max depth.';
+COMMENT ON COLUMN "LOCALITY"."MIN_DEPTH" IS 'The lesser depth of a range of depth below a local surface in depth units.';
+COMMENT ON COLUMN "LOCALITY"."MAX_DEPTH" IS 'The greater depth of a range of depth below the local surface in depth units.';
+COMMENT ON COLUMN "LOCALITY"."NOGEOREFBECAUSE" IS 'Reason why the locality is not georeferenced.';
+COMMENT ON COLUMN "LOCALITY"."SOVEREIGN_NATION" IS 'The nation with sovereignty over the place described by this locality.';
+COMMENT ON COLUMN "LOCALITY"."CURATED_FG" IS 'Marker that this locality record has been edited and curated to a target state and shouldn''t normally be edited.';

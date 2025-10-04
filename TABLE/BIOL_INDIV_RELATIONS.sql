@@ -16,4 +16,10 @@
   CREATE UNIQUE INDEX "PKEY_BIOL_INDIV_RELATIONS" ON "BIOL_INDIV_RELATIONS" ("COLLECTION_OBJECT_ID", "RELATED_COLL_OBJECT_ID", "BIOL_INDIV_RELATIONSHIP") 
   
 ALTER TABLE "BIOL_INDIV_RELATIONS" ADD CONSTRAINT "PK_BIOL_INDIV_RELATIONS" PRIMARY KEY ("COLLECTION_OBJECT_ID", "RELATED_COLL_OBJECT_ID", "BIOL_INDIV_RELATIONSHIP")
-  USING INDEX "PKEY_BIOL_INDIV_RELATIONS"  ENABLE
+  USING INDEX "PKEY_BIOL_INDIV_RELATIONS"  ENABLE;
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."BIOL_INDIV_RELATIONS_ID" IS 'Identifier for a row in biol_indiv_relations.  Should be the surrogate numeric primary key.';
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."COLLECTION_OBJECT_ID" IS 'The resource that is the subject of the relationship, identified by a collection_object_id';
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."RELATED_COLL_OBJECT_ID" IS 'The resource that is the object of the relationship.';
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."BIOL_INDIV_RELATIONSHIP" IS 'The relationship of the subject (collection_object_id) to the object (related_coll_object_id)';
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."BIOL_INDIV_RELATION_REMARKS" IS 'Comments or notes about the relationship between the two resources';
+COMMENT ON COLUMN "BIOL_INDIV_RELATIONS"."CREATED_BY" IS 'The creator of this relationship record';

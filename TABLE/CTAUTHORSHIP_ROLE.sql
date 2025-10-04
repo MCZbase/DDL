@@ -8,4 +8,9 @@
   USING INDEX  ENABLE, 
 	 CONSTRAINT "CTAUTHORSHIP_ROLE_FK1" FOREIGN KEY ("NOMENCLATURAL_CODE")
 	  REFERENCES "CTNOMENCLATURAL_CODE" ("NOMENCLATURAL_CODE") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "CTAUTHORSHIP_ROLE" IS 'Controlled vocabulary for scientific name authorship string roles.';
+COMMENT ON COLUMN "CTAUTHORSHIP_ROLE"."ORDINAL" IS 'Order in which to display authorship roles';
+COMMENT ON COLUMN "CTAUTHORSHIP_ROLE"."NOMENCLATURAL_CODE" IS 'Nomenclatural code that this authorship role applies to';
+COMMENT ON COLUMN "CTAUTHORSHIP_ROLE"."DESCRIPTION" IS 'Free text definition and guidance on use of the authorship role.';
+COMMENT ON COLUMN "CTAUTHORSHIP_ROLE"."AUTHORSHIP_ROLE" IS 'Role of agent in scientific name authorship string.';

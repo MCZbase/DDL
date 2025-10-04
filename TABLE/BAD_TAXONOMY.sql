@@ -15,4 +15,4 @@
 	"IZ" VARCHAR2(2), 
 	"ENT" VARCHAR2(2), 
 	"SC" VARCHAR2(2)
-   ) 
+   ) ;

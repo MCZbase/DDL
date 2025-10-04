@@ -21,4 +21,15 @@
   CREATE UNIQUE INDEX "PKEY_PERSON" ON "PERSON" ("PERSON_ID") 
   
 ALTER TABLE "PERSON" ADD CONSTRAINT "PKEY_PERSON" PRIMARY KEY ("PERSON_ID")
-  USING INDEX "PKEY_PERSON"  ENABLE
+  USING INDEX "PKEY_PERSON"  ENABLE;
+COMMENT ON COLUMN "PERSON"."PERSON_ID" IS 'Dependent key, agent.agent_id. PK from Agent';
+COMMENT ON COLUMN "PERSON"."LAST_NAME" IS 'Last portion of name, family name in most european contexts, may be hyphenated, or may be more than one word, usually the personal name in asian contexts.';
+COMMENT ON COLUMN "PERSON"."FIRST_NAME" IS 'First portion of name, usually personal name in european contexts and family name in asian contexts.
+';
+COMMENT ON COLUMN "PERSON"."MIDDLE_NAME" IS 'Middle names not included in first or last.';
+COMMENT ON COLUMN "PERSON"."SUFFIX" IS 'Suffix to append after person''s name, e.g. Jr.';
+COMMENT ON COLUMN "PERSON"."BIRTH_DATE_DATE" IS 'Deprecated';
+COMMENT ON COLUMN "PERSON"."DEATH_DATE_DATE" IS 'Deprecated';
+COMMENT ON COLUMN "PERSON"."OLDEDITED" IS 'Deprecated';
+COMMENT ON COLUMN "PERSON"."BIRTH_DATE" IS 'Date of Birth as an ISO date in YYYY, YYYY-MM, or YYYY-MM-DD form.';
+COMMENT ON COLUMN "PERSON"."DEATH_DATE" IS 'Date of Death as an ISO date in YYYY, YYYY-MM, or YYYY-MM-DD form.';

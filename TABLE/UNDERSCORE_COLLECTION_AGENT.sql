@@ -15,4 +15,12 @@
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
 	 CONSTRAINT "UNDERSCORE_COLLECTION_AGE_FK2" FOREIGN KEY ("UNDERSCORE_COLLECTION_ID")
 	  REFERENCES "UNDERSCORE_COLLECTION" ("UNDERSCORE_COLLECTION_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "UNDERSCORE_COLLECTION_AGENT" IS 'Associative entity linking agents to named groups.  Allows agents to be related to named groups in any of several specified roles.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."UNDERSCORE_COLL_AGENT_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."UNDERSCORE_COLLECTION_ID" IS 'named group to which this agent applies';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."AGENT_ID" IS 'Agent with a role in this named group';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."ROLE" IS 'Role of this agent in this named group';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."REMARKS" IS 'Free text assertions about the relationship between an agent and a named group.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."CREATED_BY_AGENT_ID" IS 'agent who created this record';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_AGENT"."DATE_CREATED" IS 'timestame created';

@@ -10,4 +10,9 @@
 	  REFERENCES "CTTRANSACTION_TYPE" ("TRANSACTION_TYPE") ENABLE, 
 	 CONSTRAINT "TRANS_AGENT_ROLE_ALLOWED_FK2" FOREIGN KEY ("TRANS_AGENT_ROLE")
 	  REFERENCES "CTTRANS_AGENT_ROLE" ("TRANS_AGENT_ROLE") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "TRANS_AGENT_ROLE_ALLOWED" IS 'Allowed Roles for transaction agents by transaction types.';
+COMMENT ON COLUMN "TRANS_AGENT_ROLE_ALLOWED"."TRANS_AGENT_ROLE_ALLOWED_ID" IS 'Surrogate numeric primary key';
+COMMENT ON COLUMN "TRANS_AGENT_ROLE_ALLOWED"."TRANS_AGENT_ROLE" IS 'Transaction agent role allowed for transaction type.';
+COMMENT ON COLUMN "TRANS_AGENT_ROLE_ALLOWED"."TRANSACTION_TYPE" IS 'Transaction type for which the transaction agent role is allowed.';
+COMMENT ON COLUMN "TRANS_AGENT_ROLE_ALLOWED"."REQUIRED_TO_PRINT" IS 'Flag indicating whether this transaction agent role is required to print a transaction of this type.';

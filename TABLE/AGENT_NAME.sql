@@ -13,4 +13,11 @@
   CREATE UNIQUE INDEX "PK_AGENT_NAME_ID" ON "AGENT_NAME" ("AGENT_NAME_ID") 
   
 ALTER TABLE "AGENT_NAME" ADD CONSTRAINT "PK_AGENT_NAME" PRIMARY KEY ("AGENT_NAME_ID")
-  USING INDEX "PK_AGENT_NAME_ID"  ENABLE
+  USING INDEX "PK_AGENT_NAME_ID"  ENABLE;
+COMMENT ON TABLE "AGENT_NAME" IS 'A name, in a specified form, of an agent.';
+COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME_ID" IS 'Surrogate numeric primary key';
+COMMENT ON COLUMN "AGENT_NAME"."AGENT_ID" IS 'FK for agent to which this name belongs.
+';
+COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME_TYPE" IS 'The type of name';
+COMMENT ON COLUMN "AGENT_NAME"."DONOR_CARD_PRESENT_FG" IS 'Deprecated.  If 0, likely indicates creation of agent name through coldfusion code.';
+COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME" IS 'The value of the name';

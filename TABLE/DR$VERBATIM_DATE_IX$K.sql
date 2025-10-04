@@ -3,4 +3,4 @@
    (	"DOCID" NUMBER, 
 	"TEXTKEY" ROWID
    ) 
-  MONITORING 
+  MONITORING ;

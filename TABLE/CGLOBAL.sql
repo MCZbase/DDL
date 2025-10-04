@@ -3,4 +3,4 @@
    (	"CFID" VARCHAR2(64 CHAR), 
 	"DATA" VARCHAR2(4000 CHAR), 
 	"LVISIT" DATE
-   ) 
+   ) ;

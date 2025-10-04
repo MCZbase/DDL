@@ -39,4 +39,19 @@
   CREATE UNIQUE INDEX "PK_COLL_EVENT_ID" ON "COLLECTING_EVENT" ("COLLECTING_EVENT_ID") 
   
 ALTER TABLE "COLLECTING_EVENT" ADD CONSTRAINT "PK_COLLECTING_EVENT" PRIMARY KEY ("COLLECTING_EVENT_ID")
-  USING INDEX "PK_COLL_EVENT_ID"  ENABLE
+  USING INDEX "PK_COLL_EVENT_ID"  ENABLE;
+COMMENT ON TABLE "COLLECTING_EVENT" IS 'Event at which material was collected or observed at some locality.  Similar concept to Gathering in ABCD.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_COLLECTORS" IS 'Verbatim text containing colllector or collectors at this collecting event.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_FIELD_NUMBERS" IS 'Verbatim text containing Numbers and assoicated information that may be field numbers or identifiers of this collecting event.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_HABITAT" IS 'Verbatim text containg habitat and related information that is not part of the verbatim locality.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."HABITAT_DESC" IS 'Information about the habitat present at the locality at the time of the collecting event.  See also coll_object_remarks.habitat for microhabitat.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."FISH_FIELD_NUMBER" IS 'Field number assigned to the collecting event by the Ichtyology department.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_TIME" IS 'Time of day during which the collecting event occurred.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_EVENT_ID" IS 'Surrogate numeric primary key.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."LOCALITY_ID" IS 'Foreign key for the locality at which the collecting event occurred.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."DATE_BEGAN_DATE" IS 'deprecated field, legacy values retained.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."DATE_ENDED_DATE" IS 'deprecated field, legacy values retained.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_DATE" IS 'Verbatim text information about the collecting event date.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."COLL_EVENT_REMARKS" IS 'Free text assertions concerning the collecting event.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_SOURCE" IS 'General sort of provenance for material recorded in this collecting event.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_METHOD" IS 'Means by which material collected in this collecting event were collected or recorded.';

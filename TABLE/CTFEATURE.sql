@@ -1,4 +1,4 @@
 
   CREATE TABLE "CTFEATURE" 
    (	"FEATURE" VARCHAR2(50 CHAR)
-   ) 
+   ) ;

@@ -24,4 +24,16 @@
   CREATE UNIQUE INDEX "PK_IDENT_ID" ON "IDENTIFICATION" ("IDENTIFICATION_ID") 
   
 ALTER TABLE "IDENTIFICATION" ADD CONSTRAINT "PK_IDENT_ID" PRIMARY KEY ("IDENTIFICATION_ID")
-  USING INDEX "PK_IDENT_ID"  ENABLE
+  USING INDEX "PK_IDENT_ID"  ENABLE;
+COMMENT ON COLUMN "IDENTIFICATION"."IDENTIFICATION_ID" IS 'Surrogate numeric primary key';
+COMMENT ON COLUMN "IDENTIFICATION"."COLLECTION_OBJECT_ID" IS 'Collection object to which this identification applies';
+COMMENT ON COLUMN "IDENTIFICATION"."DATE_MADE_DATE" IS 'Deprecated';
+COMMENT ON COLUMN "IDENTIFICATION"."NATURE_OF_ID" IS 'Provenance of the identification.';
+COMMENT ON COLUMN "IDENTIFICATION"."ACCEPTED_ID_FG" IS 'Flag indicating if the identification is the accepted identification for a collection object.';
+COMMENT ON COLUMN "IDENTIFICATION"."IDENTIFICATION_REMARKS" IS 'Free text assertions concerning the identification.';
+COMMENT ON COLUMN "IDENTIFICATION"."TAXA_FORMULA" IS 'Formula by which one or more taxon names are composed with each other and with optional additional text as part of the identification that is not part of the taxon name(s).   Allows expressions of uncertanty in identification and hybrids.  For each capital letter, A, B, etc. in the formula, there is expected to be a taxon_identification record linking this part of the formula to a taxon record.';
+COMMENT ON COLUMN "IDENTIFICATION"."SCIENTIFIC_NAME" IS 'The text of the scientific name as used in the identification, Semiautomatic, composed from taxa_formula and the scientific names of any referenced taxa from the formula.';
+COMMENT ON COLUMN "IDENTIFICATION"."PUBLICATION_ID" IS 'Sensu.  The publication that this use of the taxon name is in the sense of.    Links an identification to a taxon concept..';
+COMMENT ON COLUMN "IDENTIFICATION"."SORT_ORDER" IS 'Sort order for identifications in addition to date of identification.';
+COMMENT ON COLUMN "IDENTIFICATION"."STORED_AS_FG" IS 'Flag indicating that the collection object is stored under this name.';
+COMMENT ON COLUMN "IDENTIFICATION"."MADE_DATE" IS 'Date the identification was made in ISO format.';

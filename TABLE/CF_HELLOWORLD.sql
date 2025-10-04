@@ -3,4 +3,5 @@
    (	"TEXT" VARCHAR2(20), 
 	"COUNTER" NUMBER DEFAULT 0 NOT NULL ENABLE, 
 	"HELLOWORLD_ID" NUMBER DEFAULT 1 NOT NULL ENABLE
-   ) 
+   ) ;
+COMMENT ON COLUMN "CF_HELLOWORLD"."HELLOWORLD_ID" IS 'surrogate numeric primary key, would be expected to have a sequence.';

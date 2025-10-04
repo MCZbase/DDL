@@ -12,4 +12,4 @@
 	"MASK_MEDIA" NUMBER(1,0), 
 	"CAT_NUM" VARCHAR2(50), 
 	"HEC_NUM" VARCHAR2(50)
-   ) 
+   ) ;

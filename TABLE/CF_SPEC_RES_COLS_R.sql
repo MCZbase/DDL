@@ -17,4 +17,17 @@
   CREATE UNIQUE INDEX "CF_SPEC_RES_COLS_R_PK" ON "CF_SPEC_RES_COLS_R" ("CF_SPEC_RES_COLS_ID") 
   
 ALTER TABLE "CF_SPEC_RES_COLS_R" ADD CONSTRAINT "CF_SPEC_RES_COLS_R_PK" PRIMARY KEY ("CF_SPEC_RES_COLS_ID")
-  USING INDEX "CF_SPEC_RES_COLS_R_PK"  ENABLE
+  USING INDEX "CF_SPEC_RES_COLS_R_PK"  ENABLE;
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."COLUMN_NAME" IS 'Name of the column in the results';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."SQL_ELEMENT" IS 'sql element to include in select clause to include this column';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."CATEGORY" IS 'Category into which this column is grouped';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."CF_SPEC_RES_COLS_ID" IS 'surrogage numeric primary key';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."DISP_ORDER" IS 'sort order for display';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."LABEL" IS 'Human readable label for the column';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."ACCESS_ROLE" IS 'Role required to include this column in results.';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."HIDEABLE" IS 'jqxgrid column hidable property';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."HIDDEN" IS 'default jqxgrid hidden property to provide to getColHidPpro()';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."CELLSRENDERER" IS 'name of javascript function to provide as jqxgrid columns cellsrenderer property';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."WIDTH" IS 'jqxgrid columns widht property';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."DATA_TYPE" IS 'data type for data in column';
+COMMENT ON COLUMN "CF_SPEC_RES_COLS_R"."MINIMAL_FG" IS 'Include in a minimal set of fields.';

@@ -1,4 +1,4 @@
 
   CREATE TABLE "CTFLAGS" 
    (	"FLAGS" VARCHAR2(20 CHAR) NOT NULL ENABLE
-   ) 
+   ) ;

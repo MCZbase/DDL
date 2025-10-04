@@ -8,4 +8,8 @@
   CREATE UNIQUE INDEX "PK_PUBLICATION_ATTRIBUTE" ON "CTPUBLICATION_ATTRIBUTE" ("PUBLICATION_ATTRIBUTE") 
   
 ALTER TABLE "CTPUBLICATION_ATTRIBUTE" ADD CONSTRAINT "PK_PUBLICATION_ATTRIBUTE" PRIMARY KEY ("PUBLICATION_ATTRIBUTE")
-  USING INDEX "PK_PUBLICATION_ATTRIBUTE"  ENABLE
+  USING INDEX "PK_PUBLICATION_ATTRIBUTE"  ENABLE;
+COMMENT ON COLUMN "CTPUBLICATION_ATTRIBUTE"."PUBLICATION_ATTRIBUTE" IS 'Controlled vocabulary term for publication attributes';
+COMMENT ON COLUMN "CTPUBLICATION_ATTRIBUTE"."DESCRIPTION" IS 'Text guidance on use of the publication attribute';
+COMMENT ON COLUMN "CTPUBLICATION_ATTRIBUTE"."CONTROL" IS 'TABLE or TABLE.FIELD that provides a controlled vocabulary for this publication attribute, references a code table.';
+COMMENT ON COLUMN "CTPUBLICATION_ATTRIBUTE"."MCZ_PUBLICATION_FG" IS 'Flag indicating that the attribute applies to MCZ publications and is used in the publications.mcz.harvard.edu web presentation of publication data.';

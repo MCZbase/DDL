@@ -19,4 +19,5 @@
 	"AGENTGUID_GUID_TYPE" VARCHAR2(255), 
 	"AGENTGUID" VARCHAR2(900), 
 	"BIOGRAPHY" VARCHAR2(4000)
-   ) 
+   ) ;
+COMMENT ON TABLE "ORPHAN_PERSON" IS 'records found in person table 2023 Feb 23 for which no corresponding agent record existed.  Removed from person table to allow creation of foreign key on person_id.';

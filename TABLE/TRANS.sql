@@ -28,4 +28,19 @@
   CREATE INDEX "PK_TRANS_ID" ON "TRANS" ("TRANSACTION_ID") 
   
 ALTER TABLE "TRANS" ADD PRIMARY KEY ("TRANSACTION_ID")
-  USING INDEX "PK_TRANS_ID"  ENABLE
+  USING INDEX "PK_TRANS_ID"  ENABLE;
+COMMENT ON TABLE "TRANS" IS 'Supertype for all transactions.  Transactions record the movement of specimens and related material in and out of the institution.';
+COMMENT ON COLUMN "TRANS"."NATURE_OF_MATERIAL" IS 'A description of the material involved in the transaction.';
+COMMENT ON COLUMN "TRANS"."TRANS_REMARKS" IS 'Internal remarks concerning the transaction.';
+COMMENT ON COLUMN "TRANS"."INSTITUTION_ACRONYM" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."TRANS_AGENCY_ID" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."COLLECTION_ID" IS 'Collection that this transaction is related to.';
+COMMENT ON COLUMN "TRANS"."IS_PUBLIC_FG" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."DATE_ENTERED" IS 'Date on which this transaction record was entered.';
+COMMENT ON COLUMN "TRANS"."TRANSACTION_ID" IS 'Surrogate Numeric Primary Key';
+COMMENT ON COLUMN "TRANS"."AUTH_AGENT_ID" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."TRANS_DATE" IS 'Date on which this transaction occurred.';
+COMMENT ON COLUMN "TRANS"."TRANS_ENTERED_AGENT_ID" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."RECEIVED_AGENT_ID" IS 'Deprecated.';
+COMMENT ON COLUMN "TRANS"."CORRESP_FG" IS 'Deprecated';
+COMMENT ON COLUMN "TRANS"."TRANSACTION_TYPE" IS 'The type of transaction.  Domain:accn, deaccession, borrow, loan.';

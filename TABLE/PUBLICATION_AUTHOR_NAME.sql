@@ -15,4 +15,9 @@
   CREATE UNIQUE INDEX "PK_PUBLICATION_AUTHOR_NAME" ON "PUBLICATION_AUTHOR_NAME" ("PUBLICATION_AUTHOR_NAME_ID") 
   
 ALTER TABLE "PUBLICATION_AUTHOR_NAME" ADD CONSTRAINT "PK_PUBLICATION_AUTHOR_NAME" PRIMARY KEY ("PUBLICATION_AUTHOR_NAME_ID")
-  USING INDEX "PK_PUBLICATION_AUTHOR_NAME"  ENABLE
+  USING INDEX "PK_PUBLICATION_AUTHOR_NAME"  ENABLE;
+COMMENT ON COLUMN "PUBLICATION_AUTHOR_NAME"."PUBLICATION_ID" IS 'publication to which this agent is related in a role';
+COMMENT ON COLUMN "PUBLICATION_AUTHOR_NAME"."AGENT_NAME_ID" IS 'agent related to the publication';
+COMMENT ON COLUMN "PUBLICATION_AUTHOR_NAME"."AUTHOR_POSITION" IS 'rank order position of the agent in the list of agents for the publication.  Single ordinal counter for a publication, relative position not absolute number determines first author and first editor.';
+COMMENT ON COLUMN "PUBLICATION_AUTHOR_NAME"."AUTHOR_ROLE" IS 'the role of the agent in the publication.  Domain: author, editor.';
+COMMENT ON COLUMN "PUBLICATION_AUTHOR_NAME"."PUBLICATION_AUTHOR_NAME_ID" IS 'surrogate numeric primary key';

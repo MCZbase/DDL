@@ -11,4 +11,13 @@
 	 CONSTRAINT "DOWNLOAD_PROFILE_PK" PRIMARY KEY ("DOWNLOAD_PROFILE_ID")
   USING INDEX  ENABLE, 
 	 CONSTRAINT "DOWNLOAD_PROFILE_CHK1" CHECK (sharing in ('Self','MCZ','Everyone')) ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "DOWNLOAD_PROFILE" IS 'Profiles for CSV File downloads.';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."DOWNLOAD_PROFILE_ID" IS 'suffogate numeric primary key';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."USERNAME" IS 'username of profile creator/owner';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."SHARING" IS 'availability of this profile for sharing: owner, internal, everyone.';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."TARGET_SEARCH" IS 'Search to which this download profile applies';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."NAME" IS 'user supplied name for the profile';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."CREATED" IS 'timestamp crated';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."MODIFIED" IS 'timestamp last modified';
+COMMENT ON COLUMN "DOWNLOAD_PROFILE"."COLUMN_LIST" IS 'comma separated list of columns forming the profile';

@@ -13,4 +13,8 @@
 	  REFERENCES "DEACCESSION" ("TRANSACTION_ID") ENABLE, 
 	 CONSTRAINT "FK_DEACC_ITEM_COLL_OBJ_ID" FOREIGN KEY ("COLLECTION_OBJECT_ID")
 	  REFERENCES "COLL_OBJECT" ("COLLECTION_OBJECT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON COLUMN "DEACC_ITEM"."TRANSACTION_ID" IS 'Transaction of which this deaccession item is a part.';
+COMMENT ON COLUMN "DEACC_ITEM"."COLLECTION_OBJECT_ID" IS 'The cataloged item in the deaccession.';
+COMMENT ON COLUMN "DEACC_ITEM"."RECONCILED_BY_PERSON_ID" IS 'The agent who reconciled this deaccession item';
+COMMENT ON COLUMN "DEACC_ITEM"."DEACC_ITEM_REMARKS" IS 'Free text about the deaccessioned item.';

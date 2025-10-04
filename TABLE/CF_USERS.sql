@@ -58,4 +58,13 @@
 	"SPECIMENS_DOWNLOAD_PROFILE" NUMBER, 
 	"GRIDENABLEMOUSEWHEEL" VARCHAR2(5) DEFAULT 'false' NOT NULL ENABLE, 
 	"GRIDSCROLLTOTOP" VARCHAR2(5) DEFAULT 'true' NOT NULL ENABLE
-   ) 
+   ) ;
+COMMENT ON COLUMN "CF_USERS"."REPORTPREFS" IS 'Comma separated list of collection codes to limit list of label reports shown by default.';
+COMMENT ON COLUMN "CF_USERS"."SPECIMENS_DEFAULT_ACTION" IS 'The value of action to use for this user when visiting Specimens.cfm if no action is specified (default search tabl)';
+COMMENT ON COLUMN "CF_USERS"."SPECIMENS_PIN_GUID" IS 'If 1, then pin guid column in specimen search results, otherwise not pinned without button click.';
+COMMENT ON COLUMN "CF_USERS"."SPECIMENS_PAGESIZE" IS 'Default number of rows in specimen search result grid';
+COMMENT ON COLUMN "CF_USERS"."BASICSRCHPREFS" IS 'Preferences of which sections on the basic search preferences form to open on page load';
+COMMENT ON COLUMN "CF_USERS"."SPECIMENS_DOWNLOAD_PROFILE" IS 'Default Download Profile for Specimen Search Results.';
+COMMENT ON COLUMN "CF_USERS"."GRIDENABLEMOUSEWHEEL" IS 'Default value for jqx grid enablemousewheel, ''true'' for mouse wheel to horizontal scroll, false for normal behavior.';
+COMMENT ON COLUMN "CF_USERS"."GRIDSCROLLTOTOP" IS 'If ''true'' enable annoying auto scroll of page to top of grid after search.';
+COMMENT ON COLUMN "CF_USERS"."SPECSRCHPREFS" IS 'For old specimen search';

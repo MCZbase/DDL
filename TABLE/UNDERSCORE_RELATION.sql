@@ -13,4 +13,10 @@
 	  REFERENCES "COLL_OBJECT" ("COLLECTION_OBJECT_ID") ENABLE, 
 	 CONSTRAINT "UNDERSCORE_RELATION_FK2" FOREIGN KEY ("UNDERSCORE_COLLECTION_ID")
 	  REFERENCES "UNDERSCORE_COLLECTION" ("UNDERSCORE_COLLECTION_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "UNDERSCORE_RELATION" IS 'Relationships between named groups (arbitrary collections of cataloged items (underscore_collection)) and collection objects.';
+COMMENT ON COLUMN "UNDERSCORE_RELATION"."UNDERSCORE_RELATION_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "UNDERSCORE_RELATION"."COLLECTION_OBJECT_ID" IS 'collection object participating in this relationship';
+COMMENT ON COLUMN "UNDERSCORE_RELATION"."UNDERSCORE_COLLECTION_ID" IS 'arbitrary collection in which the related collection object is a member.';
+COMMENT ON COLUMN "UNDERSCORE_RELATION"."TIMESTAMPADDED" IS 'timestamp indicating when the relationship between the named group and the cataloged item was created.';
+COMMENT ON COLUMN "UNDERSCORE_RELATION"."CREATEDBY" IS 'user who created the record';

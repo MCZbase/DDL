@@ -28,4 +28,19 @@
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
 	 CONSTRAINT "FK5_SUBJECT_COLLECTION_OBJECT" FOREIGN KEY ("COLLECTION_OBJECT_ID")
 	  REFERENCES "COLL_OBJECT" ("COLLECTION_OBJECT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "EXTERNAL_RESOURCE_RELATION" IS 'Relationship of a MCZbase coll_object to an external resource that is able to be expressed as a dwc:ResourceRelationship.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."EXTERNAL_RESOURCE_RELATION_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."COLLECTION_OBJECT_ID" IS 'The MCZbase collection object to which the relationship applies, (as the subject of the relationship)';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."RESOURCE_RELATIONSHIP_ID" IS 'An identifier for an instance of relationship between one resource (the subject) and another (relatedResource, the object).';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."RELATIONSHIP_OF_RESOURCE" IS 'A human readable statement of the nature of the relationship between the subject (collection_object_id) and the object (related_Resource_id),';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."RELATED_RESOURCE_ID" IS 'A GUID that identifies the related resource (the object of the relationship).';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."RELATED_RESOURCE_LINK" IS 'A hyperlink to a document describing the related resource.  Populate if related_resource_id is not a resolvable resource.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."ACCORDING_TO_AGENT_ID" IS 'The agent that established the relationship between the two reources.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."ACCORDING_TO_PUBLICATION_ID" IS 'The publication that established the relationship between the two resources.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."ESTABLISHED_DATE" IS 'The date on which the relationhship between the two resources was established';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."RELATIONSHIP_REMARKS" IS 'Comments or notes about the relationship between the two resources.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."TIMESTAMP_CREATED" IS 'Timestamp for the creation of the external resource relation record.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."CREATED_BY_AGENT_ID" IS 'The agent who created the external resource relation record.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."DATE_LAST_MODIFIED" IS 'Timestamp for the last modification of the external resource relation record.';
+COMMENT ON COLUMN "EXTERNAL_RESOURCE_RELATION"."LAST_MODIFIED_BY_AGENT_ID" IS 'The agent who last modified the external resource relation record.';

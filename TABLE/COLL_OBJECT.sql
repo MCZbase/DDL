@@ -25,4 +25,16 @@
   CREATE UNIQUE INDEX "PK_COLL_OBJECT" ON "COLL_OBJECT" ("COLLECTION_OBJECT_ID") 
   
 ALTER TABLE "COLL_OBJECT" ADD CONSTRAINT "PK_COLL_OBJECT" PRIMARY KEY ("COLLECTION_OBJECT_ID")
-  USING INDEX "PK_COLL_OBJECT"  ENABLE
+  USING INDEX "PK_COLL_OBJECT"  ENABLE;
+COMMENT ON COLUMN "COLL_OBJECT"."COLLECTION_OBJECT_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "COLL_OBJECT"."COLL_OBJECT_TYPE" IS 'type of collection object record, for cataloged item or for part thereof.  Domain: SP, CI, SS';
+COMMENT ON COLUMN "COLL_OBJECT"."ENTERED_PERSON_ID" IS 'The agent who created the collection object record.';
+COMMENT ON COLUMN "COLL_OBJECT"."COLL_OBJECT_ENTERED_DATE" IS 'The date on which the collection object record was created.';
+COMMENT ON COLUMN "COLL_OBJECT"."LAST_EDITED_PERSON_ID" IS 'The agent who most recently edited the collection object record.';
+COMMENT ON COLUMN "COLL_OBJECT"."LAST_EDIT_DATE" IS 'The date on which the collection object record was most recently edited';
+COMMENT ON COLUMN "COLL_OBJECT"."COLL_OBJ_DISPOSITION" IS 'The current disposition of the collection object, applies to type SP and SS, should be null for type CI.';
+COMMENT ON COLUMN "COLL_OBJECT"."LOT_COUNT" IS 'The number of items making up the collection object.';
+COMMENT ON COLUMN "COLL_OBJECT"."CONDITION" IS 'The current condition of the collection object';
+COMMENT ON COLUMN "COLL_OBJECT"."FLAGS" IS 'Deprecated, 8 records have values.';
+COMMENT ON COLUMN "COLL_OBJECT"."LOT_COUNT_MODIFIER" IS 'A textual modifier for the lot count indicating range or uncertainty in the count.';
+COMMENT ON COLUMN "COLL_OBJECT"."CONDITION_REMARKS" IS 'Remarks concerning the current condition of the collection object.';

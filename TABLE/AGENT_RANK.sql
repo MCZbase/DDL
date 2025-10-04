@@ -13,4 +13,11 @@
 	  REFERENCES "AGENT" ("AGENT_ID") ON DELETE CASCADE ENABLE, 
 	 CONSTRAINT "FK_AR_RANKED_BY" FOREIGN KEY ("RANKED_BY_AGENT_ID")
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON COLUMN "AGENT_RANK"."AGENT_RANK_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "AGENT_RANK"."AGENT_ID" IS 'The agent to whom this rank applies';
+COMMENT ON COLUMN "AGENT_RANK"."AGENT_RANK" IS 'The ranking of this agent, B, C, D, or F. A assumed for agents unless explicitly ranked otherwise.  B/C caution, D approvals required, F approvals at director level required.';
+COMMENT ON COLUMN "AGENT_RANK"."RANKED_BY_AGENT_ID" IS 'The agent who made this ranking';
+COMMENT ON COLUMN "AGENT_RANK"."REMARK" IS 'Reasons for this ranking and other remarks.';
+COMMENT ON COLUMN "AGENT_RANK"."TRANSACTION_TYPE" IS 'Transaction type from which this ranking arose.';
+COMMENT ON COLUMN "AGENT_RANK"."RANK_DATE" IS 'The date the ranking was made';

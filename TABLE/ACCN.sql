@@ -20,4 +20,15 @@
   CREATE UNIQUE INDEX "PK_ACCN_TRANS_ID" ON "ACCN" ("TRANSACTION_ID") 
   
 ALTER TABLE "ACCN" ADD CONSTRAINT "PK_ACCN" PRIMARY KEY ("TRANSACTION_ID")
-  USING INDEX "PK_ACCN_TRANS_ID"  ENABLE
+  USING INDEX "PK_ACCN_TRANS_ID"  ENABLE;
+COMMENT ON TABLE "ACCN" IS 'Subtype of Transaction (TRANS) in which the institution takes legal legal ownership or stewardship of material.';
+COMMENT ON COLUMN "ACCN"."TRANSACTION_ID" IS 'Dependent key.';
+COMMENT ON COLUMN "ACCN"."ACCN_TYPE" IS 'The type of the accession';
+COMMENT ON COLUMN "ACCN"."ACCN_NUM_PREFIX" IS 'Deprecated';
+COMMENT ON COLUMN "ACCN"."ACCN_NUM" IS 'Deprecated, use accn_number';
+COMMENT ON COLUMN "ACCN"."ACCN_NUM_SUFFIX" IS 'Deprecated';
+COMMENT ON COLUMN "ACCN"."RECEIVED_DATE_TEXT" IS 'The date on which this accession was recieved as text.';
+COMMENT ON COLUMN "ACCN"."ACCN_STATUS" IS 'The status of this accession.';
+COMMENT ON COLUMN "ACCN"."ESTIMATED_COUNT" IS 'An estimate of the number of collection objects in this accession.  Domain: integers';
+COMMENT ON COLUMN "ACCN"."RECEIVED_DATE" IS 'The date on which the material in this accession was received.';
+COMMENT ON COLUMN "ACCN"."ACCN_NUMBER" IS 'The accession number.  Domain: integers';

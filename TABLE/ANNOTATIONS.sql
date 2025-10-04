@@ -22,4 +22,16 @@
 	  REFERENCES "CTMOTIVATION" ("MOTIVATION") ENABLE, 
 	 CONSTRAINT "FK_ANNOTATIONS_REVEWER_AGENT" FOREIGN KEY ("REVIEWER_AGENT_ID")
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "ANNOTATIONS" IS 'Annotations on MCZbase data objects.  Needs alignment with W3C annotation data model, and helios bug tracker ontology.';
+COMMENT ON COLUMN "ANNOTATIONS"."ANNOTATION_ID" IS 'Surrogate numeric primary key';
+COMMENT ON COLUMN "ANNOTATIONS"."CF_USERNAME" IS 'user who created the annotation';
+COMMENT ON COLUMN "ANNOTATIONS"."COLLECTION_OBJECT_ID" IS 'Deprecated';
+COMMENT ON COLUMN "ANNOTATIONS"."TAXON_NAME_ID" IS 'Deprecated';
+COMMENT ON COLUMN "ANNOTATIONS"."PROJECT_ID" IS 'Deprecated';
+COMMENT ON COLUMN "ANNOTATIONS"."PUBLICATION_ID" IS 'Deprecated';
+COMMENT ON COLUMN "ANNOTATIONS"."TARGET_TABLE" IS 'Entity to which the annotation applies.';
+COMMENT ON COLUMN "ANNOTATIONS"."TARGET_PRIMARY_KEY" IS 'primary key value in the target table for the record to which the annotation applies.';
+COMMENT ON COLUMN "ANNOTATIONS"."STATE" IS 'wf:State of the annotation';
+COMMENT ON COLUMN "ANNOTATIONS"."RESOLUTION" IS 'bom:Resolution of the annotation';
+COMMENT ON COLUMN "ANNOTATIONS"."MOTIVATION" IS 'anno:Motivation instance';

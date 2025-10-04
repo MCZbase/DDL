@@ -2,4 +2,4 @@
   CREATE TABLE "LOGINS" 
    (	"USERNAME" VARCHAR2(30 CHAR), 
 	"LAST_LOGIN" DATE
-   ) 
+   ) ;

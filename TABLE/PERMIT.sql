@@ -33,4 +33,6 @@
   CREATE UNIQUE INDEX "PKEY_PERMIT" ON "PERMIT" ("PERMIT_ID") 
   
 ALTER TABLE "PERMIT" ADD CONSTRAINT "PK_PERMIT" PRIMARY KEY ("PERMIT_ID")
-  USING INDEX "PKEY_PERMIT"  ENABLE
+  USING INDEX "PKEY_PERMIT"  ENABLE;
+COMMENT ON TABLE "PERMIT" IS 'A record of a document pertaining to permissions and rights, such as a permit.';
+COMMENT ON COLUMN "PERMIT"."INTERNAL_BENEFITS_SUMMARY" IS 'Summary of agreed Benefits to be provided from Harvard, such as annual reports.';

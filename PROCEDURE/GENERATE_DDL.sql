@@ -17,9 +17,7 @@ BEGIN
     FOR c1_rec IN c1 LOOP
         BEGIN
             SELECT
-                mczbase.getsimpleddl(
-                    c1_rec.object_type, c1_rec.object_name
-                )
+                mczbase.getsimpleddl( c1_rec.object_type, c1_rec.object_name, 1)
             INTO objddl
             FROM
                 dual;

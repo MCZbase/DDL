@@ -3,4 +3,4 @@
    (	"SPCNUMBER" VARCHAR2(50), 
 	"OLDID" NUMBER, 
 	"NEWID" NUMBER
-   ) 
+   ) ;

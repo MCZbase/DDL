@@ -20,4 +20,16 @@
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
 	 CONSTRAINT "FK_LOANITEM_RECONC_AGENT" FOREIGN KEY ("RECONCILED_BY_PERSON_ID")
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "LOAN_ITEM" IS 'Entity recordign the participation of a specimen part in a loan, including item specific instructions and metadata on the lifecycle of the item with respect to the loan.';
+COMMENT ON COLUMN "LOAN_ITEM"."TRANSACTION_ID" IS 'The loan that this item is in.';
+COMMENT ON COLUMN "LOAN_ITEM"."COLLECTION_OBJECT_ID" IS 'The collection_object_id for the part that is this loan item';
+COMMENT ON COLUMN "LOAN_ITEM"."RECONCILED_BY_PERSON_ID" IS 'Agent who reconciled this loan item.';
+COMMENT ON COLUMN "LOAN_ITEM"."RECONCILED_DATE" IS 'Date on which the loan item was reconciled.';
+COMMENT ON COLUMN "LOAN_ITEM"."ITEM_DESCR" IS 'Description of the item as it pertains to the loan.';
+COMMENT ON COLUMN "LOAN_ITEM"."ITEM_INSTRUCTIONS" IS 'Instructions for handling the item in the loan';
+COMMENT ON COLUMN "LOAN_ITEM"."LOAN_ITEM_REMARKS" IS 'Remarks concerning this item in this loan.
+';
+COMMENT ON COLUMN "LOAN_ITEM"."CREATED_BY_AGENT_ID" IS 'Agent who created the loan item record';
+COMMENT ON COLUMN "LOAN_ITEM"."CREATED_DATE" IS 'Date the loan item record was created.';
+COMMENT ON COLUMN "LOAN_ITEM"."LOAN_ITEM_ID" IS 'Surrogate numeric primary key';

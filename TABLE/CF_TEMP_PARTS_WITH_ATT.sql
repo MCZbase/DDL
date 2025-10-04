@@ -20,4 +20,4 @@
 	"COLLECTION_CDE" VARCHAR2(5), 
 	"ID" NUMBER, 
 	"ERROR" VARCHAR2(1000)
-   ) 
+   ) ;

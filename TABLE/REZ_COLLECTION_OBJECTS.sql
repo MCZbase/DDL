@@ -3,4 +3,4 @@
    (	"COLLECTION_OBJECT_ID" NUMBER, 
 	"NAMELSAD" VARCHAR2(74), 
 	"GEOID" CHAR(5)
-   ) 
+   ) ;

@@ -13,4 +13,10 @@
 	  REFERENCES "TAXONOMY" ("TAXON_NAME_ID") ENABLE, 
 	 CONSTRAINT "TAXON_AUTHOR_FK3" FOREIGN KEY ("AUTHORSHIP_ROLE")
 	  REFERENCES "CTAUTHORSHIP_ROLE" ("AUTHORSHIP_ROLE") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "TAXON_AUTHOR" IS 'Table to relate taxon names to agents to construct scientific name authorship strings.';
+COMMENT ON COLUMN "TAXON_AUTHOR"."TAXON_AUTHOR_ID" IS 'Surogate Numeric Primary Key';
+COMMENT ON COLUMN "TAXON_AUTHOR"."TAXON_NAME_ID" IS 'The taxon for which the associated agent is an author.';
+COMMENT ON COLUMN "TAXON_AUTHOR"."AGENT_ID" IS 'The agent who is an author for the associated taxon.';
+COMMENT ON COLUMN "TAXON_AUTHOR"."AUTHORSHIP_ROLE" IS 'The role for the agent in the authorship of the taxon, determines functional placement in botanical authorship strings.';
+COMMENT ON COLUMN "TAXON_AUTHOR"."SORT_POSITION_IN_ROLE" IS 'Sort order for the agent within the role in the authorship string.';

@@ -3,4 +3,4 @@
    (	"COLLECTION_ID" NUMBER, 
 	"FILENAME" VARCHAR2(20 CHAR), 
 	"LASTDATE" DATE
-   ) 
+   ) ;

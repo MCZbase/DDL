@@ -19,4 +19,16 @@
 	  REFERENCES "UNDERSCORE_COLLECTION" ("UNDERSCORE_COLLECTION_ID") ENABLE, 
 	 CONSTRAINT "UNDERSCORE_COLLECTION_CIT_FK3" FOREIGN KEY ("TYPE")
 	  REFERENCES "CTUNDERSCORE_COLL_CIT_TYPE" ("TYPE") ENABLE
-   ) 
+   ) ;
+COMMENT ON TABLE "UNDERSCORE_COLLECTION_CITATION" IS 'Citations of works that have information directly related to a named group, such as histories of expeditions, publications describing the work performed in a grant funded project, etc. ';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."UNDERSCORE_COLL_CITATION_ID" IS 'surrogate numeric primary key';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."UNDERSCORE_COLLECTION_ID" IS 'the named group to which the citation applies.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."PUBLICATION_ID" IS 'the publication that is being cited';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."TYPE" IS 'the type of citation';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."PAGES" IS 'page range for the citation in the publication..';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."REMARKS" IS 'Free text about the citation.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."CITATION_PAGE_URI" IS 'URI for the first page in the cited page range.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."CREATED_BY_AGENT_ID" IS 'automatic. the agent who created the citation record.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."DATE_CREATED" IS 'automatic. timestamp for the creation of this citation record';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."LAST_UPDATED_BY_AGENT_ID" IS 'automatic. the agent whom most recently updated this citation record.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION_CITATION"."DATE_LAST_UPDATED" IS 'automatic. timestamp for the most recent update to the citation record.';

@@ -1,4 +1,4 @@
 
   CREATE TABLE "CTHISTO_DEPTH" 
    (	"HISTO_DEPTH" VARCHAR2(30 CHAR)
-   ) 
+   ) ;
