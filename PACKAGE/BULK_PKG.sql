@@ -554,43 +554,136 @@ BEGIN
 				rec.ASSOCIATED_SPECIES
 			);
 		end if;
-		-- collectors
-		for i IN 1 .. 8 LOOP -- number of collectors
-			execute immediate 'select count(*)
-				FROM bulkloader
-				where 
-				COLLECTOR_AGENT_' || i || ' is not null and 
-				collection_object_id = ' || rec.collection_object_id 
-				INTO num;
-			if num > 0 then
-				execute immediate 'select 
-					COLLECTOR_AGENT_' || i || ', 
-					trim(COLLECTOR_ROLE_' || i || ')
-					FROM bulkloader
-					where collection_object_id = ' || rec.collection_object_id  
-					INTO someRandomString,
-					someRandomStringTwo;
-        someRandomStringTwo := trim(someRandomStringTwo);
-				select count(distinct(agent_id))  into num from agent_name where agent_name = someRandomString;
-				if num != 1 then
-					error_msg := 'Bad COLLECTOR_AGENT_' || i || '(' || someRandomString || ')';
-					raise failed_validation;
-				else
-					select distinct(agent_id) into someRandomNumber from agent_name where agent_name = someRandomString;
-					insert into collector (
-						COLLECTION_OBJECT_ID,
-						AGENT_ID,
-						COLLECTOR_ROLE,
-						COLL_ORDER
-					) values (
-						l_collection_object_id,
-						someRandomNumber,
-						someRandomStringTwo,
-						i
-					);
-				end if;
-			end if;
-		END LOOP;
+        -- collectors
+        FOR i IN 1..8 LOOP -- number of collectors
+            -- check if collector slot contains data
+            EXECUTE IMMEDIATE 'SELECT COUNT(*)
+                   FROM bulkloader
+                  WHERE collector_agent_'
+                              || i
+                              || ' IS NOT NULL
+                    AND collection_object_id = :coid'
+            INTO num
+                USING rec.collection_object_id;
+            IF num > 0 THEN
+                --  check values in that collector slot
+                EXECUTE IMMEDIATE 'SELECT collector_agent_'
+                                  || i
+                                  || ',
+                            TRIM(collector_role_'
+                                  || i
+                                  || ')
+                       FROM bulkloader
+                      WHERE collection_object_id = :coid'
+                INTO
+                    somerandomstring,      -- agent token (name OR integer agent_id)
+                    somerandomstringtwo    -- role
+                    USING rec.collection_object_id;
+        
+                somerandomstring := trim(somerandomstring);
+                somerandomstringtwo := trim(somerandomstringtwo);
+                
+                -- if an integer, check against agent.agent_id, otherwise check agains agent_name.agent_name
+                -- and if unique match, obtain the agent_id.
+                IF regexp_like(
+                              somerandomstring,
+                              '^\d+$'
+                   ) THEN
+                    -- Integer token: treat as AGENT_ID
+                    somerandomnumber := TO_NUMBER ( somerandomstring );
+        
+                    -- count check to validate existence
+                    -- validate against AGENT (since agent_id is PK there).
+                    SELECT
+                        COUNT(*)
+                    INTO num
+                    FROM
+                        agent
+                    WHERE
+                        agent_id = somerandomnumber;
+        
+                    IF num = 0 THEN
+                        error_msg := 'Bad COLLECTOR_AGENT_'
+                                     || i
+                                     || ' (agent_id '
+                                     || somerandomstring
+                                     || ' not found in AGENT)';
+                        RAISE failed_validation;
+                    END IF;
+
+                ELSE
+                    -- Non-integer token: treat as AGENT_NAME, check if exits or if ambiguuous.
+                    SELECT
+                        COUNT(DISTINCT agent_id)
+                    INTO num
+                    FROM
+                        agent_name
+                    WHERE
+                        agent_name = somerandomstring;
+        
+                    IF num = 0 THEN
+                        error_msg := 'Bad COLLECTOR_AGENT_'
+                                     || i
+                                     || ' (agent_name "'
+                                     || somerandomstring
+                                     || '" not found)';
+                        RAISE failed_validation;
+                    ELSIF num > 1 THEN
+                        error_msg := 'Bad COLLECTOR_AGENT_'
+                                     || i
+                                     || ' (agent_name "'
+                                     || somerandomstring
+                                     || '" is ambiguous, name for: '
+                                     || num
+                                     || ' different agents)';
+        
+                        RAISE failed_validation;
+                    ELSE
+                        BEGIN
+                            SELECT DISTINCT
+                                agent_id
+                            INTO somerandomnumber
+                            FROM
+                                agent_name
+                            WHERE
+                                agent_name = somerandomstring;
+        
+                        EXCEPTION
+                            WHEN no_data_found THEN
+                                error_msg := 'Bad COLLECTOR_AGENT_'
+                                             || i
+                                             || ' (agent_name "'
+                                             || somerandomstring
+                                             || '" disappeared during validation)';
+                                RAISE failed_validation;
+                            WHEN too_many_rows THEN
+                                -- Should not happen if COUNT(DISTINCT agent_id)=1, but guard anyway.
+                                error_msg := 'Bad COLLECTOR_AGENT_'
+                                             || i
+                                             || ' (agent_name "'
+                                             || somerandomstring
+                                             || '" became ambiguous during validation)';
+                                RAISE failed_validation;
+                        END;
+                    END IF;
+        
+                END IF;
+        
+                INSERT INTO collector (
+                    collection_object_id,
+                    agent_id,
+                    collector_role,
+                    coll_order
+                ) VALUES (
+                    l_collection_object_id,
+                    somerandomnumber,
+                    somerandomstringtwo,
+                    i
+                );
+        
+            END IF;
+        
+        END LOOP;  -- end collectors loop
 EXCEPTION
 	when others then
 		bulkload_error (error_msg,SQLERRM,'b_bulkload',collobjid);

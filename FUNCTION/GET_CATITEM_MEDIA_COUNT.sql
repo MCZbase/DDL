@@ -20,6 +20,7 @@ open l_cur for '
     FROM media_relations 
     WHERE related_primary_key = :x
        and media_relationship like ''% cataloged_item''
+       and is_media_encumbered(media_id) < 1
     GROUP BY media_relationship 
     ORDER BY media_relationship desc
    '

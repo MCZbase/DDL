@@ -1,7 +1,7 @@
 
   CREATE OR REPLACE EDITIONABLE PROCEDURE "LOAD_ENT_LOANS" as
 
-cursor c1 is select * from x_entloans2 where moved is null or moved = 'X';
+cursor c1 is select * from CF_TEMP_LOAN where moved is null or moved = 'X';
 numTRANSID number;
 cnt number;
 err_num varchar(100);
@@ -17,7 +17,7 @@ begin
 numID := c1_rec.ID;
 err_msg := null;
 
-select count(*) into cnt from loan where loan_number = c1_rec.mczbase_loan_number;
+select count(*) into cnt from loan where loan_number = c1_rec.loan_number;
 
 if cnt = 0 then 
 
@@ -53,7 +53,7 @@ INSERT INTO loan (
 				values (
 					numTRANSID,
 					c1_rec.loan_type,
-					c1_rec.mczbase_loan_number
+					c1_rec.loan_number
                     ,c1_rec.loan_status
                     ,to_date(c1_rec.return_due_date, 'YYYY-MM-DD')
                     ,c1_rec.LOAN_INSTRUCTIONS

@@ -134,7 +134,10 @@ begin
                 end if;
             when 'media' then
 				select media_id into theValue from media where media_id=r.related_primary_key;
-				the_relation:=the_relation ||'<dfn>' || theLabel || '</dfn>: ' || theValue;                
+				the_relation:=the_relation ||'<dfn>' || theLabel || '</dfn>: ' || theValue;       
+            when 'container' then
+				select label || ' ' || container_type into theValue from container where container_id=r.related_primary_key;
+				the_relation:=the_relation ||'<dfn>' || theLabel || '</dfn>: ' || theValue;     
             when 'cataloged_item' then
                 if (r.media_relationship = 'ledger entry for cataloged_item') then
                     ledgercounter := ledgercounter + 1;

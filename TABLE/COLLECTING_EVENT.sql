@@ -46,7 +46,11 @@ COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_FIELD_NUMBERS" IS 'Verbatim text 
 COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIM_HABITAT" IS 'Verbatim text containg habitat and related information that is not part of the verbatim locality.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."HABITAT_DESC" IS 'Information about the habitat present at the locality at the time of the collecting event.  See also coll_object_remarks.habitat for microhabitat.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."FISH_FIELD_NUMBER" IS 'Field number assigned to the collecting event by the Ichtyology department.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."BEGAN_DATE" IS 'Date the known temporal range containing the collecting event started on, in yyyy-mm-dd format.   Use 1700-01-01 if constraint for earyest possible date is not known.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."ENDED_DATE" IS 'Date the known temporal range containing the collecting event ended on in yyyy-mm-dd format, if event is known to a single day, this should be the same value as BEGAN_DATE.  If date is unknown, may be the date of data entry as an end boundary for a poorly known range.  Earlier practice was to use 2100-12-31 as an unknown upper bound.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_TIME" IS 'Time of day during which the collecting event occurred.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIMELEVATION" IS 'Verbatim text containing the elevation or elevation range for the collecting event.';
+COMMENT ON COLUMN "COLLECTING_EVENT"."VERBATIMDEPTH" IS 'Verbatim text containing the depth or depth range for the collecting event.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."COLLECTING_EVENT_ID" IS 'Surrogate numeric primary key.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."LOCALITY_ID" IS 'Foreign key for the locality at which the collecting event occurred.';
 COMMENT ON COLUMN "COLLECTING_EVENT"."DATE_BEGAN_DATE" IS 'deprecated field, legacy values retained.';

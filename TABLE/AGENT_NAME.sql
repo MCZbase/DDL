@@ -5,6 +5,7 @@
 	"AGENT_NAME_TYPE" VARCHAR2(18 CHAR) NOT NULL ENABLE, 
 	"DONOR_CARD_PRESENT_FG" NUMBER, 
 	"AGENT_NAME" VARCHAR2(184 CHAR) NOT NULL ENABLE, 
+	 CONSTRAINT "CK_AGENT_NAME_NOT_ALL_DIGITS" CHECK (NOT REGEXP_LIKE(TRIM(AGENT_NAME), '^\d+$')) ENABLE, 
 	 CONSTRAINT "FK_CTAGENT_NAME_TYPE" FOREIGN KEY ("AGENT_NAME_TYPE")
 	  REFERENCES "CTAGENT_NAME_TYPE" ("AGENT_NAME_TYPE") ENABLE, 
 	 CONSTRAINT "FK_AGENTNAME_AGENT" FOREIGN KEY ("AGENT_ID")
@@ -20,4 +21,4 @@ COMMENT ON COLUMN "AGENT_NAME"."AGENT_ID" IS 'FK for agent to which this name be
 ';
 COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME_TYPE" IS 'The type of name';
 COMMENT ON COLUMN "AGENT_NAME"."DONOR_CARD_PRESENT_FG" IS 'Deprecated.  If 0, likely indicates creation of agent name through coldfusion code.';
-COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME" IS 'The value of the name';
+COMMENT ON COLUMN "AGENT_NAME"."AGENT_NAME" IS 'The value of the name.  Integer values are not allowed, if an agent correctly has a name that is an integer, enclose it in quotes.';

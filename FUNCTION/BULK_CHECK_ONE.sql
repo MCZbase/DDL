@@ -581,26 +581,59 @@ a_instn varchar2(255);
                                 end if;
                         end if;
                 end loop; -- end other ID loop
-                for i IN 1 .. 8 LOOP -- number of collectors
-                         execute immediate 'select 
-                                        COLLECTOR_AGENT_' || i || ',
-                                        trim(COLLECTOR_ROLE_' || i || ')
-                                 from bulkloader where  collection_object_id = ' || rec.collection_object_id into 
-                                 collectorName,
-                                 collectorRole;
-                        if i = 1 and (collectorName is null or collectorRole != 'c') then
-                                thisError :=  thisError || '; First collector is required';
-                        end if;
-                        if  collectorName is not null then
-                                SELECT count(distinct(agent_id)) INTO numRecs FROM agent_name WHERE agent_name = collectorName;
-                                        if numRecs = 0 then
-                                                thisError :=  thisError || '; COLLECTOR_AGENT_' || i || ' is invalid';
-                                        END IF;
-                                if collectorRole not in ('c','p') then
-                                        thisError :=  thisError || '; COLLECTOR_ROLE_' || i || ' is invalid';
-                                end if;
-                        end if;
-                end loop; -- end collector loop
+                FOR i IN 1 .. 8 LOOP -- number of collectors
+                    EXECUTE IMMEDIATE
+                        'SELECT collector_agent_' || i || ',
+                                TRIM(collector_role_' || i || ')
+                           FROM bulkloader
+                          WHERE collection_object_id = :coid'
+                        INTO collectorName,
+                             collectorRole
+                        USING rec.collection_object_id;
+                
+                    collectorName := TRIM(collectorName);
+                    collectorRole := TRIM(collectorRole);
+                
+                    IF i = 1 AND (collectorName IS NULL OR collectorRole != 'c') THEN
+                        thisError := thisError || '; First collector is required';
+                    END IF;
+                
+                    IF collectorName IS NOT NULL THEN
+                        -- Validate collectorName as either numeric agent_id or text agent_name
+                        IF REGEXP_LIKE(collectorName, '^\d+$') THEN
+                            -- numeric => AGENT_ID
+                            SELECT COUNT(*)
+                              INTO numRecs
+                              FROM agent
+                             WHERE agent_id = TO_NUMBER(collectorName);
+                
+                            IF numRecs = 0 THEN
+                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
+                                    ' is invalid (agent_id ' || collectorName || ' not found)';
+                            END IF;
+                
+                        ELSE
+                            -- text => AGENT_NAME
+                            SELECT COUNT(DISTINCT agent_id)
+                              INTO numRecs
+                              FROM agent_name
+                             WHERE agent_name = collectorName;
+                
+                            IF numRecs = 0 THEN
+                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
+                                    ' is invalid (agent_name "' || collectorName || '" not found)';
+                            ELSIF numRecs > 1 THEN
+                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
+                                    ' is invalid (agent_name "' || collectorName || '" is ambiguous: ' || numRecs || ' agent_id values)';
+                            END IF;
+                        END IF;
+                
+                        -- Role validation (same as before)
+                        IF collectorRole NOT IN ('c','p') THEN
+                            thisError := thisError || '; COLLECTOR_ROLE_' || i || ' is invalid';
+                        END IF;
+                    END IF;
+                END LOOP; -- end collector loop
                 if rec.flags is not null then
                         SELECT count(*) INTO numRecs FROM ctflags WHERE FLAGS = rec.FLAGS;
                         if numRecs = 0 then

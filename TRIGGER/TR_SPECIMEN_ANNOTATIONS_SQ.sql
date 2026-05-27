@@ -1,5 +1,5 @@
 
-  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_SPECIMEN_ANNOTATIONS_SQ" before insert ON specimen_annotations
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TR_SPECIMEN_ANNOTATIONS_SQ" before insert ON "X_SPECIMEN_ANNOTATIONS"
 for each row
 begin
     if :NEW.annotation_id is null then

@@ -11,7 +11,7 @@
 	 CONSTRAINT "CTGUID_TYPE_PK" PRIMARY KEY ("GUID_TYPE")
   USING INDEX  ENABLE
    ) ;
-COMMENT ON TABLE "CTGUID_TYPE" IS 'Code table for types of globally unique identifiers.';
+COMMENT ON TABLE "CTGUID_TYPE" IS 'Controlled vocabulary for types of globally unique identifiers, including expected patterns and mappings to resolvers.';
 COMMENT ON COLUMN "CTGUID_TYPE"."APPLIES_TO" IS 'space delimited list of table.field names this guid type applies to.';
 COMMENT ON COLUMN "CTGUID_TYPE"."PLACEHOLDER" IS 'placeholder to display as hint for data entry.';
 COMMENT ON COLUMN "CTGUID_TYPE"."PATTERN_REGEX" IS 'regular expression to which correctly entered values for this guid type must conform.  Sould at least cover namespace.';

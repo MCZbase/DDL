@@ -1,0 +1,28 @@
+
+  CREATE TABLE "ANNOTATION_HISTORY" 
+   (	"ANNOTATION_HISTORY_ID" NUMBER NOT NULL ENABLE, 
+	"ANNOTATION_ID" NUMBER NOT NULL ENABLE, 
+	"EVENT_TYPE" VARCHAR2(30) NOT NULL ENABLE, 
+	"CHANGED_TABLE" VARCHAR2(30) NOT NULL ENABLE, 
+	"CHANGED_FIELD" VARCHAR2(50), 
+	"OLD_VALUE" VARCHAR2(4000), 
+	"NEW_VALUE" VARCHAR2(4000), 
+	"CHANGED_BY_USERNAME" VARCHAR2(255), 
+	"CHANGED_BY_AGENT_ID" NUMBER, 
+	"CHANGED_DATE" DATE DEFAULT SYSDATE NOT NULL ENABLE, 
+	 CONSTRAINT "PK_ANNOTATION_HISTORY" PRIMARY KEY ("ANNOTATION_HISTORY_ID")
+  USING INDEX  ENABLE, 
+	 CONSTRAINT "FK_ANNOTATION_HISTORY_ANNOTATION" FOREIGN KEY ("ANNOTATION_ID")
+	  REFERENCES "ANNOTATIONS" ("ANNOTATION_ID") ENABLE
+   ) ;
+COMMENT ON TABLE "ANNOTATION_HISTORY" IS 'Audit trail for annotation creation and changes, including workflow field changes and textual body changes.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."ANNOTATION_HISTORY_ID" IS 'Surrogate Numeric Primary key for an annotation history event record.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."ANNOTATION_ID" IS 'The annotation to which this history event applies.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."EVENT_TYPE" IS 'Type of event, for example CREATE, or UPDATE.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."CHANGED_TABLE" IS 'Source table in which the event occurred, for example ANNOTATIONS or ANNOTATION_TEXTUALBODY.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."CHANGED_FIELD" IS 'Field that changed for this event, or a synthetic value such as TEXTUAL_BODY_CREATED.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."OLD_VALUE" IS 'Previous value of the field before the change, when applicable.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."NEW_VALUE" IS 'New value of the field after the change, when applicable.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."CHANGED_BY_USERNAME" IS 'Database/application username responsible for the change, when known.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."CHANGED_BY_AGENT_ID" IS 'Agent identifier corresponding to the user responsible for the change, when known.';
+COMMENT ON COLUMN "ANNOTATION_HISTORY"."CHANGED_DATE" IS 'Date and time when the history event was recorded.';

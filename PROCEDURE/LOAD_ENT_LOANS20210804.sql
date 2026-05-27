@@ -1,7 +1,7 @@
 
   CREATE OR REPLACE EDITIONABLE PROCEDURE "LOAD_ENT_LOANS20210804" as
 
-cursor c1 is select * from x_entloans_20210804 where moved is null or moved = 'X';
+cursor c1 is select * from CF_TEMP_LOAN where moved is null or moved = 'X';
 numTRANSID number;
 cnt number;
 err_num varchar(100);

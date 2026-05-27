@@ -1,0 +1,16 @@
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_INS_TAX_ATTRIBUTE" 
+BEFORE INSERT ON MCZBASE.TAXON_ATTRIBUTE
+FOR EACH ROW
+declare
+agentID agent.agent_id%type;
+BEGIN
+  <<COLUMN_SEQUENCES>>
+  BEGIN
+    IF INSERTING AND :NEW.created_agent_id IS NULL THEN
+      select agent_id into agentID from agent_name where upper(agent_name) = SYS_CONTEXT('USERENV','SESSION_USER') and agent_name_type = 'login';
+      :NEW.CREATED_AGENT_ID := agentID;
+    END IF;
+  END COLUMN_SEQUENCES;
+END;
+ALTER TRIGGER "TRG_INS_TAX_ATTRIBUTE" ENABLE

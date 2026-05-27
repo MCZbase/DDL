@@ -24,7 +24,11 @@
        loop
            fetch l_cur into l_val;
            exit when l_cur%notfound;
-           ret_tmp := ret_tmp || l_sep || l_val;
+           if length(ret_tmp) < 4001 then 
+              ret_tmp := ret_tmp || l_sep || l_val;  -- append up to limit
+           else 
+              ret_tmp := ret_tmp || l_sep || 'THERE ARE ADDITIONAL RELATIONS';  -- force over 4000 to catch below
+           end if;
            l_sep := '; ';
        end loop;
        close l_cur;

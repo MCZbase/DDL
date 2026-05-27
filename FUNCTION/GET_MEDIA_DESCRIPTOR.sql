@@ -18,7 +18,7 @@ AS
     l_cur    rc;
 begin
 
-  
+
     open l_cur for 
     'select media_type from media where media_id = :x '
     using mediaID;
@@ -26,13 +26,13 @@ begin
     close l_cur;
 
     the_relation := 'Media type: ' || media_type || '; ';
-    
+
     ledgercounter := 0; 
-    
+
     maxlengthpart := 2000;
-    
+
     sep := '';
-    
+
 	for r in (
        select media_relationship, related_primary_key from media_relations where media_id=mediaID
     ) loop
@@ -115,6 +115,9 @@ begin
             when 'media' then
 				select media_id into theValue from media where media_id=r.related_primary_key;
 				the_relation:=the_relation || theValue|| '; '; 
+            when 'container' then
+				select label || ' ' || container_type into theValue from container where container_id=r.related_primary_key;
+				the_relation:=the_relation || theValue|| '; ';                 
             when 'cataloged_item' then
              if (ledgercounter > 0)  then
 			  	   select  cat_num into theValue 

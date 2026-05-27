@@ -8,7 +8,7 @@ Cursor c1 is WITH aquery AS
    FROM cataloged_item 
     where collection_cde = collcde 
       and nvl(cat_num_prefix, 'XXX') = nvl(catnumprefix, 'XXX')
-      and cat_num_integer <= 35586 )
+      and cat_num_integer <= 344099 )
 SELECT  before_gap, after_gap, after_gap - before_gap as gap_size 
   FROM aquery 
  WHERE before_gap != 0 
@@ -41,7 +41,7 @@ x number;
 
 BEGIN
 
----execute immediate 'truncate table unusednumbers';
+execute immediate 'truncate table unusednumbers';
 
 for c1_rec in c1 loop
   for x in c1_rec.before_gap+1..c1_rec.after_gap-1 loop

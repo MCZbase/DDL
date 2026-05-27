@@ -37,6 +37,13 @@ ddlFile := UTL_FILE.fopen (c1_rec.object_type, c1_rec.object_name || '.sql', 'w'
 -- the MCZBASE schema needs grants for read and write on each directory object to be exported into.
 -- dbms_output.put_line(c1_rec.object_type || '.' || c1_rec.object_name);
 
+            -- skip if no valid CLOB/DDL
+            IF objddl IS NULL THEN
+                dbms_output.put_line('Skipping ' || c1_rec.object_type || '.' || c1_rec.object_name ||
+                                     ' (no DDL returned)');
+                CONTINUE;
+            END IF;
+
             IF c1_rec.object_type = 'JAVA SOURCE' THEN
                 -- special case handling, for clearer directory names, change space to underscore for directory name.
                 dbms_xslprocessor.clob2file(

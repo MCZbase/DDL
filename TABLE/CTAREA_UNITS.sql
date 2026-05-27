@@ -4,4 +4,4 @@
 	 CONSTRAINT "CTAREA_UNITS_PK" PRIMARY KEY ("AREA_UNITS")
   USING INDEX  ENABLE
    ) ;
-COMMENT ON TABLE "CTAREA_UNITS" IS 'Code table for units of area (length squared).';
+COMMENT ON TABLE "CTAREA_UNITS" IS 'Controlled vocabulary for units of area (length squared).';
