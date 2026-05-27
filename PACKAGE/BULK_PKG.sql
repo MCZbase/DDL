@@ -129,12 +129,23 @@ BEGIN
 				---error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
 				---raise failed_validation;
 			end if;
-			select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-			if num = 0 then
-				error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
-				raise failed_validation;
-			end if;
-			select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
+			DECLARE
+				l_agent_json  VARCHAR2(4000);
+				l_status      VARCHAR2(20);
+				l_message     VARCHAR2(4000);
+			BEGIN
+				l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+					p_agent_token => ATTRIBUTE_DETERMINER,
+					p_field_label => 'ATTRIBUTE_DETERMINER_' || i
+				);
+				l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+				IF l_status = 'ERROR' THEN
+					l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+					error_msg := l_message;
+					RAISE failed_validation;
+				END IF;
+				ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+			END;
 			execute immediate 'select ATTRIBUTE_' || i || 
 				',ATTRIBUTE_VALUE_' || i || 
 				',ATTRIBUTE_UNITS_' || i || 
@@ -315,16 +326,23 @@ BEGIN
             execute immediate 'select part_' || i || '_att_detby_' || j || ' from bulkloader where collection_object_id = ' || 
               collobjid into ATTRIBUTE_DETERMINER;
               --dbms_output.put_line ('ATTRIBUTE_DETERMINER: ' || ATTRIBUTE_DETERMINER);
-            if ATTRIBUTE_DETERMINER is not null then
-              select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-              if num = 0 then
-                error_msg := 'Bad part_'||i||'_att_detby_' || j;
-                raise failed_validation;
-              end if;
-              select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-            else
-              ATTRIBUTE_DETERMINER_ID := null;
-            end if;
+            DECLARE
+              l_agent_json  VARCHAR2(4000);
+              l_status      VARCHAR2(20);
+              l_message     VARCHAR2(4000);
+            BEGIN
+              l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                p_agent_token => ATTRIBUTE_DETERMINER,
+                p_field_label => 'PART_' || i || '_ATT_DETBY_' || j
+              );
+              l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+              IF l_status = 'ERROR' THEN
+                l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                error_msg := l_message;
+                RAISE failed_validation;
+              END IF;
+              ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+            END;
               execute immediate 'select part_' || i || '_att_name_' || j || 
                 ',part_' || i || '_att_val_' || j ||
                 ',part_' || i || '_att_units_' || j ||
@@ -915,16 +933,23 @@ BEGIN
 				ATTRIBUTE_DET_METH,
 				ATTRIBUTE_REMARKS
 			;
-			if ATTRIBUTE_DETERMINER is NOT null then
-			    select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-			    if num = 0 then
-    				error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
-    				raise failed_validation;
-    			end if;
-    			select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-    	    ELSE
-    			ATTRIBUTE_DETERMINER_ID:=NULL;
-			end if;
+			DECLARE
+				l_agent_json  VARCHAR2(4000);
+				l_status      VARCHAR2(20);
+				l_message     VARCHAR2(4000);
+			BEGIN
+				l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+					p_agent_token => ATTRIBUTE_DETERMINER,
+					p_field_label => 'GEO_ATT_DETERMINER_' || i
+				);
+				l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+				IF l_status = 'ERROR' THEN
+					l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+					error_msg := l_message;
+					RAISE failed_validation;
+				END IF;
+				ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+			END;
 		--dbms_output.put_line ('num: ' || num);
 		--dbms_output.put_line ('ATTRIBUTE: ' || ATTRIBUTE);
 		--dbms_output.put_line ('ATTRIBUTE_VALUE: ' || ATTRIBUTE_VALUE);
@@ -951,7 +976,23 @@ BEGIN
 
 		IF aRec.ORIG_LAT_LONG_UNITS is not null THEN
 				--dbms_output.put_line('making a lat/long');
-				select distinct(agent_id) into determiner_id from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
+				DECLARE
+					l_agent_json  VARCHAR2(4000);
+					l_status      VARCHAR2(20);
+					l_message     VARCHAR2(4000);
+				BEGIN
+					l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+						p_agent_token => aRec.DETERMINED_BY_AGENT,
+						p_field_label => 'DETERMINED_BY_AGENT'
+					);
+					l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+					IF l_status = 'ERROR' THEN
+						l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+						error_msg := l_message;
+						RAISE failed_validation;
+					END IF;
+					determiner_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+				END;
                    --dbms_output.put_line('got determiner');
                    --dbms_output.put_line(' aRec.ORIG_LAT_LONG_UNITS: ' ||  aRec.ORIG_LAT_LONG_UNITS);
                 if aRec.VERIFICATIONSTATUS = 'verified by MCZ collection' then 
@@ -1220,14 +1261,24 @@ BEGIN
         	error_msg := 'Bad higher_geog';
         	raise failed_validation;
         END IF;
-        IF aRec.DETERMINED_BY_AGENT IS NOT NULL and aRec.ORIG_LAT_LONG_UNITS is not null THEN
-            select count(distinct(agent_id)) into num from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
-			if num != 1 then
-				error_msg := 'Bad lat/long determined_by_agent';
-				raise failed_validation;
-				--dbms_output.put_line ('Bad DETERMINED_BY_AGENT');
-			end if;
-			select distinct(agent_id) into determiner_id from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
+        IF aRec.ORIG_LAT_LONG_UNITS is not null THEN
+            DECLARE
+                l_agent_json  VARCHAR2(4000);
+                l_status      VARCHAR2(20);
+                l_message     VARCHAR2(4000);
+            BEGIN
+                l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                    p_agent_token => aRec.DETERMINED_BY_AGENT,
+                    p_field_label => 'DETERMINED_BY_AGENT'
+                );
+                l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                IF l_status = 'ERROR' THEN
+                    l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                    error_msg := l_message;
+                    RAISE failed_validation;
+                END IF;
+                determiner_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+            END;
 		ELSE
 		    determiner_id := NULL;
         END IF;	
@@ -1629,13 +1680,23 @@ l_taxon_name_id_2 := NULL;
 			raise failed_validation;	
 		end if;
 	end if;
-	select count(distinct(agent_id)) into num from agent_name where agent_name = rec.ID_MADE_BY_AGENT;
-	if num != 1 then
-		error_msg := 'ID_MADE_BY_AGENT (' || rec.ID_MADE_BY_AGENT || ') not found';
-		raise failed_validation;
-	else
-		select distinct(agent_id) into l_id_made_by_agent_id from agent_name where agent_name = rec.ID_MADE_BY_AGENT;
-	end if;
+	DECLARE
+		l_agent_json  VARCHAR2(4000);
+		l_status      VARCHAR2(20);
+		l_message     VARCHAR2(4000);
+	BEGIN
+		l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+			p_agent_token => rec.ID_MADE_BY_AGENT,
+			p_field_label => 'ID_MADE_BY_AGENT'
+		);
+		l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+		IF l_status = 'ERROR' THEN
+			l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+			error_msg := l_message;
+			RAISE failed_validation;
+		END IF;
+		l_id_made_by_agent_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+	END;
 	if l_collection_object_id IS NULL OR
 		l_entered_person_id  IS NULL OR
 		l_accn_id  IS NULL OR

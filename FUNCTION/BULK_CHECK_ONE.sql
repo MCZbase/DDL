@@ -37,9 +37,9 @@ a_instn varchar2(255);
                 BEGIN
                 thisError := '';
                 select count(distinct(agent_id)) into numRecs from agent_name where agent_name = rec.ENTEREDBY
-                    AND agent_name_type != 'Kew abbr.';
+                    AND agent_name_type = 'login';
                 if (numRecs != 1) then
-                        thisError :=  thisError || '; ENTEREDBY matches ' || numRecs || ' agents';
+                        thisError :=  thisError || '; ENTEREDBY matches ' || numRecs || ' login agent names';
                 END IF;
                 select count(*) into numRecs from collection where
                                         institution_acronym = rec.institution_acronym and
@@ -162,11 +162,27 @@ a_instn varchar2(255);
                                 IF (numRecs = 0) THEN
                                         thisError :=  thisError || '; datum is invalid';
                                 END IF;
-                                SELECT count(distinct(agent_id)) INTO numRecs from agent_name where agent_name = rec.determined_by_agent
-                                        and agent_name_type <> 'Kew abbr.';
-                                IF (numRecs = 0) THEN
-                                        thisError :=  thisError || '; determined_by_agent matches ' || numRecs || ' agents';
-                                END IF;
+                                DECLARE
+                                    l_agent_json  VARCHAR2(4000);
+                                    l_status      VARCHAR2(20);
+                                    l_message     VARCHAR2(4000);
+                                    l_agent_id    NUMBER;
+                                BEGIN
+                                    l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                                        p_agent_token => rec.determined_by_agent,
+                                        p_field_label => 'DETERMINED_BY_AGENT'
+                                    );
+                                    l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                                    IF l_status = 'ERROR' THEN
+                                        l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                                        thisError := thisError || '; ' || l_message;
+                                    ELSE
+                                        l_agent_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+                                        IF l_agent_id IS NULL THEN
+                                            thisError := thisError || '; determined_by_agent is required when georef data is present';
+                                        END IF;
+                                    END IF;
+                                END;
                                 IF (isdate(rec.determined_date)=0 OR rec.determined_date is null) THEN
                                         thisError :=  thisError || '; determined_date is invalid';
                                 END IF;
@@ -219,10 +235,21 @@ a_instn varchar2(255);
                                                 thisError:=thisError || '; geo_att_determined_date_' || i || ' is invalid';
                                         end if;
                                         IF attributeDeterminer IS NOT NULL THEN
-                                            execute immediate 'select count(distinct(agent_id)) from agent_name where agent_name = ''' || attributeDeterminer ||'''' into numRecs;
-                                                if numRecs = 0 then
-                                                        thisError :=  thisError || '; geo_att_determiner_' || i || ' is invalid';
-                                                end if;
+                                            DECLARE
+                                                l_agent_json  VARCHAR2(4000);
+                                                l_status      VARCHAR2(20);
+                                                l_message     VARCHAR2(4000);
+                                            BEGIN
+                                                l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                                                    p_agent_token => attributeDeterminer,
+                                                    p_field_label => 'GEO_ATT_DETERMINER_' || i
+                                                );
+                                                l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                                                IF l_status = 'ERROR' THEN
+                                                    l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                                                    thisError := thisError || '; ' || l_message;
+                                                END IF;
+                                            END;
                                         END IF;
                                         SELECT count(*) into numrecs from geology_attribute_hierarchy where attribute = attributeType and attribute_value = attributeValue;
                                         IF (numRecs = 0) then  
@@ -333,13 +360,29 @@ a_instn varchar2(255);
                                 end if;
                         end if;
                 END IF;
-                SELECT count(distinct(agent_id)) INTO numRecs from agent_name where agent_name = rec.ID_MADE_BY_AGENT
-                                and agent_name_type <> 'Kew abbr.';
-                IF (numRecs <> 1) THEN
-                        thisError :=  thisError || '; ID_MADE_BY_AGENT matches ' || numRecs || ' agents';
-                END IF;
+                DECLARE
+                    l_agent_json  VARCHAR2(4000);
+                    l_status      VARCHAR2(20);
+                    l_message     VARCHAR2(4000);
+                    l_agent_id    NUMBER;
+                BEGIN
+                    l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                        p_agent_token => rec.ID_MADE_BY_AGENT,
+                        p_field_label => 'ID_MADE_BY_AGENT'
+                    );
+                    l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                    IF l_status = 'ERROR' THEN
+                        l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                        thisError := thisError || '; ' || l_message;
+                    ELSE
+                        l_agent_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+                        IF l_agent_id IS NULL THEN
+                            thisError := thisError || '; ID_MADE_BY_AGENT is required';
+                        END IF;
+                    END IF;
+                END;
                 
-                for i IN 1 .. 10 LOOP -- number of attributes
+                for i IN 1 .. 14 LOOP -- number of attributes
                         attributeValueTable := NULL;
                         attributeUnitsTable := NULL;
                         execute immediate 'select 
@@ -406,11 +449,27 @@ a_instn varchar2(255);
                                         END IF;
                                         /*if attributeDate is null or isdate(attributeDate) =0 then
                                                 thisError :=  thisError || '; ATTRIBUTE_DATE_' || i || ' is invalid';
-                                        end if;
-                                        execute immediate 'select count(distinct(agent_id)) from agent_name where agent_name = ''' || attributeDeterminer ||'''' into numRecs;
-                                        if numRecs != 1 then
-                                                thisError :=  thisError || '; ATTRIBUTE_DETERMINER_' || i || ' is invalid (' || numRecs || ' matches)';
                                         end if;*/
+                                        DECLARE
+                                            l_det_token   VARCHAR2(4000);
+                                            l_agent_json  VARCHAR2(4000);
+                                            l_status      VARCHAR2(20);
+                                            l_message     VARCHAR2(4000);
+                                        BEGIN
+                                            l_det_token := attributeDeterminer;
+                                            IF l_det_token IS NULL THEN
+                                                l_det_token := 'no agent';
+                                            END IF;
+                                            l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                                                p_agent_token => l_det_token,
+                                                p_field_label => 'ATTRIBUTE_DETERMINER_' || i
+                                            );
+                                            l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                                            IF l_status = 'ERROR' THEN
+                                                l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                                                thisError := thisError || '; ' || l_message;
+                                            END IF;
+                                        END;
                                 END IF;
                 end loop; -- end attributes loop
                 for i IN 1 .. 12 LOOP -- number of parts
@@ -554,11 +613,22 @@ a_instn varchar2(255);
                                                             END IF;
                                                             /*if attributeDate is null or isdate(attributeDate) =0 then
                                                                     thisError :=  thisError || '; ATTRIBUTE_DATE_' || i || ' is invalid';
-                                                            end if;
-                                                            execute immediate 'select count(distinct(agent_id)) from agent_name where agent_name = ''' || attributeDeterminer ||'''' into numRecs;
-                                                            if numRecs != 1 then
-                                                                    thisError :=  thisError || '; ATTRIBUTE_DETERMINER_' || i || ' is invalid (' || numRecs || ' matches)';
                                                             end if;*/
+                                                            DECLARE
+                                                                l_agent_json  VARCHAR2(4000);
+                                                                l_status      VARCHAR2(20);
+                                                                l_message     VARCHAR2(4000);
+                                                            BEGIN
+                                                                l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                                                                    p_agent_token => attributeDeterminer,
+                                                                    p_field_label => 'PART_' || i || '_ATT_DETBY_' || j
+                                                                );
+                                                                l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                                                                IF l_status = 'ERROR' THEN
+                                                                    l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                                                                    thisError := thisError || '; ' || l_message;
+                                                                END IF;
+                                                            END;
                                                     END IF;
                                     end loop; -- end attributes loop
                           END IF;
@@ -590,45 +660,32 @@ a_instn varchar2(255);
                         INTO collectorName,
                              collectorRole
                         USING rec.collection_object_id;
-                
+
                     collectorName := TRIM(collectorName);
                     collectorRole := TRIM(collectorRole);
-                
+
                     IF i = 1 AND (collectorName IS NULL OR collectorRole != 'c') THEN
                         thisError := thisError || '; First collector is required';
                     END IF;
-                
+
                     IF collectorName IS NOT NULL THEN
-                        -- Validate collectorName as either numeric agent_id or text agent_name
-                        IF REGEXP_LIKE(collectorName, '^\d+$') THEN
-                            -- numeric => AGENT_ID
-                            SELECT COUNT(*)
-                              INTO numRecs
-                              FROM agent
-                             WHERE agent_id = TO_NUMBER(collectorName);
-                
-                            IF numRecs = 0 THEN
-                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
-                                    ' is invalid (agent_id ' || collectorName || ' not found)';
+                        DECLARE
+                            l_agent_json  VARCHAR2(4000);
+                            l_status      VARCHAR2(20);
+                            l_message     VARCHAR2(4000);
+                        BEGIN
+                            l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                                p_agent_token => collectorName,
+                                p_field_label => 'COLLECTOR_AGENT_' || i
+                            );
+                            l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                            IF l_status = 'ERROR' THEN
+                                l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                                thisError := thisError || '; ' || l_message;
                             END IF;
-                
-                        ELSE
-                            -- text => AGENT_NAME
-                            SELECT COUNT(DISTINCT agent_id)
-                              INTO numRecs
-                              FROM agent_name
-                             WHERE agent_name = collectorName;
-                
-                            IF numRecs = 0 THEN
-                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
-                                    ' is invalid (agent_name "' || collectorName || '" not found)';
-                            ELSIF numRecs > 1 THEN
-                                thisError := thisError || '; COLLECTOR_AGENT_' || i ||
-                                    ' is invalid (agent_name "' || collectorName || '" is ambiguous: ' || numRecs || ' agent_id values)';
-                            END IF;
-                        END IF;
-                
-                        -- Role validation (same as before)
+                        END;
+
+                        -- Role validation
                         IF collectorRole NOT IN ('c','p') THEN
                             thisError := thisError || '; COLLECTOR_ROLE_' || i || ' is invalid';
                         END IF;
