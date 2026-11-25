@@ -1,0 +1,7 @@
+REM INSERTING into CTTAXON_HABITAT
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTTAXON_HABITAT (TAXON_HABITAT,DESCRIPTION) values ('brackish',null);
+Insert into CTTAXON_HABITAT (TAXON_HABITAT,DESCRIPTION) values ('freshwater',null);
+Insert into CTTAXON_HABITAT (TAXON_HABITAT,DESCRIPTION) values ('marine',null);
+Insert into CTTAXON_HABITAT (TAXON_HABITAT,DESCRIPTION) values ('terrestrial',null);

@@ -1,0 +1,28 @@
+REM INSERTING into CTAGENT_RELATIONSHIP
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('advisor of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('bad duplicate of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('brother of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('child of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('collection of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('daughter of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('division of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('employed by');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('father of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('granddaughter of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('grandfather of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('grandmother of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('grandson of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('husband of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('member of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('mother of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('parent of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('potentially referring to');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('same as');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('sibling of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('sister of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('son of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('spouse of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('student of');
+Insert into CTAGENT_RELATIONSHIP (AGENT_RELATIONSHIP) values ('wife of');

@@ -1,0 +1,6 @@
+REM INSERTING into CTAREA_UNITS
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTAREA_UNITS (AREA_UNITS) values ('cm²');
+Insert into CTAREA_UNITS (AREA_UNITS) values ('mm²');
+Insert into CTAREA_UNITS (AREA_UNITS) values ('m²');

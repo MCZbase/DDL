@@ -1,0 +1,20 @@
+REM INSERTING into CTCASTE
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','drone');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','major');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','male alate');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','male dealated');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','male wingless');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','media');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','minor');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','other');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','queen');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','queen alate');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','queen dealate');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','queen intermorph');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','queen reproductive');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','replete');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','soldier');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','unknown');
+Insert into CTCASTE (COLLECTION_CDE,CASTE) values ('Ent','worker');

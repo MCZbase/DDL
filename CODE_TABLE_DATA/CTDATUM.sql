@@ -1,0 +1,25 @@
+REM INSERTING into CTDATUM
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTDATUM (DATUM) values ('AGD66');
+Insert into CTDATUM (DATUM) values ('Australian Geodetic 1966');
+Insert into CTDATUM (DATUM) values ('Bogota Observatory');
+Insert into CTDATUM (DATUM) values ('Clarke 1858');
+Insert into CTDATUM (DATUM) values ('Corrego Alegre');
+Insert into CTDATUM (DATUM) values ('Fundamental de Ocotepeque');
+Insert into CTDATUM (DATUM) values ('GDA94');
+Insert into CTDATUM (DATUM) values ('GRA');
+Insert into CTDATUM (DATUM) values ('Japanese Geodetic Datum 2000');
+Insert into CTDATUM (DATUM) values ('NAD27');
+Insert into CTDATUM (DATUM) values ('NAD83');
+Insert into CTDATUM (DATUM) values ('North American 1927');
+Insert into CTDATUM (DATUM) values ('North American 1928');
+Insert into CTDATUM (DATUM) values ('North American 1929');
+Insert into CTDATUM (DATUM) values ('North American 1983');
+Insert into CTDATUM (DATUM) values ('POS');
+Insert into CTDATUM (DATUM) values ('PRP_M');
+Insert into CTDATUM (DATUM) values ('Provisional South American 1956');
+Insert into CTDATUM (DATUM) values ('WGS 1972');
+Insert into CTDATUM (DATUM) values ('WGS84');
+Insert into CTDATUM (DATUM) values ('not recorded');
+Insert into CTDATUM (DATUM) values ('unknown');

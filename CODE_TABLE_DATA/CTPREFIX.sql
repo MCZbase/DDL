@@ -1,0 +1,27 @@
+REM INSERTING into CTPREFIX
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTPREFIX (PREFIX) values ('Admiral');
+Insert into CTPREFIX (PREFIX) values ('Ambassador');
+Insert into CTPREFIX (PREFIX) values ('Baron');
+Insert into CTPREFIX (PREFIX) values ('Brother');
+Insert into CTPREFIX (PREFIX) values ('Captain');
+Insert into CTPREFIX (PREFIX) values ('Colonel');
+Insert into CTPREFIX (PREFIX) values ('Commander');
+Insert into CTPREFIX (PREFIX) values ('Dr.');
+Insert into CTPREFIX (PREFIX) values ('Earl');
+Insert into CTPREFIX (PREFIX) values ('Father');
+Insert into CTPREFIX (PREFIX) values ('Ing.');
+Insert into CTPREFIX (PREFIX) values ('Lieutenant');
+Insert into CTPREFIX (PREFIX) values ('Lieutenant Colonel');
+Insert into CTPREFIX (PREFIX) values ('Lieutenant Commander');
+Insert into CTPREFIX (PREFIX) values ('Major');
+Insert into CTPREFIX (PREFIX) values ('Miss');
+Insert into CTPREFIX (PREFIX) values ('Mr.');
+Insert into CTPREFIX (PREFIX) values ('Mrs.');
+Insert into CTPREFIX (PREFIX) values ('Ms.');
+Insert into CTPREFIX (PREFIX) values ('Professor');
+Insert into CTPREFIX (PREFIX) values ('Reverend');
+Insert into CTPREFIX (PREFIX) values ('Sargent');
+Insert into CTPREFIX (PREFIX) values ('Sir');
+Insert into CTPREFIX (PREFIX) values ('Sister');

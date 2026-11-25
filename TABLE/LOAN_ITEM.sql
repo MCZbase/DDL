@@ -23,7 +23,9 @@
 	 CONSTRAINT "LOAN_ITEM_FK1" FOREIGN KEY ("CREATED_BY_AGENT_ID")
 	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
 	 CONSTRAINT "FK_LOANITEM_RECONC_AGENT" FOREIGN KEY ("RECONCILED_BY_PERSON_ID")
-	  REFERENCES "AGENT" ("AGENT_ID") ENABLE
+	  REFERENCES "AGENT" ("AGENT_ID") ENABLE, 
+	 CONSTRAINT "FK_LOAN_ITEM_STATE" FOREIGN KEY ("LOAN_ITEM_STATE")
+	  REFERENCES "CTLOAN_ITEM_STATE" ("LOAN_ITEM_STATE") ENABLE
    ) ;
 COMMENT ON TABLE "LOAN_ITEM" IS 'Entity recordign the participation of a specimen part in a loan, including item specific instructions and metadata on the lifecycle of the item with respect to the loan.';
 COMMENT ON COLUMN "LOAN_ITEM"."LOAN_ITEM_STATE" IS 'Current State of the loan item with respect to the loan.';

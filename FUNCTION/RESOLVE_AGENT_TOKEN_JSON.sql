@@ -117,7 +117,7 @@ BEGIN
 			'agent_id'             VALUE NULL,
 			'match_count'          VALUE l_cnt,
 			'regex'                VALUE '^\d+$',
-			'message'              VALUE ('Bad ' || p_field_label || ' (agent_name "' || l_token || '" not found)')
+			'message'              VALUE ('Bad ' || p_field_label || ' (agent_name [' || l_token || '] not found)')
 			RETURNING VARCHAR2
 		);
 
@@ -130,8 +130,8 @@ BEGIN
 			'agent_id'             VALUE NULL,
 			'match_count'          VALUE l_cnt,
 			'regex'                VALUE '^\d+$',
-			'message'              VALUE ('Bad ' || p_field_label || ' (agent_name "' || l_token ||
-			                             '" is ambiguous, name for: ' || l_cnt || ' different agents)')
+			'message'              VALUE ('Bad ' || p_field_label || ' (agent_name [' || l_token ||
+			                             '] is ambiguous, name for: ' || l_cnt || ' different agents)')
 			RETURNING VARCHAR2
 		);
 	END IF;
@@ -151,7 +151,7 @@ BEGIN
 				'agent_id'             VALUE NULL,
 				'match_count'          VALUE 0,
 				'regex'                VALUE '^\d+$',
-				'message'              VALUE ('Bad ' || p_field_label || ' (agent_name "' || l_token || '" disappeared during validation)')
+				'message'              VALUE ('Bad ' || p_field_label || ' (agent_name [' || l_token || '] disappeared during validation)')
 				RETURNING VARCHAR2
 			);
 		WHEN TOO_MANY_ROWS THEN
@@ -163,7 +163,7 @@ BEGIN
 				'agent_id'             VALUE NULL,
 				'match_count'          VALUE NULL,
 				'regex'                VALUE '^\d+$',
-				'message'              VALUE ('Bad ' || p_field_label || ' (agent_name "' || l_token || '" became ambiguous during validation)')
+				'message'              VALUE ('Bad ' || p_field_label || ' (agent_name [' || l_token || '] became ambiguous during validation)')
 				RETURNING VARCHAR2
 			);
 	END;

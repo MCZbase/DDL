@@ -1,0 +1,20 @@
+REM INSERTING into CTPERMIT_TYPE
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Access and Benefit-Sharing (ABS) Document');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Agreement Document');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Authorization to Possess');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Collecting/Take Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Ethical Oversight Document');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Exemption Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Export Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Import Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Institutional Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Ownership-Related Information');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Receiving Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Research Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Rights License');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Salvage Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Transport Document');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('Use Permission');
+Insert into CTPERMIT_TYPE (PERMIT_TYPE) values ('[classification needed]');

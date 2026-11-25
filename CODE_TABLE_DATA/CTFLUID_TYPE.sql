@@ -1,0 +1,5 @@
+REM INSERTING into CTFLUID_TYPE
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTFLUID_TYPE (FLUID_TYPE) values ('ethanol');
+Insert into CTFLUID_TYPE (FLUID_TYPE) values ('formalin');

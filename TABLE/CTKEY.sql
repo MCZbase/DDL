@@ -1,0 +1,13 @@
+
+  CREATE TABLE "CTKEY" 
+   (	"KEY" VARCHAR2(255) NOT NULL ENABLE, 
+	"DESCRIPTION" VARCHAR2(400), 
+	"CATEGORY" VARCHAR2(50), 
+	"SORT_ORDER" NUMBER, 
+	 CONSTRAINT "CKEY_PK" PRIMARY KEY ("KEY")
+  USING INDEX  ENABLE
+   ) ;
+COMMENT ON COLUMN "CTKEY"."KEY" IS 'The key for a key-value pair.';
+COMMENT ON COLUMN "CTKEY"."DESCRIPTION" IS 'Definition of the key.';
+COMMENT ON COLUMN "CTKEY"."CATEGORY" IS 'A category into which to place this key, e.g. "MUSE data"';
+COMMENT ON COLUMN "CTKEY"."SORT_ORDER" IS 'Sort order within the category.';

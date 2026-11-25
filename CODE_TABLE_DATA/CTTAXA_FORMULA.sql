@@ -1,0 +1,20 @@
+REM INSERTING into CTTAXA_FORMULA
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A','Taxon A, using the taxon name with no additions.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A (group)','Suffix taxon A with (group), usually indicative of an unnamed species group where A is a species.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A ?','Possibly taxon A.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A aff.','Taxon with some affinity to taxon A.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A and B','Two taxa A and B.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A cf.','A taxon similar to taxon A.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A gen. nov.','A new genus in taxon A, normally used with a family or higher rank.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A nr.','A taxon near taxon A.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A nr. B','Taxon A near Taxon B, typically A would be of higher rank than B and indicate a taxon within A near to taxon B.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A or B','One of two taxa, either A or B.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A sp.','A species within taxon A, usually used with a genus.  A should not be of rank species or lower.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A sp. ?','Possibly a species within taxon A.  Taxon A is typically of rank Genus or higher, and should not be of rank species or lower.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A sp. nov.','An unnamed new species in taxon A, where A is usually a genus.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A spp.','Suffix taxon A with spp, species within taxon A.  Usually used with A of rank genus or higher. ');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A ssp.','Subspecies of taxon A.  Taxon name A suffixed by ssp.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A var.','A variety within taxon A.  Taxon A is typically a species or subspecies.');
+Insert into CTTAXA_FORMULA (TAXA_FORMULA,DESCRIPTION) values ('A x B','Hybrid of taxon A with taxon B');

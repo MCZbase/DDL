@@ -1,0 +1,3 @@
+
+  CREATE UNIQUE INDEX "CKEY_PK" ON "CTKEY" ("KEY") 
+  

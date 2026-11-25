@@ -610,3 +610,4 @@
 	"STARTDAYOFYEAR" VARCHAR2(3 CHAR), 
 	"ENDDAYOFYEAR" VARCHAR2(3 CHAR)
    ) ;
+COMMENT ON TABLE "BULKLOADER_LEPIDOPTERA" IS 'Deprecated copy of the bulkloader for use with DataShot.';

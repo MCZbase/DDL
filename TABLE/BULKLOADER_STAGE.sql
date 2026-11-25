@@ -1003,7 +1003,7 @@ COMMENT ON COLUMN "BULKLOADER_STAGE"."LONGSEC" IS 'If coordinates in  degrees mi
 COMMENT ON COLUMN "BULKLOADER_STAGE"."LONGDIR" IS 'Longitude Direction (E, W)';
 COMMENT ON COLUMN "BULKLOADER_STAGE"."DATUM" IS 'Spatial Reference system to which the coordinates refer (e.g., WGS84, NAD27, unknown)';
 COMMENT ON COLUMN "BULKLOADER_STAGE"."LAT_LONG_REF_SOURCE" IS 'Source of coordinates: "GPS," USGS Topo Map Name, "unknown," Gazatteer Title, etc. (see controlled vocabulary)';
-COMMENT ON COLUMN "BULKLOADER_STAGE"."MAX_ERROR_DISTANCE" IS 'Upper limit of the distance from the stated collection coords, describing a circle within which the locality lies (uses a combination of uncertainty measures: preciesion, extent, and GPS accuracy) Calculator: http://manisnet.org/gci2.html';
+COMMENT ON COLUMN "BULKLOADER_STAGE"."MAX_ERROR_DISTANCE" IS 'Upper limit of the distance from the stated collection coords, describing a circle within which the locality lies (uses a combination of uncertainty measures: preciesion, extent, and GPS accuracy) Calculator: https://georeferencing.org/calculator/  See the Georeferencing Best Practices Guide: https://docs.gbif.org/georeferencing-best-practices/1.0/en/';
 COMMENT ON COLUMN "BULKLOADER_STAGE"."MAX_ERROR_UNITS" IS 'Units of Maximum Error (m, ft, km, mi, yd). Must match units used to measure Extent.';
 COMMENT ON COLUMN "BULKLOADER_STAGE"."GEOREFMETHOD" IS 'Method by which the georeference was determined.  "GEOLocate," "Biogeomancer, Point Radius," "MaNIS/HerpNET/ORNIS Georeferencing Guidelines," "unknown," "not recorded," "unknown-migration"';
 COMMENT ON COLUMN "BULKLOADER_STAGE"."DETERMINED_BY_AGENT" IS 'Agent who determined original coords, or the agent who evaluated orignal coords to develop a Maximum Uncertainty';

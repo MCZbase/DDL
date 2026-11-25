@@ -1,0 +1,5 @@
+REM INSERTING into CTAUTHOR_ROLE
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTAUTHOR_ROLE (AUTHOR_ROLE) values ('author');
+Insert into CTAUTHOR_ROLE (AUTHOR_ROLE) values ('editor');

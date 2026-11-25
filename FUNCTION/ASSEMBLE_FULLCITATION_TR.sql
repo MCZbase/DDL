@@ -365,7 +365,7 @@ BEGIN
 			END IF;
 		END IF;
 		IF length(containing_work_author) > 0 OR length(book_title) > 0 THEN 
-			retval := retval || ' <i>In</i> ';
+			retval := retval || ' <i>In:</i> ';
 			IF editor_count > 0 THEN
             	retval := retval || ' ' || trim(editors);
 				IF editor_count = 1 THEN

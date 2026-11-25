@@ -8,6 +8,7 @@
 	"HTML_DESCRIPTION" CLOB, 
 	"UNDERSCORE_COLLECTION_TYPE" VARCHAR2(50) NOT NULL ENABLE, 
 	"DISPLAYED_MEDIA_ID" NUMBER, 
+	"LINK_NAME" VARCHAR2(200) NOT NULL ENABLE, 
 	 CONSTRAINT "UNDERSCORECOLLECTION_PK" PRIMARY KEY ("UNDERSCORE_COLLECTION_ID")
   USING INDEX  ENABLE, 
 	 CONSTRAINT "FK_UNDERSCORE_AGENT_ID" FOREIGN KEY ("UNDERSCORE_AGENT_ID")
@@ -18,6 +19,7 @@
 	  REFERENCES "CTUNDERSCORE_COLLECTION_TYPE" ("UNDERSCORE_COLLECTION_TYPE") ENABLE
    ) ;
 COMMENT ON TABLE "UNDERSCORE_COLLECTION" IS 'Entity to cluster arbitrary groupings of collection objects.  Intended use is to describe the set of material that at some point in time consisted of a coherent collection.  Often this represents the collection (collected and purchased) of a single researcher, sometimes it represents a collection held by another institution.   Classical examples are listed in the book Wheres the ____ collection, thus the name for this entity as underscore collection.';
+COMMENT ON COLUMN "UNDERSCORE_COLLECTION"."LINK_NAME" IS 'A text string that can serve as part of a public link to the named group, should not be changed after having been created.';
 COMMENT ON COLUMN "UNDERSCORE_COLLECTION"."UNDERSCORE_COLLECTION_ID" IS 'Surrogate numeric primary key';
 COMMENT ON COLUMN "UNDERSCORE_COLLECTION"."COLLECTION_NAME" IS 'The name for this collection, e.g. Smith Collection.';
 COMMENT ON COLUMN "UNDERSCORE_COLLECTION"."DESCRIPTION" IS 'Text description of this collection.';

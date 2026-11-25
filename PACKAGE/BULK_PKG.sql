@@ -3,13 +3,14 @@
 	PROCEDURE check_and_load;
 	PROCEDURE bulkloader_check;
 END;
+
 CREATE OR REPLACE EDITIONABLE PACKAGE BODY "BULK_PKG" as
 error_msg varchar2(4000);
 l_collection_object_id number;
 l_collecting_event_id number;
 l_entered_person_id number;
 l_accn_id number;
-l_taxa_formula varchar2(20);
+l_taxa_formula varchar2(25);
 l_id_made_by_agent_id number;
 l_cat_num varchar2(255);
 l_collection_id number;
@@ -21,6 +22,7 @@ tempStr2 VARCHAR2(255);
 tempStr3 VARCHAR2(255);
 failed_validation exception;
 num number;
+-- The Bulkloader Package, supports bulkloading data from MCZBASE.BULKLOADER with check_and_load 
 ---------------------------------------------------------------------------------------------------------------------------------------------
  PROCEDURE bulkload_error  (
  	errMsg IN varchar,
@@ -129,12 +131,23 @@ BEGIN
 				---error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
 				---raise failed_validation;
 			end if;
-			select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-			if num = 0 then
-				error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
-				raise failed_validation;
-			end if;
-			select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
+			DECLARE
+				l_agent_json  VARCHAR2(4000);
+				l_status      VARCHAR2(20);
+				l_message     VARCHAR2(4000);
+			BEGIN
+				l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+					p_agent_token => ATTRIBUTE_DETERMINER,
+					p_field_label => 'ATTRIBUTE_DETERMINER_' || i
+				);
+				l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+				IF l_status = 'ERROR' THEN
+					l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+					error_msg := l_message;
+					RAISE failed_validation;
+				END IF;
+				ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+			END;
 			execute immediate 'select ATTRIBUTE_' || i || 
 				',ATTRIBUTE_VALUE_' || i || 
 				',ATTRIBUTE_UNITS_' || i || 
@@ -315,16 +328,23 @@ BEGIN
             execute immediate 'select part_' || i || '_att_detby_' || j || ' from bulkloader where collection_object_id = ' || 
               collobjid into ATTRIBUTE_DETERMINER;
               --dbms_output.put_line ('ATTRIBUTE_DETERMINER: ' || ATTRIBUTE_DETERMINER);
-            if ATTRIBUTE_DETERMINER is not null then
-              select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-              if num = 0 then
-                error_msg := 'Bad part_'||i||'_att_detby_' || j;
-                raise failed_validation;
-              end if;
-              select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-            else
-              ATTRIBUTE_DETERMINER_ID := null;
-            end if;
+            DECLARE
+              l_agent_json  VARCHAR2(4000);
+              l_status      VARCHAR2(20);
+              l_message     VARCHAR2(4000);
+            BEGIN
+              l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                p_agent_token => ATTRIBUTE_DETERMINER,
+                p_field_label => 'PART_' || i || '_ATT_DETBY_' || j
+              );
+              l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+              IF l_status = 'ERROR' THEN
+                l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                error_msg := l_message;
+                RAISE failed_validation;
+              END IF;
+              ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+            END;
               execute immediate 'select part_' || i || '_att_name_' || j || 
                 ',part_' || i || '_att_val_' || j ||
                 ',part_' || i || '_att_units_' || j ||
@@ -579,10 +599,10 @@ BEGIN
                     somerandomstring,      -- agent token (name OR integer agent_id)
                     somerandomstringtwo    -- role
                     USING rec.collection_object_id;
-        
+
                 somerandomstring := trim(somerandomstring);
                 somerandomstringtwo := trim(somerandomstringtwo);
-                
+
                 -- if an integer, check against agent.agent_id, otherwise check agains agent_name.agent_name
                 -- and if unique match, obtain the agent_id.
                 IF regexp_like(
@@ -591,7 +611,7 @@ BEGIN
                    ) THEN
                     -- Integer token: treat as AGENT_ID
                     somerandomnumber := TO_NUMBER ( somerandomstring );
-        
+
                     -- count check to validate existence
                     -- validate against AGENT (since agent_id is PK there).
                     SELECT
@@ -601,7 +621,7 @@ BEGIN
                         agent
                     WHERE
                         agent_id = somerandomnumber;
-        
+
                     IF num = 0 THEN
                         error_msg := 'Bad COLLECTOR_AGENT_'
                                      || i
@@ -620,7 +640,7 @@ BEGIN
                         agent_name
                     WHERE
                         agent_name = somerandomstring;
-        
+
                     IF num = 0 THEN
                         error_msg := 'Bad COLLECTOR_AGENT_'
                                      || i
@@ -636,7 +656,7 @@ BEGIN
                                      || '" is ambiguous, name for: '
                                      || num
                                      || ' different agents)';
-        
+
                         RAISE failed_validation;
                     ELSE
                         BEGIN
@@ -647,7 +667,7 @@ BEGIN
                                 agent_name
                             WHERE
                                 agent_name = somerandomstring;
-        
+
                         EXCEPTION
                             WHEN no_data_found THEN
                                 error_msg := 'Bad COLLECTOR_AGENT_'
@@ -666,9 +686,9 @@ BEGIN
                                 RAISE failed_validation;
                         END;
                     END IF;
-        
+
                 END IF;
-        
+
                 INSERT INTO collector (
                     collection_object_id,
                     agent_id,
@@ -680,9 +700,9 @@ BEGIN
                     somerandomstringtwo,
                     i
                 );
-        
+
             END IF;
-        
+
         END LOOP;  -- end collectors loop
 EXCEPTION
 	when others then
@@ -863,7 +883,7 @@ BEGIN
             as sovereign_nation into lookup_sovereign_nation
         from geog_auth_rec left join ctsovereign_nation on geog_auth_rec.country = ctsovereign_nation.sovereign_nation
         where higher_geog = aRec.higher_geog;     
-    
+
 		INSERT INTO locality (
 			 LOCALITY_ID,
 			 GEOG_AUTH_REC_ID,
@@ -915,16 +935,23 @@ BEGIN
 				ATTRIBUTE_DET_METH,
 				ATTRIBUTE_REMARKS
 			;
-			if ATTRIBUTE_DETERMINER is NOT null then
-			    select count(distinct(agent_id)) into num from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-			    if num = 0 then
-    				error_msg := 'Bad ATTRIBUTE_DETERMINER_' || i;
-    				raise failed_validation;
-    			end if;
-    			select distinct(agent_id) into ATTRIBUTE_DETERMINER_ID from agent_name where agent_name = ATTRIBUTE_DETERMINER;
-    	    ELSE
-    			ATTRIBUTE_DETERMINER_ID:=NULL;
-			end if;
+			DECLARE
+				l_agent_json  VARCHAR2(4000);
+				l_status      VARCHAR2(20);
+				l_message     VARCHAR2(4000);
+			BEGIN
+				l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+					p_agent_token => ATTRIBUTE_DETERMINER,
+					p_field_label => 'GEO_ATT_DETERMINER_' || i
+				);
+				l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+				IF l_status = 'ERROR' THEN
+					l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+					error_msg := l_message;
+					RAISE failed_validation;
+				END IF;
+				ATTRIBUTE_DETERMINER_ID := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+			END;
 		--dbms_output.put_line ('num: ' || num);
 		--dbms_output.put_line ('ATTRIBUTE: ' || ATTRIBUTE);
 		--dbms_output.put_line ('ATTRIBUTE_VALUE: ' || ATTRIBUTE_VALUE);
@@ -951,7 +978,23 @@ BEGIN
 
 		IF aRec.ORIG_LAT_LONG_UNITS is not null THEN
 				--dbms_output.put_line('making a lat/long');
-				select distinct(agent_id) into determiner_id from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
+				DECLARE
+					l_agent_json  VARCHAR2(4000);
+					l_status      VARCHAR2(20);
+					l_message     VARCHAR2(4000);
+				BEGIN
+					l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+						p_agent_token => aRec.DETERMINED_BY_AGENT,
+						p_field_label => 'DETERMINED_BY_AGENT'
+					);
+					l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+					IF l_status = 'ERROR' THEN
+						l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+						error_msg := l_message;
+						RAISE failed_validation;
+					END IF;
+					determiner_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+				END;
                    --dbms_output.put_line('got determiner');
                    --dbms_output.put_line(' aRec.ORIG_LAT_LONG_UNITS: ' ||  aRec.ORIG_LAT_LONG_UNITS);
                 if aRec.VERIFICATIONSTATUS = 'verified by MCZ collection' then 
@@ -1220,14 +1263,24 @@ BEGIN
         	error_msg := 'Bad higher_geog';
         	raise failed_validation;
         END IF;
-        IF aRec.DETERMINED_BY_AGENT IS NOT NULL and aRec.ORIG_LAT_LONG_UNITS is not null THEN
-            select count(distinct(agent_id)) into num from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
-			if num != 1 then
-				error_msg := 'Bad lat/long determined_by_agent';
-				raise failed_validation;
-				--dbms_output.put_line ('Bad DETERMINED_BY_AGENT');
-			end if;
-			select distinct(agent_id) into determiner_id from agent_name where agent_name = aRec.DETERMINED_BY_AGENT;
+        IF aRec.ORIG_LAT_LONG_UNITS is not null THEN
+            DECLARE
+                l_agent_json  VARCHAR2(4000);
+                l_status      VARCHAR2(20);
+                l_message     VARCHAR2(4000);
+            BEGIN
+                l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+                    p_agent_token => aRec.DETERMINED_BY_AGENT,
+                    p_field_label => 'DETERMINED_BY_AGENT'
+                );
+                l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+                IF l_status = 'ERROR' THEN
+                    l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+                    error_msg := l_message;
+                    RAISE failed_validation;
+                END IF;
+                determiner_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+            END;
 		ELSE
 		    determiner_id := NULL;
         END IF;	
@@ -1460,7 +1513,7 @@ EXCEPTION
 		bulkload_error (error_msg,SQLERRM,'b_bulkload_locality',collobjid);
 END;
 ---------------------------------------------------------------------------------------------------------------------------------------------
-PROCEDURE b_build_keys_table (collobjid IN number) 
+PROCEDURE b_build_keys_table (collobjid IN number)
 is
 rec bulkloader%ROWTYPE;
 taxa_one varchar2(255);
@@ -1479,50 +1532,50 @@ l_collection_id := NULL;
 l_locality_id := NULL;
 l_taxon_name_id_1 := NULL;
 l_taxon_name_id_2 := NULL;
-	select * into rec from bulkloader where collection_object_id=collobjid;
-	select sq_collection_object_id.nextval into l_collection_object_id from dual;
-	if rec.cat_num is null then
-		select nvl(max(cat_num_integer),0) + 1 into l_cat_num from cataloged_item,collection		
-		where cataloged_item.collection_id = collection.collection_id and
-		collection.collection_cde=rec.collection_cde and 
-		collection.institution_acronym = rec.institution_acronym;
-	else
-		select count(cat_num) into num from cataloged_item,collection
-		where cataloged_item.collection_id = collection.collection_id and
-		collection.collection_cde=rec.collection_cde and 
-		collection.institution_acronym = rec.institution_acronym and
-		cat_num=rec.cat_num;
-		if num >= 1 then
-			error_msg := 'cat_num already exists';
-			raise failed_validation;
-		else
-			l_cat_num := rec.cat_num;
-		end if;
-	end if;
-	select count(distinct(collection_id)) into num from collection where collection_cde=rec.collection_cde and
-		institution_acronym = rec.institution_acronym;
-	if num != 1 then
-		error_msg := 'Bad collection_cde and institution_acronym';
-		raise failed_validation;
-	else
-		select distinct(collection_id) into l_collection_id from collection where collection_cde=rec.collection_cde and
-			institution_acronym = rec.institution_acronym;
-	end if;
-	select count(distinct(agent_id)) into num from agent_name where agent_name = rec.ENTEREDBY
-		AND agent_name_type = 'login';
-	if num != 1 then
-		error_msg := 'Bad enteredby (use login)';
-		raise failed_validation;
-	else
-		select distinct(agent_id) into l_entered_person_id from agent_name where agent_name = rec.ENTEREDBY
-    		AND agent_name_type = 'login';
-	end if;
-	IF rec.accn LIKE '[%' AND rec.accn LIKE '%]%' THEN
-    	tempStr :=  substr(rec.accn, instr(rec.accn,'[',1,1) + 1,instr(rec.accn,']',1,1) -2);
-    	tempStr2 := REPLACE(rec.accn,'['||tempStr||']');
-    	tempStr:=REPLACE(tempStr,'[');
-    	tempStr:=REPLACE(tempStr,']');
-    	a_instn := substr(tempStr,1,instr(tempStr,':')-1);
+    select * into rec from bulkloader where collection_object_id=collobjid;
+    select sq_collection_object_id.nextval into l_collection_object_id from dual;
+    if rec.cat_num is null then
+        select nvl(max(cat_num_integer),0) + 1 into l_cat_num from cataloged_item,collection
+        where cataloged_item.collection_id = collection.collection_id and
+        collection.collection_cde=rec.collection_cde and
+        collection.institution_acronym = rec.institution_acronym;
+    else
+        select count(cat_num) into num from cataloged_item,collection
+        where cataloged_item.collection_id = collection.collection_id and
+        collection.collection_cde=rec.collection_cde and
+        collection.institution_acronym = rec.institution_acronym and
+        cat_num=rec.cat_num;
+        if num >= 1 then
+            error_msg := 'cat_num already exists';
+            raise failed_validation;
+        else
+            l_cat_num := rec.cat_num;
+        end if;
+    end if;
+    select count(distinct(collection_id)) into num from collection where collection_cde=rec.collection_cde and
+        institution_acronym = rec.institution_acronym;
+    if num != 1 then
+        error_msg := 'Bad collection_cde and institution_acronym';
+        raise failed_validation;
+    else
+        select distinct(collection_id) into l_collection_id from collection where collection_cde=rec.collection_cde and
+            institution_acronym = rec.institution_acronym;
+    end if;
+    select count(distinct(agent_id)) into num from agent_name where agent_name = rec.ENTEREDBY
+        AND agent_name_type = 'login';
+    if num != 1 then
+        error_msg := 'Bad enteredby (use login)';
+        raise failed_validation;
+    else
+        select distinct(agent_id) into l_entered_person_id from agent_name where agent_name = rec.ENTEREDBY
+            AND agent_name_type = 'login';
+    end if;
+    IF rec.accn LIKE '[%' AND rec.accn LIKE '%]%' THEN
+        tempStr :=  substr(rec.accn, instr(rec.accn,'[',1,1) + 1,instr(rec.accn,']',1,1) -2);
+        tempStr2 := REPLACE(rec.accn,'['||tempStr||']');
+        tempStr:=REPLACE(tempStr,'[');
+        tempStr:=REPLACE(tempStr,']');
+        a_instn := substr(tempStr,1,instr(tempStr,':')-1);
         a_coln := substr(tempStr,instr(tempStr,':')+1);
       elsif regexp_like(rec.accn, '^[A-Za-z\-]*-[0-9]*$') then
         a_coln := regexp_substr(rec.accn, '^([A-Za-z\-]*)-([0-9]*)$',1,1,'i',1);
@@ -1532,134 +1585,104 @@ l_taxon_name_id_2 := NULL;
         a_coln := rec.collection_cde;
         a_instn := rec.institution_acronym;
         tempStr2 := rec.accn;
-	END IF;
-   select count(distinct(accn.transaction_id)) into num from accn,trans,collection where 
-    	accn.transaction_id = trans.transaction_id and
-    	trans.collection_id=collection.collection_id AND
-    	collection.institution_acronym = a_instn and
-    	(collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
-    	accn_number = tempStr2;
-	if num != 1 then
-		error_msg := 'Bad accn: ' || rec.accn || '; COLLCDE: ' || a_coln || '; ACCNNUM: ' || tempStr2;
-		raise failed_validation;
-	else
-		select accn.transaction_id into l_accn_id from accn,trans,collection where 
-		accn.transaction_id = trans.transaction_id and
-	    trans.collection_id=collection.collection_id AND
-		collection.institution_acronym = a_instn and
-	    (collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
-		accn_number = tempStr2;
-	end if;
-	if instr(rec.taxon_name,' or ') > 1 then
-		num := instr(rec.taxon_name, ' or ') -1;
-		taxa_one := substr(rec.taxon_name,1,num);
-		taxa_two := substr(rec.taxon_name,num+5);
-		l_taxa_formula := 'A or B';
-  elsif instr(rec.taxon_name,' and ') > 1 then
-    num := instr(rec.taxon_name, ' and ') -1;
-    taxa_one := substr(rec.taxon_name,1,num);
-    taxa_two := substr(rec.taxon_name,num+6);
-    l_taxa_formula := 'A and B';
-	elsif instr(rec.taxon_name,' x ') > 1 then
-		num := instr(rec.taxon_name, ' x ') -1;
-		taxa_one := substr(rec.taxon_name,1,num);
-		taxa_two := substr(rec.taxon_name,num+4);
-		l_taxa_formula := 'A x B';			
-	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' sp.' then
-		l_taxa_formula := 'A sp.';
-		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' ssp.' then
-        l_taxa_formula := 'A ssp.';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' spp.' then
-        l_taxa_formula := 'A spp.';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 8) = ' sp. nov.' then
-        l_taxa_formula := 'A sp. nov.';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 9);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 9) = ' gen. nov.' then
-        l_taxa_formula := 'A gen. nov.';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 10);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 7) = ' (group)' then
-        l_taxa_formula := 'A (group)';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 8);
-    elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' nr.' then
-        l_taxa_formula := 'A nr.';
-        taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
-	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 3) = ' cf.' then
-		l_taxa_formula := 'A cf.';
-		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 4);
-  elsif  substr(rec.taxon_name,length(rec.taxon_name) - 4) = ' aff.' then
-    l_taxa_formula := 'A aff.';
-    taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 5);  
-	elsif  substr(rec.taxon_name,length(rec.taxon_name) - 1) = ' ?' then
-		l_taxa_formula := 'A ?';
-		taxa_one := substr(rec.taxon_name,1,length(rec.taxon_name) - 2);
-	elsif (instr(rec.taxon_name,' {') > 1 AND instr(rec.taxon_name,'}') > 1) then
-		l_taxa_formula := 'A {string}';
-		taxa_one := regexp_replace(rec.taxon_name,' {.*}$','');
-	else
-		l_taxa_formula := 'A';
-		taxa_one := rec.taxon_name;
-	end if;
-	if taxa_two is not null AND (
-		  substr(taxa_one,length(taxa_one) - 3) = ' sp.' OR
-			substr(taxa_two,length(taxa_two) - 3) = ' sp.' OR
-			substr(taxa_one,length(taxa_one) - 1) = ' ?' OR
-			substr(taxa_two,length(taxa_two) - 1) = ' ?' 
-		) then
-			error_msg := '"sp." and "?" are not allowed in multi-taxon IDs';
-			raise failed_validation;	
-	end if;
-	if taxa_one is not null then
-		select count(distinct(taxon_name_id)) into num from taxonomy where scientific_name = trim(taxa_one) and VALID_CATALOG_TERM_FG = 1;
-		if num = 1 then
-			select distinct(taxon_name_id) into l_taxon_name_id_1 from taxonomy where scientific_name = trim(taxa_one) and VALID_CATALOG_TERM_FG = 1;
-		else
-			error_msg := 'taxonomy (' || taxa_one || ') not found';
-			raise failed_validation;
-		end if;
-	end if;
-	if taxa_two is not null then
-		select count(distinct(taxon_name_id)) into num from taxonomy where scientific_name = trim(taxa_two) and VALID_CATALOG_TERM_FG = 1;
-		if num = 1 then
-			select distinct(taxon_name_id) into l_taxon_name_id_2 from taxonomy where scientific_name = trim(taxa_two) and VALID_CATALOG_TERM_FG = 1;
-		else
-			error_msg := 'taxonomy (' || taxa_two || ') not found';
-			raise failed_validation;	
-		end if;
-	end if;
-	select count(distinct(agent_id)) into num from agent_name where agent_name = rec.ID_MADE_BY_AGENT;
-	if num != 1 then
-		error_msg := 'ID_MADE_BY_AGENT (' || rec.ID_MADE_BY_AGENT || ') not found';
-		raise failed_validation;
-	else
-		select distinct(agent_id) into l_id_made_by_agent_id from agent_name where agent_name = rec.ID_MADE_BY_AGENT;
-	end if;
-	if l_collection_object_id IS NULL OR
-		l_entered_person_id  IS NULL OR
-		l_accn_id  IS NULL OR
-		l_taxon_name_id_1  IS NULL OR
-		l_taxa_formula  IS NULL OR
-		l_id_made_by_agent_id  IS NULL OR
-		l_cat_num  IS NULL OR
-		l_collection_id  IS NULL THEN
-		error_msg := 'Failed to set key values at b_build_keys_table';
-		raise failed_validation;
-	end if;
-	insert into bulkloader_attempts (
-		b_collection_object_id,
- 		collection_object_id,
- 		tstamp 
- 	) values (
- 		rec.collection_object_id,
- 		l_collection_object_id,
- 		sysdate
- 	);
- 	commit;
+    END IF;
+   select count(distinct(accn.transaction_id)) into num from accn,trans,collection where
+        accn.transaction_id = trans.transaction_id and
+        trans.collection_id=collection.collection_id AND
+        collection.institution_acronym = a_instn and
+        (collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
+        accn_number = tempStr2;
+    if num != 1 then
+        error_msg := 'Bad accn: ' || rec.accn || '; COLLCDE: ' || a_coln || '; ACCNNUM: ' || tempStr2;
+        raise failed_validation;
+    else
+        select accn.transaction_id into l_accn_id from accn,trans,collection where
+        accn.transaction_id = trans.transaction_id and
+        trans.collection_id=collection.collection_id AND
+        collection.institution_acronym = a_instn and
+        (collection.collection_cde = a_coln or collection.collection_cde = 'MCZ') AND
+        accn_number = tempStr2;
+    end if;
+    -- taxa and formula from the formulas in CTTAXA_FORMULA, as the bulkloader checks do
+    MCZBASE.PARSE_TAXA_FORMULA(rec.taxon_name, l_taxa_formula, taxa_one, taxa_two);
+    if l_taxa_formula is null then
+        error_msg := 'taxon_name (' || rec.taxon_name || ') matches no taxa formula';
+        raise failed_validation;
+    end if;
+    if taxa_two is not null AND (
+          substr(taxa_one,length(taxa_one) - 3) = ' sp.' OR
+            substr(taxa_two,length(taxa_two) - 3) = ' sp.' OR
+            substr(taxa_one,length(taxa_one) - 1) = ' ?' OR
+            substr(taxa_two,length(taxa_two) - 1) = ' ?'
+        ) then
+            error_msg := '"sp." and "?" are not allowed in multi-taxon IDs';
+            raise failed_validation;
+    end if;
+    if taxa_one is not null then
+        select count(distinct(taxon_name_id)) into num from taxonomy where scientific_name = trim(taxa_one) and VALID_CATALOG_TERM_FG = 1;
+        if num = 1 then
+            select distinct(taxon_name_id) into l_taxon_name_id_1 from taxonomy where scientific_name = trim(taxa_one) and VALID_CATALOG_TERM_FG = 1;
+        elsif num > 1 then
+            error_msg := 'taxonomy (' || taxa_one || ') matches ' || num || ' taxa';
+            raise failed_validation;
+        else
+            error_msg := 'taxonomy (' || taxa_one || ') not found';
+            raise failed_validation;
+        end if;
+    end if;
+    if taxa_two is not null then
+        select count(distinct(taxon_name_id)) into num from taxonomy where scientific_name = trim(taxa_two) and VALID_CATALOG_TERM_FG = 1;
+        if num = 1 then
+            select distinct(taxon_name_id) into l_taxon_name_id_2 from taxonomy where scientific_name = trim(taxa_two) and VALID_CATALOG_TERM_FG = 1;
+        elsif num > 1 then
+            error_msg := 'taxonomy (' || taxa_two || ') matches ' || num || ' taxa';
+            raise failed_validation;
+        else
+            error_msg := 'taxonomy (' || taxa_two || ') not found';
+            raise failed_validation;
+        end if;
+    end if;
+    DECLARE
+        l_agent_json  VARCHAR2(4000);
+        l_status      VARCHAR2(20);
+        l_message     VARCHAR2(4000);
+    BEGIN
+        l_agent_json := RESOLVE_AGENT_TOKEN_JSON(
+            p_agent_token => rec.ID_MADE_BY_AGENT,
+            p_field_label => 'ID_MADE_BY_AGENT'
+        );
+        l_status := JSON_VALUE(l_agent_json, '$.status' RETURNING VARCHAR2(20));
+        IF l_status = 'ERROR' THEN
+            l_message := JSON_VALUE(l_agent_json, '$.message' RETURNING VARCHAR2(4000));
+            error_msg := l_message;
+            RAISE failed_validation;
+        END IF;
+        l_id_made_by_agent_id := JSON_VALUE(l_agent_json, '$.agent_id' RETURNING NUMBER);
+    END;
+    if l_collection_object_id IS NULL OR
+        l_entered_person_id  IS NULL OR
+        l_accn_id  IS NULL OR
+        l_taxon_name_id_1  IS NULL OR
+        l_taxa_formula  IS NULL OR
+        l_id_made_by_agent_id  IS NULL OR
+        l_cat_num  IS NULL OR
+        l_collection_id  IS NULL THEN
+        error_msg := 'Failed to set key values at b_build_keys_table';
+        raise failed_validation;
+    end if;
+    insert into bulkloader_attempts (
+        b_collection_object_id,
+         collection_object_id,
+         tstamp
+     ) values (
+         rec.collection_object_id,
+         l_collection_object_id,
+         sysdate
+     );
+     commit;
 EXCEPTION
-	when others then
-		bulkload_error (error_msg,SQLERRM,'b_build_keys_table',collobjid);
+    when others then
+        bulkload_error (error_msg,SQLERRM,'b_build_keys_table',collobjid);
 END;
 ---------------------------------------------------------------------------------------------------------------------------------------------
 PROCEDURE b_bulk_this is

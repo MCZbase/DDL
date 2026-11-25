@@ -292,7 +292,15 @@ BEGIN
                         MCZBASE.GET_SOLE_DETERMINER_GUID(cataloged_item.collection_object_id),
                         identification.made_date,
                         coll_object_remark.coll_object_remarks,
-                        coll_object_remark.habitat,
+                        CASE
+                           WHEN coll_object_remark.habitat IS NOT NULL AND collecting_event.habitat_desc IS NOT NULL 
+                               THEN collecting_event.habitat_desc || '; ' || coll_object_remark.habitat 
+                           WHEN coll_object_remark.habitat IS NOT NULL AND collecting_event.habitat_desc IS NULL 
+                               THEN coll_object_remark.habitat
+                           WHEN coll_object_remark.habitat IS NULL AND collecting_event.habitat_desc IS NOT NULL 
+                               THEN collecting_event.habitat_desc
+                           ELSE coll_object_remark.habitat      
+                        END AS habitat,
                         coll_object_remark.associated_species,
                         taxa_formula,
                         CASE WHEN taxa_formula LIKE '%B'

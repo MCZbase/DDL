@@ -14,6 +14,8 @@ AS
   varAttributesJoin      varchar2(4000);
   varAccessionsJoin      varchar2(4000);
   varLoansJoin           varchar2(4000);
+  varPermitsJoin         CLOB;
+  varProjectsJoin        varchar2(4000);
   varDeaccsJoin          varchar2(4000);
   varCollEventsJoin      varchar2(4000);
   varCollectorsJoin      varchar2(4000);
@@ -26,6 +28,7 @@ AS
   varNamedGroupsJoin     varchar2(4000);
   varKeywordsJoin        varchar2(4000);
   varTaxonomyJoin        varchar2(4000);
+  varEncumbrancesJoin    varchar2(4000);
   varPublicSearch        varchar2(4000);
 
   --- Container subtree search support
@@ -100,6 +103,47 @@ BEGIN
      left outer join trans_agent loan_agents on (loan_trans.transaction_id = loan_agents.transaction_id)
      left outer join agent_name loan_names on (loan_agents.agent_id = loan_names.AGENT_ID)';
 
+  varPermitsJoin :=
+    '
+     ---permits: direct via accession trans, direct via loan trans, or via shipments for accession/loan trans
+     left outer join specimen_part permit_loan_part
+       on (cataloged_item.collection_object_id = permit_loan_part.derived_from_cat_item)
+     left outer join loan_item permit_loan_item
+       on (permit_loan_part.collection_object_id = permit_loan_item.collection_object_id)
+
+     left outer join permit_trans accn_permit_trans
+       on (cataloged_item.accn_id = accn_permit_trans.transaction_id)
+     left outer join permit_trans loan_permit_trans
+       on (permit_loan_item.transaction_id = loan_permit_trans.transaction_id)
+
+     left outer join shipment accn_shipment
+       on (cataloged_item.accn_id = accn_shipment.transaction_id)
+     left outer join permit_shipment accn_permit_shipment
+       on (accn_shipment.shipment_id = accn_permit_shipment.shipment_id)
+
+     left outer join shipment loan_shipment
+       on (permit_loan_item.transaction_id = loan_shipment.transaction_id)
+     left outer join permit_shipment loan_permit_shipment
+       on (loan_shipment.shipment_id = loan_permit_shipment.shipment_id)
+
+     left outer join permit permit
+       on (
+            permit.permit_id = accn_permit_trans.permit_id
+         or permit.permit_id = loan_permit_trans.permit_id
+         or permit.permit_id = accn_permit_shipment.permit_id
+         or permit.permit_id = loan_permit_shipment.permit_id
+       )
+
+     left outer join agent_name permit_issued_by
+       on (permit.issued_by_agent_id = permit_issued_by.agent_id)
+     left outer join agent_name permit_issued_to
+       on (permit.issued_to_agent_id = permit_issued_to.agent_id)
+     left outer join agent_name permit_contact
+       on (permit.contact_agent_id = permit_contact.agent_id)
+     left outer join ctspecific_permit_type
+       on permit.specific_type = ctspecific_permit_type.specific_type
+    ';
+
   varDeaccsJoin :=
     '
      ---deaccession
@@ -109,6 +153,13 @@ BEGIN
      left outer join trans deacc_trans on (deacc_item.transaction_id=deacc_trans.transaction_id)
      left outer join trans_agent deacc_agents on (deacc_trans.transaction_id = deacc_agents.transaction_id)
      left outer join agent_name deacc_names on (deacc_agents.agent_id = deacc_names.AGENT_ID)';
+
+  varProjectsJoin :=
+    '
+     ---projects (accession and loan, via helper view)
+     left outer join MCZBASE.VIEW_CI_PROJECT proj
+       on (cataloged_item.collection_object_id = proj.collection_object_id)
+    ';
 
   varCollEventsJoin :=
     '
@@ -183,6 +234,13 @@ BEGIN
      left outer join underscore_relation on (cataloged_item.collection_object_id = underscore_relation.collection_object_id)
      left outer join underscore_collection on (underscore_collection.UNDERSCORE_COLLECTION_ID = underscore_relation.UNDERSCORE_COLLECTION_ID)';
 
+  varEncumbrancesJoin :=
+    '
+     ---encumbrances
+     left outer join coll_object_encumbrance on (cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id)
+     left outer join encumbrance on (coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id)
+     left outer join agent_name encumbering_agent_name on (encumbrance.encumbering_agent_id = encumbering_agent_name.agent_id)';
+
   varKeywordsJoin :=
     '
      ---Keywords
@@ -239,9 +297,19 @@ BEGIN
           varJOINS := varJOINS || varLoansJoin;
           varJoinList := varJoinList || varSearchCategory;
         end if;
+      when 'Permits' then
+        if instr(varJoinList,varSearchCategory)=0 then
+          varJOINS := varJOINS || varPermitsJoin;
+          varJoinList := varJoinList || varSearchCategory;
+        end if;
       when 'Deaccessions' then
         if instr(varJoinList,varSearchCategory)=0 then
           varJOINS := varJOINS || varDeaccsJoin;
+          varJoinList := varJoinList || varSearchCategory;
+        end if;
+      when 'Projects' then
+        if instr(varJoinList, varSearchCategory) = 0 then
+          varJOINS := varJOINS || varProjectsJoin;
           varJoinList := varJoinList || varSearchCategory;
         end if;
       when 'Collecting Events' then
@@ -288,6 +356,11 @@ BEGIN
       when 'Named Groups' then
         if instr(varJoinList,varSearchCategory)=0 then
           varJOINS := varJOINS || varNamedGroupsJoin;
+          varJoinList := varJoinList || varSearchCategory;
+        end if;
+      when 'Encumbrances' then
+        if instr(varJoinList,varSearchCategory)=0 then
+          varJOINS := varJOINS || varEncumbrancesJoin;
           varJoinList := varJoinList || varSearchCategory;
         end if;
       when 'Keywords' then
@@ -427,8 +500,9 @@ BEGIN
             end if;
           when 'CTXKEYWORD' THEN
             varContainerAnchorConditional :=
-              varContainerAnchorConditional || ' ' || varJoinTerm ||
-              ' contains(' || varColumnName || ', :bnd' || x || ',' || containLabel ||') > 0';
+              varContainerAnchorConditional || ' ' || varJoinTerm || ' ' ||
+              lpad('(',numOpenParens,'(') || 'contains(' || varColumnName || ', :bnd' || x || ',' || containLabel || ') > 0' ||
+              lpad(')',numCloseParens,')') || ' ';
             containLabel := containLabel+1;
         end case;
       end if;
@@ -485,7 +559,7 @@ BEGIN
                 x := x + 1;
                 varConditional := varConditional || ',:bnd' || x;
               END LOOP;
-              varConditional := varConditional || ')'  || lpad(')',numCloseParens,')') || ' ' || lpad(')',numCloseParens,')') || ' ';
+              varConditional := varConditional || ')'  || lpad(')',numCloseParens,')') || ' ';
             else
               varConditional := varConditional || ' ' || varJoinTerm || ' ' || lpad('(',numOpenParens,'(') || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x  || lpad(')',numCloseParens,')') || ' ';
             end if;
@@ -511,18 +585,24 @@ BEGIN
               varConditional := varConditional || ' ' || varJoinTerm || ' ' || lpad('(',numOpenParens,'(') || varColumnName || ' ' || c1_rec.comparator || ' ' || ':bnd' || x  || lpad(')',numCloseParens,')') || ' ';
             end if;
           when 'CTXKEYWORD' THEN
-            varConditional := varConditional || ' ' || varJoinTerm || ' contains(' || varColumnName || ', :bnd' || x || ',' || containLabel ||') > 0';
+            varConditional := varConditional || ' ' || varJoinTerm || ' ' || lpad('(',numOpenParens,'(') || 'contains(' || varColumnName || ', :bnd' || x || ',' || containLabel || ') > 0' || lpad(')',numCloseParens,')') || ' ';
             containLabel := containLabel+1;
         end case;
       end if;
     end if;
 
+    -- hide specimens with masked coordinates from public users
     if oneOfUs = 0 and isLocalitySearch = 1 then
       varConditional := varConditional || ' and coll_object.collection_object_id not in
         (select coll_object_encumbrance.collection_object_id
          from coll_object_encumbrance, encumbrance
          where coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
            and encumbrance.encumbrance_action = ''mask coordinates'')';
+    end if;
+    -- Hide masked projects from public users
+    if oneOfUs = 0 and instr(varJoinList, 'Projects') > 0 then
+      varConditional := varConditional ||
+        ' and (proj.mask_project_fg = 0 or proj.mask_project_fg is null)';
     end if;
 
     x := x + 1;

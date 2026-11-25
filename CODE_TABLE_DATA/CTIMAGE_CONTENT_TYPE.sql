@@ -1,0 +1,10 @@
+REM INSERTING into CTIMAGE_CONTENT_TYPE
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('agent');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('date');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('identification');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('image object');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('locality');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('page');
+Insert into CTIMAGE_CONTENT_TYPE (IMAGE_CONTENT_TYPE) values ('specimen');

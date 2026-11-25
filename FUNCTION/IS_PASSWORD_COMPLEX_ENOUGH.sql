@@ -4,7 +4,7 @@
   USERNAME IN VARCHAR2 
 , OLDPASSWORD IN VARCHAR2 
 , NEWPASSWORD IN VARCHAR2 
-) RETURN NUMBER AS 
+) RETURN varchar2 AS 
 --  Test password complexity requirements against function used in arctos_user profile.  Only makes
 --  the string comparisons to validate if the new password passes the complexity tests, does not 
 --  validate that username and oldpassword exist and are correct.

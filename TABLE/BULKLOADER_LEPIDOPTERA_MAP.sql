@@ -8,3 +8,4 @@
 	"DETERLOADED" NUMBER DEFAULT 0, 
 	"ERROR" VARCHAR2(1000 CHAR)
    ) ;
+COMMENT ON TABLE "BULKLOADER_LEPIDOPTERA_MAP" IS 'Map of records from LEPDOPTERA schema into MCZBASE that were loaded through DataShot via bulkloader_datashot.';

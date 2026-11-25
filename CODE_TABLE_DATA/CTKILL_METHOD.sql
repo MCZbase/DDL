@@ -1,0 +1,7 @@
+REM INSERTING into CTKILL_METHOD
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTKILL_METHOD (KILL_METHOD,COLLECTION_CDE) values ('chloroform','Ent');
+Insert into CTKILL_METHOD (KILL_METHOD,COLLECTION_CDE) values ('cyanide','Ent');
+Insert into CTKILL_METHOD (KILL_METHOD,COLLECTION_CDE) values ('frozen','Ent');
+Insert into CTKILL_METHOD (KILL_METHOD,COLLECTION_CDE) values ('frozen','Herp');

@@ -1,0 +1,26 @@
+
+  CREATE TABLE "KEY_VALUE_STORE" 
+   (	"KEY_VALUE_STORE_ID" NUMBER GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE, 
+	"TARGET_TABLE" VARCHAR2(255) NOT NULL ENABLE, 
+	"TARGET_PRIMARY_KEY" NUMBER NOT NULL ENABLE, 
+	"KEY" VARCHAR2(255) NOT NULL ENABLE, 
+	"VALUE" VARCHAR2(4000) NOT NULL ENABLE, 
+	"CREATED_BY_AGENT_ID" NUMBER, 
+	"TIMESTAMP_CREATED" DATE DEFAULT CURRENT_TIMESTAMP NOT NULL ENABLE, 
+	"LAST_UPDATED_BY_AGENT_ID" NUMBER, 
+	"TIMESTAMP_LAST_UPDATED" DATE, 
+	 CONSTRAINT "KEY_VALUE_STORE_PK" PRIMARY KEY ("KEY_VALUE_STORE_ID")
+  USING INDEX  ENABLE, 
+	 CONSTRAINT "KEY_VALUE_STORE_CTKEY" FOREIGN KEY ("KEY")
+	  REFERENCES "CTKEY" ("KEY") ENABLE
+   ) ;
+COMMENT ON TABLE "KEY_VALUE_STORE" IS 'Key value store for saving arbitrary key value pairs to hold data such as specimen data from legacy databases and process metadata from AI transcription processes.  Not intended to be exposed for entry by users.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."KEY_VALUE_STORE_ID" IS 'Surrogate numeric primary key';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."TARGET_TABLE" IS 'Table to which the target_primary_key referrs.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."TARGET_PRIMARY_KEY" IS 'Identifier for the row in the target table to which the key value pair applies.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."KEY" IS 'Key of Key-Value pair, the kind of data stored in the value.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."VALUE" IS 'Value of key-value pair, the stored data pertaining to the target row.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."CREATED_BY_AGENT_ID" IS 'The Agent who created this record.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."TIMESTAMP_CREATED" IS 'Date/Time created';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."LAST_UPDATED_BY_AGENT_ID" IS 'Agent_id for the agent who last updated this record.';
+COMMENT ON COLUMN "KEY_VALUE_STORE"."TIMESTAMP_LAST_UPDATED" IS 'Date time this record was last updated.';

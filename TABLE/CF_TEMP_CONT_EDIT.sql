@@ -15,10 +15,19 @@
 	"PARENT_CONTAINER_ID" NUMBER, 
 	"STATUS" VARCHAR2(4000 CHAR), 
 	"USERNAME" VARCHAR2(1020), 
+	"SCAN_TIMESTAMP" DATE, 
+	"PLACEMENT_SEVERITY" VARCHAR2(10), 
+	"PLACEMENT_MESSAGE" VARCHAR2(4000), 
 	 CONSTRAINT "CF_TEMP_CONT_EDIT_PK" PRIMARY KEY ("KEY")
   USING INDEX  ENABLE
    ) ;
 COMMENT ON TABLE "CF_TEMP_CONT_EDIT" IS 'Temporary table for holding loads of bulk changes to container parentage and metdata for validation and processing.';
+COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."SCAN_TIMESTAMP" IS 'Historical parent/child scan timestamp from a barcode scan-dump upload, applied to container.parent_install_date in place of the load-time sysdate. NULL for ordinary CSV
+  uploads.';
+COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."PLACEMENT_SEVERITY" IS 'Severity of validateContainerPlacement for this row''s parent_container_id: ok, warn, or blocked. NULL when no parent change is being made. A blocked result also appends its
+  message to STATUS (forcing fix-and-restart via this file''s existing gate); a warn result does not, since it may be loaded after explicit confirmation instead.';
+COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."PLACEMENT_MESSAGE" IS 'Explanation for placement_severity when it is warn (why the placement is questionable but not disallowed). Blocked-severity explanations are appended to STATUS instead,
+  since a block already forces fix-and-restart there.';
 COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."KEY" IS 'Surrogate Numeric Primary Key';
 COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."CONTAINER_UNIQUE_ID" IS 'Barcode or unique name of the container to move or change.';
 COMMENT ON COLUMN "CF_TEMP_CONT_EDIT"."PARENT_UNIQUE_ID" IS 'The barcode or container''s unique name into which the container is to be placed, that is directly above it in the nest of IDs for tracked objects.';

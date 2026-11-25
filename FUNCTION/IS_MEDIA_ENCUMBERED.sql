@@ -2,135 +2,101 @@
   CREATE OR REPLACE EDITIONABLE FUNCTION "IS_MEDIA_ENCUMBERED" 
 (
    MEDIA_ID IN NUMBER
-)  RETURN NUMBER 
+)  RETURN NUMBER
 --  Supporting enucumberance of media objects  --
---  Given a media id, return 0 if the media have 
+--  Given a media id, return 0 if the media have
 --  no encuberance.  Return 1 if the media are
---  encumbered and should not be shown for the 
---  current user.  Return -1 if the media are 
---  encumbered but can be shown to the current 
---  user (session_user).  
---  Use with: 
---    where is_media_encumbered(media_id) < 1 
+--  encumbered and should not be shown for the
+--  current user.  Return -1 if the media are
+--  encumbered but can be shown to the current
+--  user (session_user).
+--  Use with:
+--    where is_media_encumbered(media_id) < 1
 --  to show media that can be shown in the current
 --  user context.
---  Use with: 
+--  Use with:
 --    where is_media_encumbered(media_id) = 0
---  to show only media that are not encumbered 
+--  to show only media that are not encumbered
 --  (as in an audubon core image feed).
 --  @param the media_id to check for visibility
---  @return 0 if media are freely visible, 
---    -1 if media have restrictions, but not for 
+--  @return 0 if media are freely visible,
+--    -1 if media have restrictions, but not for
 --    the current user
---    1 if the media are restricted for the 
+--    1 if the media are restricted for the
 --    current user and should be hidden from them.
-AS 
-  type rc is ref cursor;
+AS
   hiddenlist    NUMBER;
-  encumbered    NUMBER;
+  vpinternal    NUMBER;
   checkval      NUMBER;
-  l_cur    rc;
+  encumbered    NUMBER;
 BEGIN
-      hiddenlist := 1; 
-      encumbered := 1;
       -- Question 1: is this image encumbered?
       -- Encumbered means: mask_media_fg is 1, or media is in a directory where
       --   all media should be encumbered (vertpaleo/internal).
-      open l_cur for 'select count(*) from media
-                      where ((mask_media_fg is not null and mask_media_fg = 1)
-                             or auto_path like ''%specimen_images/vertpaleo/internal%'')
-                      and  media_id = :x '
-                 using media_id;
-      loop
-           fetch l_cur into hiddenlist;
-           exit when l_cur%notfound;
-           if hiddenlist=0 then            
-              encumbered := 0 ;
-           end if;   
-           if hiddenlist>0 then 
-              encumbered := 1 ;
-           end if; 
-      end loop;
-      close l_cur;
- 
-      -- if media are encumbered, should the current user be allowed to see them? 
-      if encumbered=1 then 
-          -- Question 2: Is this media object in the VP encumbered directory?
-          checkval := 0;
-          open l_cur for 'select count(distinct media.media_id) from media
-                      where auto_path like ''%specimen_images/vertpaleo/internal%''
-                      and  media_id = :x '
-                 using media_id;
-          loop
-              fetch l_cur into checkval;
-              exit when l_cur%notfound;    
-           end loop;      
-           close l_cur;
-           if checkval=1 then            
-              -- It is a VP specimen
-              -- Question 3: Does the current user have see VP images permissions
-              open l_cur for '
-                    select count(*) from dba_role_privs 
-                         left join cf_ctuser_roles on upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name)
-                    where role_name is not null and 
-                          grantee = SYS_CONTEXT(''USERENV'',''SESSION_USER'') and
-                          granted_role = ''SEE_HIDDEN_VP_MEDIA''';
-              loop
-                  fetch l_cur into checkval;
-                  exit when l_cur%notfound;    
-              end loop;      
-              close l_cur;
-              if checkval = 1 then 
-                   -- media are encumbered, but can be shown in thiis context
-                   encumbered := -1;
-              end if;
-           else 
-              -- It is not a hidden VP specimen 
-       
-              -- Question 3: Does the current user have manage media permissions? 
-              checkval := 0;
-              open l_cur for 'select count(*) from dba_role_privs 
-                         left join cf_ctuser_roles on upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name)
-                    where role_name is not null and 
-                          grantee = SYS_CONTEXT(''USERENV'',''SESSION_USER'') and
-                          granted_role = ''MANAGE_MEDIA'' ';
-              loop
-                  fetch l_cur into checkval;
-                  exit when l_cur%notfound;    
-               end loop;      
-               close l_cur;
-               if checkval=1 then            
-                  -- Question 4: Is the media object either not of a specimen, or of a specimen in a collection for which the
-                  -- current user has VPD access.
-                  checkval := 0;
-                  open l_cur for '
-                      select count(distinct media.media_id) from media
-                           left join media_relations on media.media_id = media_relations.media_id
-                           left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-                           left join vpd_collection_cde on cataloged_item.collection_cde = vpd_collection_cde.collection_cde
-                      where ((
-                               media_relations.media_relationship = ''shows cataloged_item'' and 
-                               (vpd_collection_cde.collection_cde is not null or media_relations.media_relationship is null) 
-                             ) or (
-                               media_relations.media_relationship <> ''shows cataloged_item''
-                             ) or (
-                               media_relations.media_relationship is null 
-                            ))
-                            and
-                            media.media_id = :x '
-                      using media_id;
-                  loop
-                      fetch l_cur into checkval;
-                      exit when l_cur%notfound;    
-                  end loop;      
-                  close l_cur;
-                  if checkval = 1 then 
-                       -- media are encumbered, but can be shown in this context
-                       encumbered := -1;
-                  end if;
-               end if;       
-          end if;  -- VP or not 
-      end if; -- is encumbered 
+      -- Question 2, asked only of encumbered media: is it in the VP encumbered directory?
+      -- The parameter is qualified with the function name, as media_id alone is the column.
+      SELECT count(*),
+             count(CASE WHEN auto_path LIKE '%specimen_images/vertpaleo/internal%' THEN 1 END)
+        INTO hiddenlist, vpinternal
+        FROM MCZBASE.media
+       WHERE ((mask_media_fg IS NOT NULL AND mask_media_fg = 1)
+              OR auto_path LIKE '%specimen_images/vertpaleo/internal%')
+         AND media.media_id = IS_MEDIA_ENCUMBERED.media_id;
 
-      return encumbered;
+      IF hiddenlist = 0 THEN
+          RETURN 0;
+      END IF;
+      encumbered := 1;
+
+      -- if media are encumbered, should the current user be allowed to see them?
+      IF vpinternal = 1 THEN
+          -- It is a VP specimen
+          -- Question 3: Does the current user have see VP images permissions
+          SELECT count(*)
+            INTO checkval
+            FROM SYS.dba_role_privs
+                 LEFT JOIN MCZBASE.cf_ctuser_roles ON upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name)
+           WHERE role_name IS NOT NULL
+             AND grantee = SYS_CONTEXT('USERENV','SESSION_USER')
+             AND granted_role = 'SEE_HIDDEN_VP_MEDIA';
+          IF checkval = 1 THEN
+              -- media are encumbered, but can be shown in this context
+              encumbered := -1;
+          END IF;
+      ELSE
+          -- It is not a hidden VP specimen
+          -- Question 3: Does the current user have manage media permissions?
+          SELECT count(*)
+            INTO checkval
+            FROM SYS.dba_role_privs
+                 LEFT JOIN MCZBASE.cf_ctuser_roles ON upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name)
+           WHERE role_name IS NOT NULL
+             AND grantee = SYS_CONTEXT('USERENV','SESSION_USER')
+             AND granted_role = 'MANAGE_MEDIA';
+          IF checkval = 1 THEN
+              -- Question 4: Is the media object either not of a specimen, or of a specimen in a collection for which the
+              -- current user has VPD access.
+              SELECT count(DISTINCT media.media_id)
+                INTO checkval
+                FROM MCZBASE.media
+                     LEFT JOIN MCZBASE.media_relations ON media.media_id = media_relations.media_id
+                     LEFT JOIN MCZBASE.cataloged_item ON media_relations.related_primary_key = cataloged_item.collection_object_id
+                     LEFT JOIN MCZBASE.vpd_collection_cde ON cataloged_item.collection_cde = vpd_collection_cde.collection_cde
+               WHERE ((
+                        media_relations.media_relationship = 'shows cataloged_item' AND
+                        (vpd_collection_cde.collection_cde IS NOT NULL OR media_relations.media_relationship IS NULL)
+                      ) OR (
+                        media_relations.media_relationship <> 'shows cataloged_item'
+                      ) OR (
+                        media_relations.media_relationship IS NULL
+                      ))
+                 AND media.media_id = IS_MEDIA_ENCUMBERED.media_id;
+              IF checkval = 1 THEN
+                  -- media are encumbered, but can be shown in this context
+                  encumbered := -1;
+              END IF;
+          END IF;
+      END IF;
+
+      RETURN encumbered;
 END IS_MEDIA_ENCUMBERED;

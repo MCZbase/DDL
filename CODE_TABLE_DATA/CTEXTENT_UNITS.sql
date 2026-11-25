@@ -1,0 +1,6 @@
+REM INSERTING into CTEXTENT_UNITS
+SET DEFINE OFF;
+SET SQLBLANKLINES ON;
+Insert into CTEXTENT_UNITS (UNITS) values ('km');
+Insert into CTEXTENT_UNITS (UNITS) values ('m');
+Insert into CTEXTENT_UNITS (UNITS) values ('mi');
